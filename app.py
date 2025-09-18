@@ -500,41 +500,11 @@ ROOM_DEFINITIONS = {
         ],
         "grid_cols": 4
     },
-    "Condo A": {
+    "Cat Condos": {
         "location": "Cat Adoption Condo Rooms",
-        "sublocation": "Condo A",
-        "grid_map": [["Condo A"]],
-        "grid_cols": 1
-    },
-    "Condo B": {
-        "location": "Cat Adoption Condo Rooms", 
-        "sublocation": "Condo B",
-        "grid_map": [["Condo B"]],
-        "grid_cols": 1
-    },
-    "Condo C": {
-        "location": "Cat Adoption Condo Rooms",
-        "sublocation": "Condo C", 
-        "grid_map": [["Condo C"]],
-        "grid_cols": 1
-    },
-    "Condo D": {
-        "location": "Cat Adoption Condo Rooms",
-        "sublocation": "Condo D",
-        "grid_map": [["Condo D"]],
-        "grid_cols": 1
-    },
-    "Condo E": {
-        "location": "Cat Adoption Condo Rooms",
-        "sublocation": "Condo E",
-        "grid_map": [["Condo E"]],
-        "grid_cols": 1
-    },
-    "Condo F": {
-        "location": "Cat Adoption Condo Rooms",
-        "sublocation": "Condo F",
-        "grid_map": [["Condo F"]],
-        "grid_cols": 1
+        "sublocation": ["Condo A", "Condo B", "Condo C", "Condo D", "Condo E", "Condo F"],
+        "grid_map": [["Condo A", "Condo B", "Condo C"], ["Condo D", "Condo E", "Condo F"]],
+        "grid_cols": 3
     },
     "Meet & Greet 109B": {
         "location": "Cat Adoption Condo Rooms",
@@ -814,36 +784,30 @@ def render_room_layout(room_name, animals_df, memo_df):
                         display_label = str(int(subloc))
                     
                     if animals:
-                        # Show first animal, cycle through on click
-                        current_idx = st.session_state.get(f"kennel_{room_name}_{subloc}_idx", 0)
-                        if current_idx >= len(animals):
-                            current_idx = 0
+                        # Show all animal names on the button
+                        animal_names = []
+                        for animal in animals:
+                            name = str(animal.get('AnimalName', 'Unknown'))
+                            if pd.isna(name) or name.lower() == 'nan':
+                                name = str(animal.get('AnimalNumber', 'Unknown'))
+                            
+                            stage = str(animal.get('Stage', ''))
+                            abbr = map_status(stage)
+                            
+                            if abbr:
+                                animal_names.append(f'{name} {abbr}')
+                            else:
+                                animal_names.append(name)
                         
-                        animal = animals[current_idx]
-                        name = str(animal.get('AnimalName', 'Unknown'))
-                        if pd.isna(name) or name.lower() == 'nan':
-                            name = str(animal.get('AnimalNumber', 'Unknown'))
-                        
-                        stage = str(animal.get('Stage', ''))
-                        abbr = map_status(stage)
-                        
-                        if abbr:
-                            display_text = f'{display_label}\n{name} {abbr}'
-                        else:
-                            display_text = f'{display_label}\n{name}'
+                        display_text = f'{display_label}\n' + '\n'.join(animal_names)
                         
                         if st.button(display_text, key=f"kennel_{room_name}_{subloc}"):
-                            # Always show modal for current animal
-                            st.session_state.selected_animal = animal
+                            # Store all animals for this kennel and show modal for first one
+                            st.session_state.kennel_animals = animals
+                            st.session_state.current_animal_idx = 0
+                            st.session_state.selected_animal = animals[0]
                             st.session_state.show_modal = True
                             st.rerun()
-                        
-                        # Add a small button to cycle through animals if multiple
-                        if len(animals) > 1:
-                            if st.button("Next", key=f"next_{room_name}_{subloc}"):
-                                next_idx = (current_idx + 1) % len(animals)
-                                st.session_state[f"kennel_{room_name}_{subloc}_idx"] = next_idx
-                                st.rerun()
                     else:
                         # Empty kennel
                         st.button(f'{display_label}\n-', key=f"kennel_{room_name}_{subloc}_empty", disabled=True)
@@ -872,9 +836,31 @@ def render_room_layout(room_name, animals_df, memo_df):
                     st.rerun()
 
 def render_animal_modal(animal, memo_df):
-    """Render animal details modal with swipe functionality for multiple animals"""
+    """Render animal details modal with navigation for multiple animals"""
     st.markdown("---")
     st.markdown("### Animal Details")
+    
+    # Get all animals in this kennel
+    kennel_animals = st.session_state.get('kennel_animals', [animal])
+    current_idx = st.session_state.get('current_animal_idx', 0)
+    
+    # Navigation buttons if multiple animals
+    if len(kennel_animals) > 1:
+        col1, col2, col3 = st.columns([1, 2, 1])
+        with col1:
+            if st.button("← Previous", key="prev_animal"):
+                new_idx = (current_idx - 1) % len(kennel_animals)
+                st.session_state.current_animal_idx = new_idx
+                st.session_state.selected_animal = kennel_animals[new_idx]
+                st.rerun()
+        with col2:
+            st.markdown(f"**Animal {current_idx + 1} of {len(kennel_animals)}**")
+        with col3:
+            if st.button("Next →", key="next_animal"):
+                new_idx = (current_idx + 1) % len(kennel_animals)
+                st.session_state.current_animal_idx = new_idx
+                st.session_state.selected_animal = kennel_animals[new_idx]
+                st.rerun()
     
     # Close button
     if st.button("✕ Close", key="close_modal"):
@@ -970,7 +956,7 @@ def main():
     room_order = [
         "Small Animals & Exotics",
         "Adoptions Lobby", 
-        "Condo A", "Condo B", "Condo C", "Condo D", "Condo E", "Condo F",
+        "Cat Condos",
         "Meet & Greet 109B",
         "Cat Condo Rabbitats",
         "Cat Adoption Room G", "Cat Adoption Room H", "Cat Behavior Room I",
