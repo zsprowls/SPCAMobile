@@ -265,9 +265,15 @@ st.markdown("""
         font-weight: bold !important;
     }
     
-        /* Consistent button sizing */
+        /* Consistent button sizing - force minimum width */
+        .stButton {
+            width: 100% !important;
+            min-width: 120px !important;
+        }
+        
         .stButton > button {
             width: 100% !important;
+            min-width: 120px !important;
             height: 120px !important;
             margin: 2px 0 !important;
             padding: 8px !important;
@@ -280,6 +286,13 @@ st.markdown("""
             flex-direction: column !important;
             justify-content: flex-start !important;
             align-items: flex-start !important;
+            box-sizing: border-box !important;
+        }
+        
+        /* Ensure columns take equal space */
+        .stColumn {
+            min-width: 120px !important;
+            flex: 1 !important;
         }
         
         /* Mobile responsive */
@@ -288,6 +301,13 @@ st.markdown("""
                 height: 100px !important;
                 max-height: 100px !important;
                 font-size: 0.7rem !important;
+                min-width: 100px !important;
+            }
+            .stButton {
+                min-width: 100px !important;
+            }
+            .stColumn {
+                min-width: 100px !important;
             }
         }
         
@@ -578,7 +598,7 @@ ROOM_DEFINITIONS = {
 }
 
 def render_small_animals_layout(animals_df, memo_df):
-    """Render Small Animals & Exotics layout exactly like RoundsMapp"""
+    """Render Small Animals & Exotics layout with all names on buttons"""
     
     sa_df = animals_df[animals_df['Location'] == 'Small Animals & Exotics'].copy()
     
@@ -595,29 +615,73 @@ def render_small_animals_layout(animals_df, memo_df):
         with cols[i % 2]:
             cell_animals = sa_df[sa_df["SubLocation"] == cage]
             if not cell_animals.empty:
-                for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-                    button_text = create_button_text(str(i+1), animal)
-                    if st.button(button_text, key=f"bird_{cage}_{idx}"):
-                        st.session_state.selected_animal = animal
-                        st.session_state.show_modal = True
-                        st.rerun()
+                # Show all animal names on the button
+                animal_names = []
+                for _, animal in cell_animals.iterrows():
+                    name = str(animal.get('AnimalName', 'Unknown'))
+                    if pd.isna(name) or name.lower() == 'nan':
+                        name = str(animal.get('AnimalNumber', 'Unknown'))
+                    
+                    stage = str(animal.get('Stage', ''))
+                    abbr = map_status(stage)
+                    
+                    if abbr:
+                        animal_names.append(f'{name} {abbr}')
+                    else:
+                        animal_names.append(name)
+                
+                # Truncate if too many animals
+                if len(animal_names) > 4:
+                    display_names = animal_names[:3] + [f'... +{len(animal_names)-3} more']
+                else:
+                    display_names = animal_names
+                
+                display_text = f'{str(i+1)}\n' + '\n'.join(display_names)
+                
+                if st.button(display_text, key=f"bird_{cage}"):
+                    st.session_state.kennel_animals = cell_animals.tolist()
+                    st.session_state.current_animal_idx = 0
+                    st.session_state.selected_animal = cell_animals.iloc[0]
+                    st.session_state.show_modal = True
+                    st.rerun()
             else:
-                button_text = create_button_text(str(i+1), None, is_empty=True)
-                st.button(button_text, key=f"bird_{cage}_empty", disabled=True)
+                st.button(f'{str(i+1)}\n-', key=f"bird_{cage}_empty", disabled=True)
     
     # Bird Extra (spans both columns)
     with cols[0]:
         cell_animals = sa_df[sa_df["SubLocation"] == bird_extra]
         if not cell_animals.empty:
-            for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-                button_text = create_button_text("EXTRA", animal)
-                if st.button(button_text, key=f"bird_{bird_extra}_{idx}"):
-                    st.session_state.selected_animal = animal
-                    st.session_state.show_modal = True
-                    st.rerun()
+            # Show all animal names on the button
+            animal_names = []
+            for _, animal in cell_animals.iterrows():
+                name = str(animal.get('AnimalName', 'Unknown'))
+                if pd.isna(name) or name.lower() == 'nan':
+                    name = str(animal.get('AnimalNumber', 'Unknown'))
+                
+                stage = str(animal.get('Stage', ''))
+                abbr = map_status(stage)
+                
+                if abbr:
+                    animal_names.append(f'{name} {abbr}')
+                else:
+                    animal_names.append(name)
+            
+            # Truncate if too many animals
+            if len(animal_names) > 4:
+                display_names = animal_names[:3] + [f'... +{len(animal_names)-3} more']
+            else:
+                display_names = animal_names
+            
+            display_text = f'EXTRA\n' + '\n'.join(display_names)
+            
+            if st.button(display_text, key=f"bird_{bird_extra}"):
+                st.session_state.kennel_animals = cell_animals.tolist()
+                st.session_state.current_animal_idx = 0
+                st.session_state.selected_animal = cell_animals.iloc[0]
+                st.session_state.show_modal = True
+                st.rerun()
         else:
-            button_text = create_button_text("EXTRA", None, is_empty=True)
-            st.button(button_text, key=f"bird_{bird_extra}_empty", disabled=True)
+            st.button(f'EXTRA\n-', key=f"bird_{bird_extra}_empty", disabled=True)
     
     # Small Animals section
     st.markdown("### Small Animals")
@@ -632,15 +696,37 @@ def render_small_animals_layout(animals_df, memo_df):
                 with cols[col]:
                     cell_animals = sa_df[sa_df["SubLocation"] == cage]
                     if not cell_animals.empty:
-                        for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-                            button_text = create_button_text(str(row * 3 + col + 1), animal)
-                            if st.button(button_text, key=f"sa_{cage}_{idx}"):
-                                st.session_state.selected_animal = animal
-                                st.session_state.show_modal = True
-                                st.rerun()
+                        # Show all animal names on the button
+                        animal_names = []
+                        for _, animal in cell_animals.iterrows():
+                            name = str(animal.get('AnimalName', 'Unknown'))
+                            if pd.isna(name) or name.lower() == 'nan':
+                                name = str(animal.get('AnimalNumber', 'Unknown'))
+                            
+                            stage = str(animal.get('Stage', ''))
+                            abbr = map_status(stage)
+                            
+                            if abbr:
+                                animal_names.append(f'{name} {abbr}')
+                            else:
+                                animal_names.append(name)
+                        
+                        # Truncate if too many animals
+                        if len(animal_names) > 4:
+                            display_names = animal_names[:3] + [f'... +{len(animal_names)-3} more']
+                        else:
+                            display_names = animal_names
+                        
+                        display_text = f'{str(row * 3 + col + 1)}\n' + '\n'.join(display_names)
+                        
+                        if st.button(display_text, key=f"sa_{cage}"):
+                            st.session_state.kennel_animals = cell_animals.tolist()
+                            st.session_state.current_animal_idx = 0
+                            st.session_state.selected_animal = cell_animals.iloc[0]
+                            st.session_state.show_modal = True
+                            st.rerun()
                     else:
-                        button_text = create_button_text(str(row * 3 + col + 1), None, is_empty=True)
-                        st.button(button_text, key=f"sa_{cage}_empty", disabled=True)
+                        st.button(f'{str(row * 3 + col + 1)}\n-', key=f"sa_{cage}_empty", disabled=True)
     
     # Mammals section
     st.markdown("### Mammals")
@@ -651,15 +737,37 @@ def render_small_animals_layout(animals_df, memo_df):
         with cols[i % 2]:
             cell_animals = sa_df[sa_df["SubLocation"] == cage]
             if not cell_animals.empty:
-                for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-                    button_text = create_button_text(str(i+1), animal)
-                    if st.button(button_text, key=f"mammal_{cage}_{idx}"):
-                        st.session_state.selected_animal = animal
-                        st.session_state.show_modal = True
-                        st.rerun()
+                # Show all animal names on the button
+                animal_names = []
+                for _, animal in cell_animals.iterrows():
+                    name = str(animal.get('AnimalName', 'Unknown'))
+                    if pd.isna(name) or name.lower() == 'nan':
+                        name = str(animal.get('AnimalNumber', 'Unknown'))
+                    
+                    stage = str(animal.get('Stage', ''))
+                    abbr = map_status(stage)
+                    
+                    if abbr:
+                        animal_names.append(f'{name} {abbr}')
+                    else:
+                        animal_names.append(name)
+                
+                # Truncate if too many animals
+                if len(animal_names) > 4:
+                    display_names = animal_names[:3] + [f'... +{len(animal_names)-3} more']
+                else:
+                    display_names = animal_names
+                
+                display_text = f'{str(i+1)}\n' + '\n'.join(display_names)
+                
+                if st.button(display_text, key=f"mammal_{cage}"):
+                    st.session_state.kennel_animals = cell_animals.tolist()
+                    st.session_state.current_animal_idx = 0
+                    st.session_state.selected_animal = cell_animals.iloc[0]
+                    st.session_state.show_modal = True
+                    st.rerun()
             else:
-                button_text = create_button_text(str(i+1), None, is_empty=True)
-                st.button(button_text, key=f"mammal_{cage}_empty", disabled=True)
+                st.button(f'{str(i+1)}\n-', key=f"mammal_{cage}_empty", disabled=True)
     
     # Reptiles section
     st.markdown("### Reptiles")
@@ -674,29 +782,73 @@ def render_small_animals_layout(animals_df, memo_df):
                 with cols[col]:
                     cell_animals = sa_df[sa_df["SubLocation"] == cage]
                     if not cell_animals.empty:
-                        for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-                            button_text = create_button_text(str(row * 2 + col + 1), animal)
-                            if st.button(button_text, key=f"reptile_{cage}_{idx}"):
-                                st.session_state.selected_animal = animal
-                                st.session_state.show_modal = True
-                                st.rerun()
+                        # Show all animal names on the button
+                        animal_names = []
+                        for _, animal in cell_animals.iterrows():
+                            name = str(animal.get('AnimalName', 'Unknown'))
+                            if pd.isna(name) or name.lower() == 'nan':
+                                name = str(animal.get('AnimalNumber', 'Unknown'))
+                            
+                            stage = str(animal.get('Stage', ''))
+                            abbr = map_status(stage)
+                            
+                            if abbr:
+                                animal_names.append(f'{name} {abbr}')
+                            else:
+                                animal_names.append(name)
+                        
+                        # Truncate if too many animals
+                        if len(animal_names) > 4:
+                            display_names = animal_names[:3] + [f'... +{len(animal_names)-3} more']
+                        else:
+                            display_names = animal_names
+                        
+                        display_text = f'{str(row * 2 + col + 1)}\n' + '\n'.join(display_names)
+                        
+                        if st.button(display_text, key=f"reptile_{cage}"):
+                            st.session_state.kennel_animals = cell_animals.tolist()
+                            st.session_state.current_animal_idx = 0
+                            st.session_state.selected_animal = cell_animals.iloc[0]
+                            st.session_state.show_modal = True
+                            st.rerun()
                     else:
-                        button_text = create_button_text(str(row * 2 + col + 1), None, is_empty=True)
-                        st.button(button_text, key=f"reptile_{cage}_empty", disabled=True)
+                        st.button(f'{str(row * 2 + col + 1)}\n-', key=f"reptile_{cage}_empty", disabled=True)
     
     # Reptile 5 (spans both columns)
     cage = reptile_cages[4]  # Reptile 5
     cell_animals = sa_df[sa_df["SubLocation"] == cage]
     if not cell_animals.empty:
-        for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-            button_text = create_button_text("5", animal)
-            if st.button(button_text, key=f"reptile_5_{idx}"):
-                st.session_state.selected_animal = animal
-                st.session_state.show_modal = True
-                st.rerun()
+        # Show all animal names on the button
+        animal_names = []
+        for _, animal in cell_animals.iterrows():
+            name = str(animal.get('AnimalName', 'Unknown'))
+            if pd.isna(name) or name.lower() == 'nan':
+                name = str(animal.get('AnimalNumber', 'Unknown'))
+            
+            stage = str(animal.get('Stage', ''))
+            abbr = map_status(stage)
+            
+            if abbr:
+                animal_names.append(f'{name} {abbr}')
+            else:
+                animal_names.append(name)
+        
+        # Truncate if too many animals
+        if len(animal_names) > 4:
+            display_names = animal_names[:3] + [f'... +{len(animal_names)-3} more']
+        else:
+            display_names = animal_names
+        
+        display_text = f'5\n' + '\n'.join(display_names)
+        
+        if st.button(display_text, key=f"reptile_5"):
+            st.session_state.kennel_animals = cell_animals.tolist()
+            st.session_state.current_animal_idx = 0
+            st.session_state.selected_animal = cell_animals.iloc[0]
+            st.session_state.show_modal = True
+            st.rerun()
     else:
-        button_text = create_button_text("5", None, is_empty=True)
-        st.button(button_text, key="reptile_5_empty", disabled=True)
+        st.button(f'5\n-', key="reptile_5_empty", disabled=True)
     
     # Countertop Cages section
     st.markdown("### Countertop Cages")
@@ -707,15 +859,37 @@ def render_small_animals_layout(animals_df, memo_df):
         with cols[i]:
             cell_animals = sa_df[sa_df["SubLocation"] == cage]
             if not cell_animals.empty:
-                for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-                    button_text = create_button_text(str(i+1), animal)
-                    if st.button(button_text, key=f"counter_{cage}_{idx}"):
-                        st.session_state.selected_animal = animal
-                        st.session_state.show_modal = True
-                        st.rerun()
+                # Show all animal names on the button
+                animal_names = []
+                for _, animal in cell_animals.iterrows():
+                    name = str(animal.get('AnimalName', 'Unknown'))
+                    if pd.isna(name) or name.lower() == 'nan':
+                        name = str(animal.get('AnimalNumber', 'Unknown'))
+                    
+                    stage = str(animal.get('Stage', ''))
+                    abbr = map_status(stage)
+                    
+                    if abbr:
+                        animal_names.append(f'{name} {abbr}')
+                    else:
+                        animal_names.append(name)
+                
+                # Truncate if too many animals
+                if len(animal_names) > 4:
+                    display_names = animal_names[:3] + [f'... +{len(animal_names)-3} more']
+                else:
+                    display_names = animal_names
+                
+                display_text = f'{str(i+1)}\n' + '\n'.join(display_names)
+                
+                if st.button(display_text, key=f"counter_{cage}"):
+                    st.session_state.kennel_animals = cell_animals.tolist()
+                    st.session_state.current_animal_idx = 0
+                    st.session_state.selected_animal = cell_animals.iloc[0]
+                    st.session_state.show_modal = True
+                    st.rerun()
             else:
-                button_text = create_button_text(str(i+1), None, is_empty=True)
-                st.button(button_text, key=f"counter_{cage}_empty", disabled=True)
+                st.button(f'{str(i+1)}\n-', key=f"counter_{cage}_empty", disabled=True)
     
     # Show animals not assigned to kennels
     all_sublocations = bird_cages + [bird_extra] + sa_cages + [f"Mammal {i}" for i in range(1,5)] + reptile_cages + [f"Countertop Cage {i}" for i in range(1,3)]
