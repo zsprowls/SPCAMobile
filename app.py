@@ -265,20 +265,8 @@ st.markdown("""
         font-weight: bold !important;
     }
     
-        /* Kennel grid layout - like RoundsMapp */
-        .kennel-grid {
-            display: grid !important;
-            gap: 4px !important;
-            width: 100% !important;
-        }
-        
-        /* Kennel buttons - consistent sizing */
-        .stButton {
-            width: 100% !important;
-        }
-        
-        /* Only apply large sizing to kennel buttons */
-        .stButton > button[data-testid*="kennel"] {
+        /* Force ALL buttons to be consistent size */
+        .stButton > button {
             width: 100% !important;
             height: 180px !important;
             margin: 0 !important;
@@ -292,6 +280,14 @@ st.markdown("""
             justify-content: flex-start !important;
             align-items: flex-start !important;
             box-sizing: border-box !important;
+        }
+        
+        /* Make navigation buttons small */
+        .stButton > button:not([data-testid*="kennel"]) {
+            height: 30px !important;
+            width: auto !important;
+            min-width: 50px !important;
+            max-width: 100px !important;
         }
         
         /* Force columns to fill space with no gaps */
