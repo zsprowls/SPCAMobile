@@ -32,3 +32,4 @@ A mobile-first occupancy management system for animal shelters, built with Strea
 ## Development
 
 This project is designed to be mobile-first with responsive layouts that work across all device sizes.
+

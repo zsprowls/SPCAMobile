@@ -1,0 +1,31 @@
+{
+  "name": "Wildlife",
+  "grid": {
+    "cols": 2,
+    "rows": 1
+  },
+  "kennels": [
+    {
+      "id": "kennel_01",
+      "position": {
+        "row": 0,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_02",
+      "position": {
+        "row": 0,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    }
+  ]
+}

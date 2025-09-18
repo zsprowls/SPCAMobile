@@ -1,0 +1,2869 @@
+{
+  "name": "Foster Home",
+  "grid": {
+    "cols": 4,
+    "rows": 65
+  },
+  "kennels": [
+    {
+      "id": "kennel_01",
+      "position": {
+        "row": 0,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_02",
+      "position": {
+        "row": 0,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_03",
+      "position": {
+        "row": 0,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_04",
+      "position": {
+        "row": 0,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_05",
+      "position": {
+        "row": 1,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_06",
+      "position": {
+        "row": 1,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_07",
+      "position": {
+        "row": 1,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_08",
+      "position": {
+        "row": 1,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_09",
+      "position": {
+        "row": 2,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_10",
+      "position": {
+        "row": 2,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_11",
+      "position": {
+        "row": 2,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_12",
+      "position": {
+        "row": 2,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_13",
+      "position": {
+        "row": 3,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_14",
+      "position": {
+        "row": 3,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_15",
+      "position": {
+        "row": 3,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_16",
+      "position": {
+        "row": 3,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_17",
+      "position": {
+        "row": 4,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_18",
+      "position": {
+        "row": 4,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_19",
+      "position": {
+        "row": 4,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_20",
+      "position": {
+        "row": 4,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_21",
+      "position": {
+        "row": 5,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_22",
+      "position": {
+        "row": 5,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_23",
+      "position": {
+        "row": 5,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_24",
+      "position": {
+        "row": 5,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_25",
+      "position": {
+        "row": 6,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_26",
+      "position": {
+        "row": 6,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_27",
+      "position": {
+        "row": 6,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_28",
+      "position": {
+        "row": 6,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_29",
+      "position": {
+        "row": 7,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_30",
+      "position": {
+        "row": 7,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_31",
+      "position": {
+        "row": 7,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_32",
+      "position": {
+        "row": 7,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_33",
+      "position": {
+        "row": 8,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_34",
+      "position": {
+        "row": 8,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_35",
+      "position": {
+        "row": 8,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_36",
+      "position": {
+        "row": 8,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_37",
+      "position": {
+        "row": 9,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_38",
+      "position": {
+        "row": 9,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_39",
+      "position": {
+        "row": 9,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_40",
+      "position": {
+        "row": 9,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_41",
+      "position": {
+        "row": 10,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_42",
+      "position": {
+        "row": 10,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_43",
+      "position": {
+        "row": 10,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_44",
+      "position": {
+        "row": 10,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_45",
+      "position": {
+        "row": 11,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_46",
+      "position": {
+        "row": 11,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_47",
+      "position": {
+        "row": 11,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_48",
+      "position": {
+        "row": 11,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_49",
+      "position": {
+        "row": 12,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_50",
+      "position": {
+        "row": 12,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_51",
+      "position": {
+        "row": 12,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_52",
+      "position": {
+        "row": 12,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_53",
+      "position": {
+        "row": 13,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_54",
+      "position": {
+        "row": 13,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_55",
+      "position": {
+        "row": 13,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_56",
+      "position": {
+        "row": 13,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_57",
+      "position": {
+        "row": 14,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_58",
+      "position": {
+        "row": 14,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_59",
+      "position": {
+        "row": 14,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_60",
+      "position": {
+        "row": 14,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_61",
+      "position": {
+        "row": 15,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_62",
+      "position": {
+        "row": 15,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_63",
+      "position": {
+        "row": 15,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_64",
+      "position": {
+        "row": 15,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_65",
+      "position": {
+        "row": 16,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_66",
+      "position": {
+        "row": 16,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_67",
+      "position": {
+        "row": 16,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_68",
+      "position": {
+        "row": 16,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_69",
+      "position": {
+        "row": 17,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_70",
+      "position": {
+        "row": 17,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_71",
+      "position": {
+        "row": 17,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_72",
+      "position": {
+        "row": 17,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_73",
+      "position": {
+        "row": 18,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_74",
+      "position": {
+        "row": 18,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_75",
+      "position": {
+        "row": 18,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_76",
+      "position": {
+        "row": 18,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_77",
+      "position": {
+        "row": 19,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_78",
+      "position": {
+        "row": 19,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_79",
+      "position": {
+        "row": 19,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_80",
+      "position": {
+        "row": 19,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_81",
+      "position": {
+        "row": 20,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_82",
+      "position": {
+        "row": 20,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_83",
+      "position": {
+        "row": 20,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_84",
+      "position": {
+        "row": 20,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_85",
+      "position": {
+        "row": 21,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_86",
+      "position": {
+        "row": 21,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_87",
+      "position": {
+        "row": 21,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_88",
+      "position": {
+        "row": 21,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_89",
+      "position": {
+        "row": 22,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_90",
+      "position": {
+        "row": 22,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_91",
+      "position": {
+        "row": 22,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_92",
+      "position": {
+        "row": 22,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_93",
+      "position": {
+        "row": 23,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_94",
+      "position": {
+        "row": 23,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_95",
+      "position": {
+        "row": 23,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_96",
+      "position": {
+        "row": 23,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_97",
+      "position": {
+        "row": 24,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_98",
+      "position": {
+        "row": 24,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_99",
+      "position": {
+        "row": 24,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_100",
+      "position": {
+        "row": 24,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_101",
+      "position": {
+        "row": 25,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_102",
+      "position": {
+        "row": 25,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_103",
+      "position": {
+        "row": 25,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_104",
+      "position": {
+        "row": 25,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_105",
+      "position": {
+        "row": 26,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_106",
+      "position": {
+        "row": 26,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_107",
+      "position": {
+        "row": 26,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_108",
+      "position": {
+        "row": 26,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_109",
+      "position": {
+        "row": 27,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_110",
+      "position": {
+        "row": 27,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_111",
+      "position": {
+        "row": 27,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_112",
+      "position": {
+        "row": 27,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_113",
+      "position": {
+        "row": 28,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_114",
+      "position": {
+        "row": 28,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_115",
+      "position": {
+        "row": 28,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_116",
+      "position": {
+        "row": 28,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_117",
+      "position": {
+        "row": 29,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_118",
+      "position": {
+        "row": 29,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_119",
+      "position": {
+        "row": 29,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_120",
+      "position": {
+        "row": 29,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_121",
+      "position": {
+        "row": 30,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_122",
+      "position": {
+        "row": 30,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_123",
+      "position": {
+        "row": 30,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_124",
+      "position": {
+        "row": 30,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_125",
+      "position": {
+        "row": 31,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_126",
+      "position": {
+        "row": 31,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_127",
+      "position": {
+        "row": 31,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_128",
+      "position": {
+        "row": 31,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_129",
+      "position": {
+        "row": 32,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_130",
+      "position": {
+        "row": 32,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_131",
+      "position": {
+        "row": 32,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_132",
+      "position": {
+        "row": 32,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_133",
+      "position": {
+        "row": 33,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_134",
+      "position": {
+        "row": 33,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_135",
+      "position": {
+        "row": 33,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_136",
+      "position": {
+        "row": 33,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_137",
+      "position": {
+        "row": 34,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_138",
+      "position": {
+        "row": 34,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_139",
+      "position": {
+        "row": 34,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_140",
+      "position": {
+        "row": 34,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_141",
+      "position": {
+        "row": 35,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_142",
+      "position": {
+        "row": 35,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_143",
+      "position": {
+        "row": 35,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_144",
+      "position": {
+        "row": 35,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_145",
+      "position": {
+        "row": 36,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_146",
+      "position": {
+        "row": 36,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_147",
+      "position": {
+        "row": 36,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_148",
+      "position": {
+        "row": 36,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_149",
+      "position": {
+        "row": 37,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_150",
+      "position": {
+        "row": 37,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_151",
+      "position": {
+        "row": 37,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_152",
+      "position": {
+        "row": 37,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_153",
+      "position": {
+        "row": 38,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_154",
+      "position": {
+        "row": 38,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_155",
+      "position": {
+        "row": 38,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_156",
+      "position": {
+        "row": 38,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_157",
+      "position": {
+        "row": 39,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_158",
+      "position": {
+        "row": 39,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_159",
+      "position": {
+        "row": 39,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_160",
+      "position": {
+        "row": 39,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_161",
+      "position": {
+        "row": 40,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_162",
+      "position": {
+        "row": 40,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_163",
+      "position": {
+        "row": 40,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_164",
+      "position": {
+        "row": 40,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_165",
+      "position": {
+        "row": 41,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_166",
+      "position": {
+        "row": 41,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_167",
+      "position": {
+        "row": 41,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_168",
+      "position": {
+        "row": 41,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_169",
+      "position": {
+        "row": 42,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_170",
+      "position": {
+        "row": 42,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_171",
+      "position": {
+        "row": 42,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_172",
+      "position": {
+        "row": 42,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_173",
+      "position": {
+        "row": 43,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_174",
+      "position": {
+        "row": 43,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_175",
+      "position": {
+        "row": 43,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_176",
+      "position": {
+        "row": 43,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_177",
+      "position": {
+        "row": 44,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_178",
+      "position": {
+        "row": 44,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_179",
+      "position": {
+        "row": 44,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_180",
+      "position": {
+        "row": 44,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_181",
+      "position": {
+        "row": 45,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_182",
+      "position": {
+        "row": 45,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_183",
+      "position": {
+        "row": 45,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_184",
+      "position": {
+        "row": 45,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_185",
+      "position": {
+        "row": 46,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_186",
+      "position": {
+        "row": 46,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_187",
+      "position": {
+        "row": 46,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_188",
+      "position": {
+        "row": 46,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_189",
+      "position": {
+        "row": 47,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_190",
+      "position": {
+        "row": 47,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_191",
+      "position": {
+        "row": 47,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_192",
+      "position": {
+        "row": 47,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_193",
+      "position": {
+        "row": 48,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_194",
+      "position": {
+        "row": 48,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_195",
+      "position": {
+        "row": 48,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_196",
+      "position": {
+        "row": 48,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_197",
+      "position": {
+        "row": 49,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_198",
+      "position": {
+        "row": 49,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_199",
+      "position": {
+        "row": 49,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_200",
+      "position": {
+        "row": 49,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_201",
+      "position": {
+        "row": 50,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_202",
+      "position": {
+        "row": 50,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_203",
+      "position": {
+        "row": 50,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_204",
+      "position": {
+        "row": 50,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_205",
+      "position": {
+        "row": 51,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_206",
+      "position": {
+        "row": 51,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_207",
+      "position": {
+        "row": 51,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_208",
+      "position": {
+        "row": 51,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_209",
+      "position": {
+        "row": 52,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_210",
+      "position": {
+        "row": 52,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_211",
+      "position": {
+        "row": 52,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_212",
+      "position": {
+        "row": 52,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_213",
+      "position": {
+        "row": 53,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_214",
+      "position": {
+        "row": 53,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_215",
+      "position": {
+        "row": 53,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_216",
+      "position": {
+        "row": 53,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_217",
+      "position": {
+        "row": 54,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_218",
+      "position": {
+        "row": 54,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_219",
+      "position": {
+        "row": 54,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_220",
+      "position": {
+        "row": 54,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_221",
+      "position": {
+        "row": 55,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_222",
+      "position": {
+        "row": 55,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_223",
+      "position": {
+        "row": 55,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_224",
+      "position": {
+        "row": 55,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_225",
+      "position": {
+        "row": 56,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_226",
+      "position": {
+        "row": 56,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_227",
+      "position": {
+        "row": 56,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_228",
+      "position": {
+        "row": 56,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_229",
+      "position": {
+        "row": 57,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_230",
+      "position": {
+        "row": 57,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_231",
+      "position": {
+        "row": 57,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_232",
+      "position": {
+        "row": 57,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_233",
+      "position": {
+        "row": 58,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_234",
+      "position": {
+        "row": 58,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_235",
+      "position": {
+        "row": 58,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_236",
+      "position": {
+        "row": 58,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_237",
+      "position": {
+        "row": 59,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_238",
+      "position": {
+        "row": 59,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_239",
+      "position": {
+        "row": 59,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_240",
+      "position": {
+        "row": 59,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_241",
+      "position": {
+        "row": 60,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_242",
+      "position": {
+        "row": 60,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_243",
+      "position": {
+        "row": 60,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_244",
+      "position": {
+        "row": 60,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_245",
+      "position": {
+        "row": 61,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_246",
+      "position": {
+        "row": 61,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_247",
+      "position": {
+        "row": 61,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_248",
+      "position": {
+        "row": 61,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_249",
+      "position": {
+        "row": 62,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_250",
+      "position": {
+        "row": 62,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_251",
+      "position": {
+        "row": 62,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_252",
+      "position": {
+        "row": 62,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_253",
+      "position": {
+        "row": 63,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_254",
+      "position": {
+        "row": 63,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_255",
+      "position": {
+        "row": 63,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_256",
+      "position": {
+        "row": 63,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_257",
+      "position": {
+        "row": 64,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_258",
+      "position": {
+        "row": 64,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_259",
+      "position": {
+        "row": 64,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_260",
+      "position": {
+        "row": 64,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    }
+  ]
+}

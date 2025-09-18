@@ -1,0 +1,218 @@
+{
+  "name": "Small Animals & Exotics",
+  "grid": {
+    "cols": 4,
+    "rows": 5
+  },
+  "kennels": [
+    {
+      "id": "kennel_01",
+      "position": {
+        "row": 0,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_02",
+      "position": {
+        "row": 0,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_03",
+      "position": {
+        "row": 0,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_04",
+      "position": {
+        "row": 0,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_05",
+      "position": {
+        "row": 1,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_06",
+      "position": {
+        "row": 1,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_07",
+      "position": {
+        "row": 1,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_08",
+      "position": {
+        "row": 1,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_09",
+      "position": {
+        "row": 2,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_10",
+      "position": {
+        "row": 2,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_11",
+      "position": {
+        "row": 2,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_12",
+      "position": {
+        "row": 2,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_13",
+      "position": {
+        "row": 3,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_14",
+      "position": {
+        "row": 3,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_15",
+      "position": {
+        "row": 3,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_16",
+      "position": {
+        "row": 3,
+        "col": 3
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_17",
+      "position": {
+        "row": 4,
+        "col": 0
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_18",
+      "position": {
+        "row": 4,
+        "col": 1
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    },
+    {
+      "id": "kennel_19",
+      "position": {
+        "row": 4,
+        "col": 2
+      },
+      "size": {
+        "width": 1,
+        "height": 1
+      }
+    }
+  ]
+}
