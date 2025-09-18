@@ -316,11 +316,6 @@ st.markdown("""
             gap: 2px !important;
         }
         
-        /* Force kennel buttons to fill full width */
-        .kennel-button {
-            width: 100% !important;
-            min-width: 100% !important;
-        }
         
         /* Mobile responsive */
         @media (max-width: 768px) {
@@ -342,19 +337,32 @@ st.markdown("""
             font-weight: bold !important;
         }
         
-        /* Very small navigation buttons - only for room nav and modal nav */
-        .stButton > button[data-testid*="prev_room"],
-        .stButton > button[data-testid*="next_room"],
-        .stButton > button[data-testid*="prev_animal"],
-        .stButton > button[data-testid*="next_animal"],
-        .stButton > button[data-testid*="close_modal"] {
-            height: 20px !important;
-            min-height: 20px !important;
-            width: 30px !important;
-            min-width: 30px !important;
-            max-width: 30px !important;
-            padding: 1px 4px !important;
-            font-size: 0.6rem !important;
+        /* Very small navigation buttons - target by button text content */
+        .stButton > button:has-text("⬅️"),
+        .stButton > button:has-text("➡️"),
+        .stButton > button:has-text("←"),
+        .stButton > button:has-text("→"),
+        .stButton > button:has-text("✕") {
+            height: 25px !important;
+            min-height: 25px !important;
+            width: 40px !important;
+            min-width: 40px !important;
+            max-width: 40px !important;
+            padding: 2px 4px !important;
+            font-size: 0.7rem !important;
+        }
+        
+        /* Alternative targeting for navigation buttons */
+        button[aria-label*="prev"],
+        button[aria-label*="next"],
+        button[aria-label*="close"] {
+            height: 25px !important;
+            min-height: 25px !important;
+            width: 40px !important;
+            min-width: 40px !important;
+            max-width: 40px !important;
+            padding: 2px 4px !important;
+            font-size: 0.7rem !important;
         }
         
         /* Reduce spacing in modals */
@@ -1085,7 +1093,6 @@ def render_room_layout(room_name, animals_df, memo_df, view_mode="Mobile"):
                         
                         display_text = f'{display_label}\n' + '\n'.join(display_names)
                         
-                        st.markdown('<div class="kennel-button">', unsafe_allow_html=True)
                         if st.button(display_text, key=f"kennel_{room_name}_{subloc}"):
                             # Store all animals for this kennel and show modal for first one
                             st.session_state.kennel_animals = animals
@@ -1093,12 +1100,9 @@ def render_room_layout(room_name, animals_df, memo_df, view_mode="Mobile"):
                             st.session_state.selected_animal = animals[0]
                             st.session_state.show_modal = True
                             st.rerun()
-                        st.markdown('</div>', unsafe_allow_html=True)
                     else:
                         # Empty kennel - same size as occupied kennels
-                        st.markdown('<div class="kennel-button">', unsafe_allow_html=True)
                         st.button(f'{display_label}\n-', key=f"kennel_{room_name}_{subloc}_empty", disabled=True)
-                        st.markdown('</div>', unsafe_allow_html=True)
     
     # Show animals not assigned to kennels (for rooms with specific sublocations)
     if "sublocation" in room_config:
