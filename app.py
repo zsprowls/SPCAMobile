@@ -1004,7 +1004,7 @@ def render_room_layout(room_name, animals_df, memo_df, view_mode="Mobile"):
         room_animals = animals_df[animals_df['Location'] == location].copy()
     
     # Ensure SubLocation is zero-padded string for numeric sublocations
-    if room_name in ["Cat Adoption Room G", "Cat Adoption Room H", "Cat Behavior Room I", "Foster Care Room"]:
+    if room_name in ["Cat Adoption Room G", "Cat Adoption Room H", "Cat Behavior Room I", "Foster Care Room", "Dog Adoptions A & B", "Dog Adoptions C & D"]:
         room_animals["SubLocation"] = room_animals["SubLocation"].astype(str).str.zfill(2)
     
     # Create mapping of sublocation to animals
@@ -1327,14 +1327,26 @@ def main():
         location = room_config["location"]
         
         if room_config.get("type") == "small_animals":
-            room_animals = inventory_df[inventory_df['Location'] == location]
+            if isinstance(location, list):
+                room_animals = inventory_df[inventory_df['Location'].isin(location)]
+            else:
+                room_animals = inventory_df[inventory_df['Location'] == location]
         elif "sublocation" in room_config:
             if isinstance(room_config["sublocation"], list):
-                room_animals = inventory_df[(inventory_df['Location'] == location) & (inventory_df['SubLocation'].isin(room_config["sublocation"]))]
+                if isinstance(location, list):
+                    room_animals = inventory_df[(inventory_df['Location'].isin(location)) & (inventory_df['SubLocation'].isin(room_config["sublocation"]))]
+                else:
+                    room_animals = inventory_df[(inventory_df['Location'] == location) & (inventory_df['SubLocation'].isin(room_config["sublocation"]))]
             else:
-                room_animals = inventory_df[(inventory_df['Location'] == location) & (inventory_df['SubLocation'] == room_config["sublocation"])]
+                if isinstance(location, list):
+                    room_animals = inventory_df[(inventory_df['Location'].isin(location)) & (inventory_df['SubLocation'] == room_config["sublocation"])]
+                else:
+                    room_animals = inventory_df[(inventory_df['Location'] == location) & (inventory_df['SubLocation'] == room_config["sublocation"])]
         else:
-            room_animals = inventory_df[inventory_df['Location'] == location]
+            if isinstance(location, list):
+                room_animals = inventory_df[inventory_df['Location'].isin(location)]
+            else:
+                room_animals = inventory_df[inventory_df['Location'] == location]
         
         col1, col2, col3, col4 = st.columns(4)
         with col1:
