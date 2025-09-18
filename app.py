@@ -268,20 +268,20 @@ st.markdown("""
         /* Consistent button sizing - force minimum width */
         .stButton {
             width: 100% !important;
-            min-width: 120px !important;
+            min-width: 150px !important;
         }
         
         .stButton > button {
             width: 100% !important;
-            min-width: 120px !important;
-            height: 120px !important;
+            min-width: 150px !important;
+            height: 150px !important;
             margin: 2px 0 !important;
-            padding: 8px !important;
-            font-size: 0.8rem !important;
+            padding: 12px !important;
+            font-size: 0.9rem !important;
             text-align: left !important;
             white-space: pre-wrap !important;
             overflow-y: auto !important;
-            max-height: 120px !important;
+            max-height: 150px !important;
             display: flex !important;
             flex-direction: column !important;
             justify-content: flex-start !important;
@@ -298,16 +298,16 @@ st.markdown("""
         /* Mobile responsive */
         @media (max-width: 768px) {
             .stButton > button {
-                height: 100px !important;
-                max-height: 100px !important;
-                font-size: 0.7rem !important;
-                min-width: 100px !important;
+                height: 130px !important;
+                max-height: 130px !important;
+                font-size: 0.8rem !important;
+                min-width: 130px !important;
             }
             .stButton {
-                min-width: 100px !important;
+                min-width: 130px !important;
             }
             .stColumn {
-                min-width: 100px !important;
+                min-width: 130px !important;
             }
         }
         
@@ -317,12 +317,17 @@ st.markdown("""
             font-weight: bold !important;
         }
         
-        /* Compact navigation buttons */
-        .stButton > button[kind="secondary"] {
+        /* Compact navigation buttons - only for room nav and modal nav */
+        .stButton > button:has-text("⬅️"), 
+        .stButton > button:has-text("➡️"),
+        .stButton > button:has-text("←"), 
+        .stButton > button:has-text("→"),
+        .stButton > button:has-text("✕") {
             height: 30px !important;
             min-height: 30px !important;
             padding: 4px 8px !important;
             font-size: 0.8rem !important;
+            min-width: 40px !important;
         }
         
         /* Reduce spacing in modals */
