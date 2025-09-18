@@ -316,6 +316,31 @@ st.markdown("""
             color: #dc3545 !important;
             font-weight: bold !important;
         }
+        
+        /* Compact navigation buttons */
+        .stButton > button[kind="secondary"] {
+            height: 30px !important;
+            min-height: 30px !important;
+            padding: 4px 8px !important;
+            font-size: 0.8rem !important;
+        }
+        
+        /* Reduce spacing in modals */
+        .element-container {
+            margin-bottom: 0.5rem !important;
+        }
+        
+        /* Compact room headers */
+        h3 {
+            margin-top: 0.5rem !important;
+            margin-bottom: 0.5rem !important;
+        }
+        
+        /* Reduce padding in main content */
+        .main .block-container {
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
     
     .stButton > button:hover {
         border-color: #007bff;
@@ -603,7 +628,7 @@ def render_small_animals_layout(animals_df, memo_df):
     sa_df = animals_df[animals_df['Location'] == 'Small Animals & Exotics'].copy()
     
     # Birds section
-    st.markdown("### Birds")
+    st.markdown("**Birds**")
     bird_cages = ["Bird Cage 1", "Bird Cage 2", "Bird Cage 3", "Bird Cage 4"]
     bird_extra = "Bird Cage EXTRA"
     
@@ -684,7 +709,7 @@ def render_small_animals_layout(animals_df, memo_df):
             st.button(f'EXTRA\n-', key=f"bird_{bird_extra}_empty", disabled=True)
     
     # Small Animals section
-    st.markdown("### Small Animals")
+    st.markdown("**Small Animals**")
     sa_cages = [f"Small Animal {i}" for i in range(1,9)]
     
     # 3x3 grid for small animals
@@ -729,7 +754,7 @@ def render_small_animals_layout(animals_df, memo_df):
                         st.button(f'{str(row * 3 + col + 1)}\n-', key=f"sa_{cage}_empty", disabled=True)
     
     # Mammals section
-    st.markdown("### Mammals")
+    st.markdown("**Mammals**")
     mammal_cages = [f"Mammal {i}" for i in range(1,5)]
     
     cols = st.columns(2)
@@ -770,7 +795,7 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.button(f'{str(i+1)}\n-', key=f"mammal_{cage}_empty", disabled=True)
     
     # Reptiles section
-    st.markdown("### Reptiles")
+    st.markdown("**Reptiles**")
     reptile_cages = [f"Reptile {i}" for i in range(1,6)]
     
     # 2x3 grid for reptiles
@@ -851,7 +876,7 @@ def render_small_animals_layout(animals_df, memo_df):
         st.button(f'5\n-', key="reptile_5_empty", disabled=True)
     
     # Countertop Cages section
-    st.markdown("### Countertop Cages")
+    st.markdown("**Countertop Cages**")
     counter_cages = [f"Countertop Cage {i}" for i in range(1,3)]
     
     cols = st.columns(2)
@@ -943,7 +968,7 @@ def render_room_layout(room_name, animals_df, memo_df):
                 sublocation_to_animals[subloc] = []
             sublocation_to_animals[subloc].append(animal)
     
-    st.markdown(f"### {room_name}")
+    st.markdown(f"**{room_name}**")
     
     # Create a simple approach - one button per kennel that cycles through animals
     for row_idx, row in enumerate(grid_map):
@@ -1020,32 +1045,32 @@ def render_room_layout(room_name, animals_df, memo_df):
 def render_animal_modal(animal, memo_df):
     """Render animal details modal with navigation for multiple animals"""
     st.markdown("---")
-    st.markdown("### Animal Details")
+    st.markdown("**Animal Details**")
     
     # Get all animals in this kennel
     kennel_animals = st.session_state.get('kennel_animals', [animal])
     current_idx = st.session_state.get('current_animal_idx', 0)
     
-    # Navigation buttons if multiple animals
+    # Compact navigation buttons if multiple animals
     if len(kennel_animals) > 1:
         col1, col2, col3 = st.columns([1, 2, 1])
         with col1:
-            if st.button("← Previous", key="prev_animal"):
+            if st.button("←", key="prev_animal"):
                 new_idx = (current_idx - 1) % len(kennel_animals)
                 st.session_state.current_animal_idx = new_idx
                 st.session_state.selected_animal = kennel_animals[new_idx]
                 st.rerun()
         with col2:
-            st.markdown(f"**Animal {current_idx + 1} of {len(kennel_animals)}**")
+            st.markdown(f"**{current_idx + 1}/{len(kennel_animals)}**")
         with col3:
-            if st.button("Next →", key="next_animal"):
+            if st.button("→", key="next_animal"):
                 new_idx = (current_idx + 1) % len(kennel_animals)
                 st.session_state.current_animal_idx = new_idx
                 st.session_state.selected_animal = kennel_animals[new_idx]
                 st.rerun()
     
     # Close button
-    if st.button("✕ Close", key="close_modal"):
+    if st.button("✕", key="close_modal"):
         st.session_state.show_modal = False
         st.rerun()
     
@@ -1174,29 +1199,28 @@ def main():
     tab1, tab2, tab3 = st.tabs(["🏠 Room View", "🏗️ Layout Builder", "📊 Analytics"])
     
     with tab1:
-        # Room navigation
+        # Room selector at the top
+        selected_room = st.selectbox("Select Room", available_rooms, index=st.session_state.current_room, key="room_selector")
+        if selected_room != current_room:
+            st.session_state.current_room = available_rooms.index(selected_room)
+            st.rerun()
+        
+        # Compact room navigation
         current_room = available_rooms[st.session_state.current_room]
         
         col1, col2, col3 = st.columns([1, 2, 1])
         with col1:
-            if st.button("⬅️ Previous", key="prev_room"):
+            if st.button("⬅️", key="prev_room"):
                 st.session_state.current_room = (st.session_state.current_room - 1) % len(available_rooms)
                 st.rerun()
         
         with col2:
             st.markdown(f"### {current_room}")
-            st.markdown(f"**Room {st.session_state.current_room + 1} of {len(available_rooms)}**")
         
         with col3:
-            if st.button("Next ➡️", key="next_room"):
+            if st.button("➡️", key="next_room"):
                 st.session_state.current_room = (st.session_state.current_room + 1) % len(available_rooms)
                 st.rerun()
-        
-        # Room selector
-        selected_room = st.selectbox("Or select room directly:", available_rooms, index=st.session_state.current_room, key="room_selector")
-        if selected_room != current_room:
-            st.session_state.current_room = available_rooms.index(selected_room)
-            st.rerun()
         
         # Render current room
         render_room_layout(current_room, inventory_df, memo_df)
