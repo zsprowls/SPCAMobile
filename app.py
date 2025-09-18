@@ -1107,10 +1107,10 @@ def render_room_layout(room_name, animals_df, memo_df, view_mode="Mobile"):
                 if abbr:
                     display_text += f" {abbr}"
                 
-                        if st.button(f"• {display_text}", key=f"unassigned_{room_name}_{animal['AnimalNumber']}"):
-                            st.session_state.selected_animal = animal
-                            st.session_state.show_modal = True
-                            st.rerun()
+                if st.button(f"• {display_text}", key=f"unassigned_{room_name}_{animal['AnimalNumber']}"):
+                    st.session_state.selected_animal = animal
+                    st.session_state.show_modal = True
+                    st.rerun()
     
     # Close styling divs
     if "Dog Adoptions" in room_name:
