@@ -265,6 +265,13 @@ st.markdown("""
         font-weight: bold !important;
     }
     
+        /* Kennel grid layout - like RoundsMapp */
+        .kennel-grid {
+            display: grid !important;
+            gap: 4px !important;
+            width: 100% !important;
+        }
+        
         /* Kennel buttons - consistent sizing */
         .stButton {
             width: 100% !important;
@@ -273,10 +280,9 @@ st.markdown("""
         /* Only apply large sizing to kennel buttons */
         .stButton > button[data-testid*="kennel"] {
             width: 100% !important;
-            min-width: 200px !important;
-            height: 180px !important;
-            margin: 1px !important;
-            padding: 8px !important;
+            height: 120px !important;
+            margin: 0 !important;
+            padding: 6px !important;
             font-size: 0.8rem !important;
             text-align: left !important;
             white-space: pre-wrap !important;
@@ -288,17 +294,17 @@ st.markdown("""
             box-sizing: border-box !important;
         }
         
-        /* Force columns to be equal width */
+        /* Force columns to fill space with no gaps */
         .stColumn {
             flex: 1 !important;
-            min-width: 200px !important;
-            max-width: none !important;
+            min-width: 0 !important;
+            padding: 0 !important;
         }
         
-        /* Make sure columns container fills width */
+        /* Remove gaps between columns */
         .stColumns {
+            gap: 0 !important;
             width: 100% !important;
-            display: flex !important;
         }
         
         /* Desktop mode - smaller buttons, more columns */
@@ -319,20 +325,6 @@ st.markdown("""
             padding: 2px !important;
         }
         
-        /* Make columns fill available space */
-        .stColumn {
-            flex: 1 !important;
-            min-width: 200px !important;
-            max-width: none !important;
-            padding: 1px !important;
-        }
-        
-        /* Reduce gap between columns */
-        .stColumns {
-            gap: 2px !important;
-            width: 100% !important;
-            display: flex !important;
-        }
         
         
         /* Mobile responsive */
