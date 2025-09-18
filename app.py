@@ -220,8 +220,8 @@ st.markdown("""
     
     /* Consistent button sizing - fill available space properly */
     .stButton > button {
-        width: 100%;
-        height: 80px;
+        width: 100% !important;
+        height: 80px !important;
         font-size: 0.8rem;
         white-space: pre-wrap;
         text-align: center;
@@ -230,28 +230,39 @@ st.markdown("""
         border: 2px solid #ddd;
         background: #f8f9fa;
         transition: all 0.2s;
-        margin: 0;
-        min-height: 80px;
+        margin: 0 !important;
+        min-height: 80px !important;
+        max-width: none !important;
+        flex: 1 !important;
     }
     
     /* Ensure columns fill space properly */
     .stColumn {
-        padding: 0 2px;
+        padding: 0 2px !important;
+        flex: 1 !important;
     }
     
     /* Remove gaps between buttons */
     .element-container {
-        margin-bottom: 0;
+        margin-bottom: 0 !important;
     }
     
     /* Force columns to use full width */
     .stColumns {
-        gap: 4px;
+        gap: 4px !important;
+        width: 100% !important;
     }
     
     /* Ensure buttons fill their containers */
     .stButton {
-        width: 100%;
+        width: 100% !important;
+        flex: 1 !important;
+    }
+    
+    /* Red text for status abbreviations */
+    .status-red {
+        color: #dc3545 !important;
+        font-weight: bold !important;
     }
     
     .stButton > button:hover {
@@ -401,6 +412,29 @@ def map_status(stage):
     if 'evaluate' in stage.lower():
         return STATUS_MAP['Evaluate']
     return ""
+
+def create_button_text(display_label, animal, is_empty=False):
+    """Create button text with red status abbreviations"""
+    if is_empty:
+        return f"{display_label}\n-"
+    
+    # Create clean display text
+    name = str(animal.get('AnimalName', 'Unknown'))
+    if pd.isna(name) or name.lower() == 'nan':
+        name = str(animal.get('AnimalNumber', 'Unknown'))
+    
+    # Get status abbreviation
+    stage = str(animal.get('Stage', ''))
+    abbr = map_status(stage)
+    
+    # Create display text with red status if present
+    if abbr:
+        # Use a special character or formatting to indicate red text
+        display_text = f"{display_label}\n{name} 🔴{abbr}"
+    else:
+        display_text = f"{display_label}\n{name}"
+    
+    return display_text
 
 def format_display_line(row):
     """Format animal display line (from RoundsMapp)"""
@@ -560,52 +594,28 @@ def render_small_animals_layout(animals_df, memo_df):
             cell_animals = sa_df[sa_df["SubLocation"] == cage]
             if not cell_animals.empty:
                 for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-                    # Create clean display text without HTML
-                    name = str(animal.get('AnimalName', 'Unknown'))
-                    if pd.isna(name) or name.lower() == 'nan':
-                        name = str(animal.get('AnimalNumber', 'Unknown'))
-                    
-                    # Get status abbreviation
-                    stage = str(animal.get('Stage', ''))
-                    abbr = map_status(stage)
-                    
-                    # Create display text
-                    display_text = name
-                    if abbr:
-                        display_text += f" {abbr}"
-                    
-                    if st.button(f"{i+1}\n{display_text}", key=f"bird_{cage}_{idx}"):
+                    button_text = create_button_text(str(i+1), animal)
+                    if st.button(button_text, key=f"bird_{cage}_{idx}"):
                         st.session_state.selected_animal = animal
                         st.session_state.show_modal = True
                         st.rerun()
             else:
-                st.button(f"{i+1}\n-", key=f"bird_{cage}_empty", disabled=True)
+                button_text = create_button_text(str(i+1), None, is_empty=True)
+                st.button(button_text, key=f"bird_{cage}_empty", disabled=True)
     
     # Bird Extra (spans both columns)
     with cols[0]:
         cell_animals = sa_df[sa_df["SubLocation"] == bird_extra]
         if not cell_animals.empty:
             for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-                # Create clean display text without HTML
-                name = str(animal.get('AnimalName', 'Unknown'))
-                if pd.isna(name) or name.lower() == 'nan':
-                    name = str(animal.get('AnimalNumber', 'Unknown'))
-                
-                # Get status abbreviation
-                stage = str(animal.get('Stage', ''))
-                abbr = map_status(stage)
-                
-                # Create display text
-                display_text = name
-                if abbr:
-                    display_text += f" {abbr}"
-                
-                if st.button(f"EXTRA\n{display_text}", key=f"bird_{bird_extra}_{idx}"):
+                button_text = create_button_text("EXTRA", animal)
+                if st.button(button_text, key=f"bird_{bird_extra}_{idx}"):
                     st.session_state.selected_animal = animal
                     st.session_state.show_modal = True
                     st.rerun()
         else:
-            st.button(f"EXTRA\n-", key=f"bird_{bird_extra}_empty", disabled=True)
+            button_text = create_button_text("EXTRA", None, is_empty=True)
+            st.button(button_text, key=f"bird_{bird_extra}_empty", disabled=True)
     
     # Small Animals section
     st.markdown("### Small Animals")
@@ -621,26 +631,14 @@ def render_small_animals_layout(animals_df, memo_df):
                     cell_animals = sa_df[sa_df["SubLocation"] == cage]
                     if not cell_animals.empty:
                         for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-                            # Create clean display text without HTML
-                            name = str(animal.get('AnimalName', 'Unknown'))
-                            if pd.isna(name) or name.lower() == 'nan':
-                                name = str(animal.get('AnimalNumber', 'Unknown'))
-                            
-                            # Get status abbreviation
-                            stage = str(animal.get('Stage', ''))
-                            abbr = map_status(stage)
-                            
-                            # Create display text
-                            display_text = name
-                            if abbr:
-                                display_text += f" {abbr}"
-                            
-                            if st.button(f"{row * 3 + col + 1}\n{display_text}", key=f"sa_{cage}_{idx}"):
+                            button_text = create_button_text(str(row * 3 + col + 1), animal)
+                            if st.button(button_text, key=f"sa_{cage}_{idx}"):
                                 st.session_state.selected_animal = animal
                                 st.session_state.show_modal = True
                                 st.rerun()
                     else:
-                        st.button(f"{row * 3 + col + 1}\n-", key=f"sa_{cage}_empty", disabled=True)
+                        button_text = create_button_text(str(row * 3 + col + 1), None, is_empty=True)
+                        st.button(button_text, key=f"sa_{cage}_empty", disabled=True)
     
     # Mammals section
     st.markdown("### Mammals")
@@ -652,26 +650,14 @@ def render_small_animals_layout(animals_df, memo_df):
             cell_animals = sa_df[sa_df["SubLocation"] == cage]
             if not cell_animals.empty:
                 for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-                    # Create clean display text without HTML
-                    name = str(animal.get('AnimalName', 'Unknown'))
-                    if pd.isna(name) or name.lower() == 'nan':
-                        name = str(animal.get('AnimalNumber', 'Unknown'))
-                    
-                    # Get status abbreviation
-                    stage = str(animal.get('Stage', ''))
-                    abbr = map_status(stage)
-                    
-                    # Create display text
-                    display_text = name
-                    if abbr:
-                        display_text += f" {abbr}"
-                    
-                    if st.button(f"{i+1}\n{display_text}", key=f"mammal_{cage}_{idx}"):
+                    button_text = create_button_text(str(i+1), animal)
+                    if st.button(button_text, key=f"mammal_{cage}_{idx}"):
                         st.session_state.selected_animal = animal
                         st.session_state.show_modal = True
                         st.rerun()
             else:
-                st.button(f"{i+1}\n-", key=f"mammal_{cage}_empty", disabled=True)
+                button_text = create_button_text(str(i+1), None, is_empty=True)
+                st.button(button_text, key=f"mammal_{cage}_empty", disabled=True)
     
     # Reptiles section
     st.markdown("### Reptiles")
@@ -687,52 +673,28 @@ def render_small_animals_layout(animals_df, memo_df):
                     cell_animals = sa_df[sa_df["SubLocation"] == cage]
                     if not cell_animals.empty:
                         for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-                            # Create clean display text without HTML
-                            name = str(animal.get('AnimalName', 'Unknown'))
-                            if pd.isna(name) or name.lower() == 'nan':
-                                name = str(animal.get('AnimalNumber', 'Unknown'))
-                            
-                            # Get status abbreviation
-                            stage = str(animal.get('Stage', ''))
-                            abbr = map_status(stage)
-                            
-                            # Create display text
-                            display_text = name
-                            if abbr:
-                                display_text += f" {abbr}"
-                            
-                            if st.button(f"{row * 2 + col + 1}\n{display_text}", key=f"reptile_{cage}_{idx}"):
+                            button_text = create_button_text(str(row * 2 + col + 1), animal)
+                            if st.button(button_text, key=f"reptile_{cage}_{idx}"):
                                 st.session_state.selected_animal = animal
                                 st.session_state.show_modal = True
                                 st.rerun()
                     else:
-                        st.button(f"{row * 2 + col + 1}\n-", key=f"reptile_{cage}_empty", disabled=True)
+                        button_text = create_button_text(str(row * 2 + col + 1), None, is_empty=True)
+                        st.button(button_text, key=f"reptile_{cage}_empty", disabled=True)
     
     # Reptile 5 (spans both columns)
     cage = reptile_cages[4]  # Reptile 5
     cell_animals = sa_df[sa_df["SubLocation"] == cage]
     if not cell_animals.empty:
         for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-            # Create clean display text without HTML
-            name = str(animal.get('AnimalName', 'Unknown'))
-            if pd.isna(name) or name.lower() == 'nan':
-                name = str(animal.get('AnimalNumber', 'Unknown'))
-            
-            # Get status abbreviation
-            stage = str(animal.get('Stage', ''))
-            abbr = map_status(stage)
-            
-            # Create display text
-            display_text = name
-            if abbr:
-                display_text += f" {abbr}"
-            
-            if st.button(f"5\n{display_text}", key=f"reptile_5_{idx}"):
+            button_text = create_button_text("5", animal)
+            if st.button(button_text, key=f"reptile_5_{idx}"):
                 st.session_state.selected_animal = animal
                 st.session_state.show_modal = True
                 st.rerun()
     else:
-        st.button(f"5\n-", key="reptile_5_empty", disabled=True)
+        button_text = create_button_text("5", None, is_empty=True)
+        st.button(button_text, key="reptile_5_empty", disabled=True)
     
     # Countertop Cages section
     st.markdown("### Countertop Cages")
@@ -744,26 +706,14 @@ def render_small_animals_layout(animals_df, memo_df):
             cell_animals = sa_df[sa_df["SubLocation"] == cage]
             if not cell_animals.empty:
                 for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-                    # Create clean display text without HTML
-                    name = str(animal.get('AnimalName', 'Unknown'))
-                    if pd.isna(name) or name.lower() == 'nan':
-                        name = str(animal.get('AnimalNumber', 'Unknown'))
-                    
-                    # Get status abbreviation
-                    stage = str(animal.get('Stage', ''))
-                    abbr = map_status(stage)
-                    
-                    # Create display text
-                    display_text = name
-                    if abbr:
-                        display_text += f" {abbr}"
-                    
-                    if st.button(f"{i+1}\n{display_text}", key=f"counter_{cage}_{idx}"):
+                    button_text = create_button_text(str(i+1), animal)
+                    if st.button(button_text, key=f"counter_{cage}_{idx}"):
                         st.session_state.selected_animal = animal
                         st.session_state.show_modal = True
                         st.rerun()
             else:
-                st.button(f"{i+1}\n-", key=f"counter_{cage}_empty", disabled=True)
+                button_text = create_button_text(str(i+1), None, is_empty=True)
+                st.button(button_text, key=f"counter_{cage}_empty", disabled=True)
     
     # Show animals not assigned to kennels
     all_sublocations = bird_cages + [bird_extra] + sa_cages + [f"Mammal {i}" for i in range(1,5)] + reptile_cages + [f"Countertop Cage {i}" for i in range(1,3)]
@@ -771,21 +721,8 @@ def render_small_animals_layout(animals_df, memo_df):
     if not unassigned.empty:
         st.markdown("### 📋 Animals Not in Kennel Spaces")
         for _, animal in unassigned.iterrows():
-            # Create clean display text without HTML
-            name = str(animal.get('AnimalName', 'Unknown'))
-            if pd.isna(name) or name.lower() == 'nan':
-                name = str(animal.get('AnimalNumber', 'Unknown'))
-            
-            # Get status abbreviation
-            stage = str(animal.get('Stage', ''))
-            abbr = map_status(stage)
-            
-            # Create display text
-            display_text = name
-            if abbr:
-                display_text += f" {abbr}"
-            
-            if st.button(f"• {display_text}", key=f"unassigned_{animal['AnimalNumber']}"):
+            button_text = create_button_text("•", animal)
+            if st.button(button_text, key=f"unassigned_{animal['AnimalNumber']}"):
                 st.session_state.selected_animal = animal
                 st.session_state.show_modal = True
                 st.rerun()
@@ -851,28 +788,15 @@ def render_room_layout(room_name, animals_df, memo_df):
                     if animals:
                         # Multiple animals in same kennel - show all as separate buttons
                         for idx, animal in enumerate(animals):
-                            # Create clean display text without HTML
-                            name = str(animal.get('AnimalName', 'Unknown'))
-                            if pd.isna(name) or name.lower() == 'nan':
-                                name = str(animal.get('AnimalNumber', 'Unknown'))
-                            
-                            # Get status abbreviation
-                            stage = str(animal.get('Stage', ''))
-                            abbr = map_status(stage)
-                            
-                            # Create display text
-                            display_text = name
-                            if abbr:
-                                display_text += f" {abbr}"
-                            
-                            button_text = f"{display_label}\n{display_text}"
+                            button_text = create_button_text(display_label, animal)
                             if st.button(button_text, key=f"kennel_{room_name}_{subloc}_{idx}"):
                                 st.session_state.selected_animal = animal
                                 st.session_state.show_modal = True
                                 st.rerun()
                     else:
                         # Empty kennel
-                        st.button(f"{display_label}\n-", key=f"kennel_{room_name}_{subloc}_empty", disabled=True)
+                        button_text = create_button_text(display_label, None, is_empty=True)
+                        st.button(button_text, key=f"kennel_{room_name}_{subloc}_empty", disabled=True)
     
     # Show animals not assigned to kennels (for rooms with specific sublocations)
     if "sublocation" in room_config:
