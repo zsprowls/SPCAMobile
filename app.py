@@ -270,7 +270,8 @@ st.markdown("""
             width: 100% !important;
         }
         
-        .stButton > button {
+        /* Only apply large sizing to kennel buttons */
+        .stButton > button[data-testid*="kennel"] {
             width: 100% !important;
             height: 180px !important;
             margin: 1px !important;
@@ -319,7 +320,7 @@ st.markdown("""
         
         /* Mobile responsive */
         @media (max-width: 768px) {
-            .stButton > button {
+            .stButton > button[data-testid*="kennel"] {
                 height: 160px !important;
                 font-size: 0.7rem !important;
             }
@@ -337,32 +338,30 @@ st.markdown("""
             font-weight: bold !important;
         }
         
-        /* Very small navigation buttons - target by button text content */
-        .stButton > button:has-text("⬅️"),
-        .stButton > button:has-text("➡️"),
-        .stButton > button:has-text("←"),
-        .stButton > button:has-text("→"),
-        .stButton > button:has-text("✕") {
-            height: 25px !important;
-            min-height: 25px !important;
-            width: 40px !important;
-            min-width: 40px !important;
-            max-width: 40px !important;
-            padding: 2px 4px !important;
-            font-size: 0.7rem !important;
+        /* Target navigation buttons by their specific keys */
+        button[data-testid*="prev_room"],
+        button[data-testid*="next_room"],
+        button[data-testid*="prev_animal"],
+        button[data-testid*="next_animal"],
+        button[data-testid*="close_modal"] {
+            height: 30px !important;
+            min-height: 30px !important;
+            width: 50px !important;
+            min-width: 50px !important;
+            max-width: 50px !important;
+            padding: 4px 8px !important;
+            font-size: 0.8rem !important;
         }
         
-        /* Alternative targeting for navigation buttons */
-        button[aria-label*="prev"],
-        button[aria-label*="next"],
-        button[aria-label*="close"] {
-            height: 25px !important;
-            min-height: 25px !important;
-            width: 40px !important;
-            min-width: 40px !important;
-            max-width: 40px !important;
-            padding: 2px 4px !important;
-            font-size: 0.7rem !important;
+        /* Force all buttons to be small except kennel buttons */
+        .stButton > button:not([data-testid*="kennel"]) {
+            height: 30px !important;
+            min-height: 30px !important;
+            width: auto !important;
+            min-width: 50px !important;
+            max-width: 100px !important;
+            padding: 4px 8px !important;
+            font-size: 0.8rem !important;
         }
         
         /* Reduce spacing in modals */
