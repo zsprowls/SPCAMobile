@@ -218,37 +218,40 @@ st.markdown("""
         grid-template-rows: 1fr;
     }
     
-    /* Kennel button grid system - matches RoundsMapp */
-    .kennel-button-grid {
-        display: grid;
-        gap: 8px;
-        width: 100%;
-        margin: 1rem 0;
-    }
-    
-    /* Single kennel width */
-    .kennel-single {
-        grid-column: span 1;
-    }
-    
-    /* Double kennel width */
-    .kennel-double {
-        grid-column: span 2;
-    }
-    
-    /* Consistent button sizing */
+    /* Consistent button sizing - fill available space properly */
     .stButton > button {
         width: 100%;
-        height: 100px;
-        font-size: 0.9rem;
+        height: 80px;
+        font-size: 0.8rem;
         white-space: pre-wrap;
         text-align: center;
-        padding: 0.5rem;
-        border-radius: 8px;
+        padding: 0.3rem;
+        border-radius: 6px;
         border: 2px solid #ddd;
         background: #f8f9fa;
         transition: all 0.2s;
         margin: 0;
+        min-height: 80px;
+    }
+    
+    /* Ensure columns fill space properly */
+    .stColumn {
+        padding: 0 2px;
+    }
+    
+    /* Remove gaps between buttons */
+    .element-container {
+        margin-bottom: 0;
+    }
+    
+    /* Force columns to use full width */
+    .stColumns {
+        gap: 4px;
+    }
+    
+    /* Ensure buttons fill their containers */
+    .stButton {
+        width: 100%;
     }
     
     .stButton > button:hover {
@@ -295,8 +298,9 @@ st.markdown("""
         }
         
         .stButton > button {
-            height: 120px;
-            font-size: 1rem;
+            height: 70px;
+            font-size: 0.75rem;
+            padding: 0.2rem;
         }
     }
     
@@ -548,131 +552,127 @@ def render_small_animals_layout(animals_df, memo_df):
     bird_extra = "Bird Cage EXTRA"
     
     # Create bird kennels with proper grid layout
-    st.markdown('<div class="kennel-button-grid" style="grid-template-columns: repeat(2, 1fr);">', unsafe_allow_html=True)
+    cols = st.columns(2)
     
     # Bird cages 1-4 (single width)
     for i, cage in enumerate(bird_cages):
-        cell_animals = sa_df[sa_df["SubLocation"] == cage]
+        with cols[i % 2]:
+            cell_animals = sa_df[sa_df["SubLocation"] == cage]
+            if not cell_animals.empty:
+                for idx, (_, animal) in enumerate(cell_animals.iterrows()):
+                    display_line = format_display_line(animal)
+                    if st.button(f"{i+1}\n{display_line}", key=f"bird_{cage}_{idx}"):
+                        st.session_state.selected_animal = animal
+                        st.session_state.show_modal = True
+                        st.rerun()
+            else:
+                st.button(f"{i+1}\n-", key=f"bird_{cage}_empty", disabled=True)
+    
+    # Bird Extra (spans both columns)
+    with cols[0]:
+        cell_animals = sa_df[sa_df["SubLocation"] == bird_extra]
         if not cell_animals.empty:
             for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-                display_line = format_display_line(animal).replace('<span class="stage-abbr">', '').replace('</span>', '')
-                if st.button(f"🐦 {i+1}\n{display_line}", key=f"bird_{cage}_{idx}"):
+                display_line = format_display_line(animal)
+                if st.button(f"EXTRA\n{display_line}", key=f"bird_{bird_extra}_{idx}"):
                     st.session_state.selected_animal = animal
                     st.session_state.show_modal = True
                     st.rerun()
         else:
-            st.button(f"🐦 {i+1}\n-", key=f"bird_{cage}_empty", disabled=True)
-    
-    # Bird Extra (double width)
-    cell_animals = sa_df[sa_df["SubLocation"] == bird_extra]
-    if not cell_animals.empty:
-        for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-            display_line = format_display_line(animal).replace('<span class="stage-abbr">', '').replace('</span>', '')
-            if st.button(f"🐦 EXTRA\n{display_line}", key=f"bird_{bird_extra}_{idx}"):
-                st.session_state.selected_animal = animal
-                st.session_state.show_modal = True
-                st.rerun()
-    else:
-        st.button(f"🐦 EXTRA\n-", key=f"bird_{bird_extra}_empty", disabled=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
+            st.button(f"EXTRA\n-", key=f"bird_{bird_extra}_empty", disabled=True)
     
     # Small Animals section
-    st.markdown("### 🐹 Small Animals")
+    st.markdown("### Small Animals")
     sa_cages = [f"Small Animal {i}" for i in range(1,9)]
     
     # 3x3 grid for small animals
-    st.markdown('<div class="kennel-button-grid" style="grid-template-columns: repeat(3, 1fr);">', unsafe_allow_html=True)
-    
-    for i, cage in enumerate(sa_cages):
-        cell_animals = sa_df[sa_df["SubLocation"] == cage]
-        if not cell_animals.empty:
-            for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-                display_line = format_display_line(animal).replace('<span class="stage-abbr">', '').replace('</span>', '')
-                if st.button(f"🐹 {i+1}\n{display_line}", key=f"sa_{cage}_{idx}"):
-                    st.session_state.selected_animal = animal
-                    st.session_state.show_modal = True
-                    st.rerun()
-        else:
-            st.button(f"🐹 {i+1}\n-", key=f"sa_{cage}_empty", disabled=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
+    for row in range(3):
+        cols = st.columns(3)
+        for col in range(3):
+            if row * 3 + col < len(sa_cages):
+                cage = sa_cages[row * 3 + col]
+                with cols[col]:
+                    cell_animals = sa_df[sa_df["SubLocation"] == cage]
+                    if not cell_animals.empty:
+                        for idx, (_, animal) in enumerate(cell_animals.iterrows()):
+                            display_line = format_display_line(animal)
+                            if st.button(f"{row * 3 + col + 1}\n{display_line}", key=f"sa_{cage}_{idx}"):
+                                st.session_state.selected_animal = animal
+                                st.session_state.show_modal = True
+                                st.rerun()
+                    else:
+                        st.button(f"{row * 3 + col + 1}\n-", key=f"sa_{cage}_empty", disabled=True)
     
     # Mammals section
-    st.markdown("### 🐭 Mammals")
+    st.markdown("### Mammals")
     mammal_cages = [f"Mammal {i}" for i in range(1,5)]
     
-    st.markdown('<div class="kennel-button-grid" style="grid-template-columns: repeat(2, 1fr);">', unsafe_allow_html=True)
-    
+    cols = st.columns(2)
     for i, cage in enumerate(mammal_cages):
-        cell_animals = sa_df[sa_df["SubLocation"] == cage]
-        if not cell_animals.empty:
-            for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-                display_line = format_display_line(animal).replace('<span class="stage-abbr">', '').replace('</span>', '')
-                if st.button(f"🐭 {i+1}\n{display_line}", key=f"mammal_{cage}_{idx}"):
-                    st.session_state.selected_animal = animal
-                    st.session_state.show_modal = True
-                    st.rerun()
-        else:
-            st.button(f"🐭 {i+1}\n-", key=f"mammal_{cage}_empty", disabled=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
+        with cols[i % 2]:
+            cell_animals = sa_df[sa_df["SubLocation"] == cage]
+            if not cell_animals.empty:
+                for idx, (_, animal) in enumerate(cell_animals.iterrows()):
+                    display_line = format_display_line(animal)
+                    if st.button(f"{i+1}\n{display_line}", key=f"mammal_{cage}_{idx}"):
+                        st.session_state.selected_animal = animal
+                        st.session_state.show_modal = True
+                        st.rerun()
+            else:
+                st.button(f"{i+1}\n-", key=f"mammal_{cage}_empty", disabled=True)
     
     # Reptiles section
-    st.markdown("### 🦎 Reptiles")
+    st.markdown("### Reptiles")
     reptile_cages = [f"Reptile {i}" for i in range(1,6)]
     
     # 2x3 grid for reptiles
-    st.markdown('<div class="kennel-button-grid" style="grid-template-columns: repeat(2, 1fr);">', unsafe_allow_html=True)
+    for row in range(2):
+        cols = st.columns(2)
+        for col in range(2):
+            if row * 2 + col < 4:  # First 4 reptiles
+                cage = reptile_cages[row * 2 + col]
+                with cols[col]:
+                    cell_animals = sa_df[sa_df["SubLocation"] == cage]
+                    if not cell_animals.empty:
+                        for idx, (_, animal) in enumerate(cell_animals.iterrows()):
+                            display_line = format_display_line(animal)
+                            if st.button(f"{row * 2 + col + 1}\n{display_line}", key=f"reptile_{cage}_{idx}"):
+                                st.session_state.selected_animal = animal
+                                st.session_state.show_modal = True
+                                st.rerun()
+                    else:
+                        st.button(f"{row * 2 + col + 1}\n-", key=f"reptile_{cage}_empty", disabled=True)
     
-    # First 4 reptiles (single width)
-    for i in range(4):
-        cage = reptile_cages[i]
-        cell_animals = sa_df[sa_df["SubLocation"] == cage]
-        if not cell_animals.empty:
-            for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-                display_line = format_display_line(animal).replace('<span class="stage-abbr">', '').replace('</span>', '')
-                if st.button(f"🦎 {i+1}\n{display_line}", key=f"reptile_{cage}_{idx}"):
-                    st.session_state.selected_animal = animal
-                    st.session_state.show_modal = True
-                    st.rerun()
-        else:
-            st.button(f"🦎 {i+1}\n-", key=f"reptile_{cage}_empty", disabled=True)
-    
-    # Reptile 5 (double width)
+    # Reptile 5 (spans both columns)
     cage = reptile_cages[4]  # Reptile 5
     cell_animals = sa_df[sa_df["SubLocation"] == cage]
     if not cell_animals.empty:
         for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-            display_line = format_display_line(animal).replace('<span class="stage-abbr">', '').replace('</span>', '')
-            if st.button(f"🦎 5\n{display_line}", key=f"reptile_5_{idx}"):
+            display_line = format_display_line(animal)
+            if st.button(f"5\n{display_line}", key=f"reptile_5_{idx}"):
                 st.session_state.selected_animal = animal
                 st.session_state.show_modal = True
                 st.rerun()
     else:
-        st.button(f"🦎 5\n-", key="reptile_5_empty", disabled=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
+        st.button(f"5\n-", key="reptile_5_empty", disabled=True)
     
     # Countertop Cages section
-    st.markdown("### 🏠 Countertop Cages")
+    st.markdown("### Countertop Cages")
     counter_cages = [f"Countertop Cage {i}" for i in range(1,3)]
     
-    st.markdown('<div class="kennel-button-grid" style="grid-template-columns: repeat(2, 1fr);">', unsafe_allow_html=True)
-    
+    cols = st.columns(2)
     for i, cage in enumerate(counter_cages):
-        cell_animals = sa_df[sa_df["SubLocation"] == cage]
-        if not cell_animals.empty:
-            for idx, (_, animal) in enumerate(cell_animals.iterrows()):
-                display_line = format_display_line(animal).replace('<span class="stage-abbr">', '').replace('</span>', '')
-                if st.button(f"🏠 {i+1}\n{display_line}", key=f"counter_{cage}_{idx}"):
-                    st.session_state.selected_animal = animal
-                    st.session_state.show_modal = True
-                    st.rerun()
-        else:
-            st.button(f"🏠 {i+1}\n-", key=f"counter_{cage}_empty", disabled=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
+        with cols[i]:
+            cell_animals = sa_df[sa_df["SubLocation"] == cage]
+            if not cell_animals.empty:
+                for idx, (_, animal) in enumerate(cell_animals.iterrows()):
+                    display_line = format_display_line(animal)
+                    if st.button(f"{i+1}\n{display_line}", key=f"counter_{cage}_{idx}"):
+                        st.session_state.selected_animal = animal
+                        st.session_state.show_modal = True
+                        st.rerun()
+            else:
+                st.button(f"{i+1}\n-", key=f"counter_{cage}_empty", disabled=True)
     
     # Show animals not assigned to kennels
     all_sublocations = bird_cages + [bird_extra] + sa_cages + [f"Mammal {i}" for i in range(1,5)] + reptile_cages + [f"Countertop Cage {i}" for i in range(1,3)]
@@ -727,7 +727,7 @@ def render_room_layout(room_name, animals_df, memo_df):
             sublocation_to_animals[subloc].append(animal)
     
     # Create clickable kennels using Streamlit buttons
-    st.markdown(f"### 🏠 {room_name}")
+    st.markdown(f"### {room_name}")
     
     # Create grid layout using Streamlit columns
     for row_idx, row in enumerate(grid_map):
@@ -749,23 +749,23 @@ def render_room_layout(room_name, animals_df, memo_df):
                     if animals:
                         # Multiple animals in same kennel - show all as separate buttons
                         for idx, animal in enumerate(animals):
-                            display_line = format_display_line(animal).replace('<span class="stage-abbr">', '').replace('</span>', '')
-                            if st.button(f"🏠 {display_label}\n{display_line}", key=f"kennel_{room_name}_{subloc}_{idx}"):
+                            display_line = format_display_line(animal)
+                            if st.button(f"{display_label}\n{display_line}", key=f"kennel_{room_name}_{subloc}_{idx}"):
                                 st.session_state.selected_animal = animal
                                 st.session_state.show_modal = True
                                 st.rerun()
                     else:
                         # Empty kennel
-                        st.button(f"🏠 {display_label}\n-", key=f"kennel_{room_name}_{subloc}_empty", disabled=True)
+                        st.button(f"{display_label}\n-", key=f"kennel_{room_name}_{subloc}_empty", disabled=True)
     
     # Show animals not assigned to kennels (for rooms with specific sublocations)
     if "sublocation" in room_config:
         all_sublocations = [subloc for row in grid_map for subloc in row if subloc is not None]
         unassigned = room_animals[~room_animals['SubLocation'].isin(all_sublocations)]
         if not unassigned.empty:
-            st.markdown("### 📋 Animals Not in Kennel Spaces")
+            st.markdown("### Animals Not in Kennel Spaces")
             for _, animal in unassigned.iterrows():
-                display_line = format_display_line(animal).replace('<span class="stage-abbr">', '').replace('</span>', '')
+                display_line = format_display_line(animal)
                 if st.button(f"• {display_line}", key=f"unassigned_{room_name}_{animal['AnimalNumber']}"):
                     st.session_state.selected_animal = animal
                     st.session_state.show_modal = True
@@ -774,7 +774,7 @@ def render_room_layout(room_name, animals_df, memo_df):
 def render_animal_modal(animal, memo_df):
     """Render animal details modal with swipe functionality for multiple animals"""
     st.markdown("---")
-    st.markdown("### 🐾 Animal Details")
+    st.markdown("### Animal Details")
     
     # Close button
     if st.button("✕ Close", key="close_modal"):
@@ -820,7 +820,7 @@ def render_animal_modal(animal, memo_df):
         st.markdown(f"**Weight:** {animal.get('AnimalWeight', 'Unknown')}")
     
     # Behavior memo
-    st.markdown("### 📝 Behavior Memo")
+    st.markdown("### Behavior Memo")
     animal_memos = memo_df[memo_df['AnimalNumber_1'] == animal.get('AnimalNumber', '')]
     
     if not animal_memos.empty:
