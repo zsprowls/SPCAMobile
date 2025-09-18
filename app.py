@@ -581,7 +581,7 @@ def render_small_animals_layout(animals_df, memo_df):
     sa_df = animals_df[animals_df['Location'] == 'Small Animals & Exotics'].copy()
     
     # Birds section
-    st.markdown("### 🐦 Birds")
+    st.markdown("### Birds")
     bird_cages = ["Bird Cage 1", "Bird Cage 2", "Bird Cage 3", "Bird Cage 4"]
     bird_extra = "Bird Cage EXTRA"
     
@@ -719,7 +719,7 @@ def render_small_animals_layout(animals_df, memo_df):
     all_sublocations = bird_cages + [bird_extra] + sa_cages + [f"Mammal {i}" for i in range(1,5)] + reptile_cages + [f"Countertop Cage {i}" for i in range(1,3)]
     unassigned = sa_df[~sa_df['SubLocation'].isin(all_sublocations)]
     if not unassigned.empty:
-        st.markdown("### 📋 Animals Not in Kennel Spaces")
+        st.markdown("### Animals Not in Kennel Spaces")
         for _, animal in unassigned.iterrows():
             button_text = create_button_text("•", animal)
             if st.button(button_text, key=f"unassigned_{animal['AnimalNumber']}"):
@@ -769,34 +769,91 @@ def render_room_layout(room_name, animals_df, memo_df):
     
     st.markdown(f"### {room_name}")
     
-    # Create grid layout using Streamlit columns with consistent sizing
+    # Build HTML grid like RoundsMapp
+    kennel_blocks = []
     for row_idx, row in enumerate(grid_map):
-        cols = st.columns(grid_cols, gap="small")
         for col_idx, subloc in enumerate(row):
             if subloc is None:
-                with cols[col_idx]:
-                    st.write("")  # Empty space
-            else:
-                with cols[col_idx]:
-                    animals = sublocation_to_animals.get(subloc, [])
+                continue
+                
+            animals = sublocation_to_animals.get(subloc, [])
+            display_label = subloc
+            if subloc.isdigit():
+                display_label = str(int(subloc))
+            
+            # Create animal list HTML
+            animal_html = ""
+            if animals:
+                for idx, animal in enumerate(animals):
+                    name = str(animal.get('AnimalName', 'Unknown'))
+                    if pd.isna(name) or name.lower() == 'nan':
+                        name = str(animal.get('AnimalNumber', 'Unknown'))
                     
-                    # Convert subloc to display number for numeric sublocations
-                    display_label = subloc
-                    if subloc.isdigit():
-                        display_label = str(int(subloc))
+                    # Get status abbreviation
+                    stage = str(animal.get('Stage', ''))
+                    abbr = map_status(stage)
                     
-                    if animals:
-                        # Multiple animals in same kennel - show all as separate buttons
-                        for idx, animal in enumerate(animals):
-                            button_text = create_button_text(display_label, animal)
-                            if st.button(button_text, key=f"kennel_{room_name}_{subloc}_{idx}"):
-                                st.session_state.selected_animal = animal
-                                st.session_state.show_modal = True
-                                st.rerun()
+                    # Create display text with red status if present
+                    if abbr:
+                        display_text = f'{name} <span class="stage-abbr">{abbr}</span>'
                     else:
-                        # Empty kennel
-                        button_text = create_button_text(display_label, None, is_empty=True)
-                        st.button(button_text, key=f"kennel_{room_name}_{subloc}_empty", disabled=True)
+                        display_text = name
+                    
+                    animal_html += f'<div class="kennel-animal" onclick="selectAnimal(\'{room_name}\', \'{subloc}\', {idx})">{display_text}</div>'
+            else:
+                animal_html = '<div class="kennel-animal">-</div>'
+            
+            # Create kennel block
+            block_html = f'''
+            <div class="kennel-block" style="grid-column: {col_idx + 1}; grid-row: {row_idx + 1};">
+                <div class="kennel-label-small">{display_label}</div>
+                <div class="kennel-animal-list">{animal_html}</div>
+            </div>
+            '''
+            kennel_blocks.append(block_html)
+    
+    # Create the grid container
+    grid_html = f'''
+    <div class="kennel-grid-container" style="grid-template-columns: repeat({grid_cols}, 1fr); grid-template-rows: repeat({len(grid_map)}, 1fr);">
+        {''.join(kennel_blocks)}
+    </div>
+    '''
+    
+    # Add JavaScript for animal selection
+    js_code = '''
+    <script>
+    function selectAnimal(roomName, subloc, idx) {
+        // Create a form to submit the selection back to Streamlit
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = window.location.href;
+        
+        const roomInput = document.createElement('input');
+        roomInput.type = 'hidden';
+        roomInput.name = 'selected_room';
+        roomInput.value = roomName;
+        
+        const sublocInput = document.createElement('input');
+        sublocInput.type = 'hidden';
+        sublocInput.name = 'selected_subloc';
+        sublocInput.value = subloc;
+        
+        const idxInput = document.createElement('input');
+        idxInput.type = 'hidden';
+        idxInput.name = 'selected_idx';
+        idxInput.value = idx;
+        
+        form.appendChild(roomInput);
+        form.appendChild(sublocInput);
+        form.appendChild(idxInput);
+        document.body.appendChild(form);
+        form.submit();
+    }
+    </script>
+    '''
+    
+    # Render the grid
+    st.components.v1.html(grid_html + js_code, height=400)
     
     # Show animals not assigned to kennels (for rooms with specific sublocations)
     if "sublocation" in room_config:
@@ -966,7 +1023,7 @@ def main():
                 st.rerun()
         
         with col2:
-            st.markdown(f"### 🏠 {current_room}")
+            st.markdown(f"### {current_room}")
             st.markdown(f"**Room {st.session_state.current_room + 1} of {len(available_rooms)}**")
         
         with col3:
