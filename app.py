@@ -218,10 +218,10 @@ st.markdown("""
         grid-template-rows: 1fr;
     }
     
-    /* Consistent button sizing */
+    /* Consistent button sizing - fill available space */
     .stButton > button {
         width: 100%;
-        height: 80px;
+        height: 100px;
         font-size: 0.9rem;
         white-space: pre-wrap;
         text-align: center;
@@ -230,6 +230,7 @@ st.markdown("""
         border: 2px solid #ddd;
         background: #f8f9fa;
         transition: all 0.2s;
+        margin: 0;
     }
     
     .stButton > button:hover {
@@ -243,6 +244,26 @@ st.markdown("""
         background: #f8f9fa;
         border-color: #e9ecef;
         color: #6c757d;
+    }
+    
+    /* Ensure columns fill space properly */
+    .stColumn {
+        padding: 0 4px;
+    }
+    
+    /* Remove gaps between buttons */
+    .element-container {
+        margin-bottom: 0;
+    }
+    
+    /* Force columns to use full width */
+    .stColumns {
+        gap: 8px;
+    }
+    
+    /* Ensure buttons fill their containers */
+    .stButton {
+        width: 100%;
     }
     
     /* Mobile responsive */
@@ -266,7 +287,7 @@ st.markdown("""
         }
         
         .stButton > button {
-            height: 100px;
+            height: 120px;
             font-size: 1rem;
         }
     }
@@ -800,10 +821,6 @@ def render_animal_modal(animal, memo_df):
         </div>
         """, unsafe_allow_html=True)
         
-        # Copy functionality
-        if st.button("📋 Copy Memo", key="copy_memo"):
-            st.text_area("Copy this text:", value=memo_text, height=100, key="memo_copy_area")
-            st.success("Select and copy the text above!")
     else:
         st.info("No behavior memo available for this animal.")
 
