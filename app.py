@@ -1207,14 +1207,26 @@ def main():
             location = room_config["location"]
             
             if room_config.get("type") == "small_animals":
-                room_animals = inventory_df[inventory_df['Location'] == location]
+                if isinstance(location, list):
+                    room_animals = inventory_df[inventory_df['Location'].isin(location)]
+                else:
+                    room_animals = inventory_df[inventory_df['Location'] == location]
             elif "sublocation" in room_config:
                 if isinstance(room_config["sublocation"], list):
-                    room_animals = inventory_df[(inventory_df['Location'] == location) & (inventory_df['SubLocation'].isin(room_config["sublocation"]))]
+                    if isinstance(location, list):
+                        room_animals = inventory_df[(inventory_df['Location'].isin(location)) & (inventory_df['SubLocation'].isin(room_config["sublocation"]))]
+                    else:
+                        room_animals = inventory_df[(inventory_df['Location'] == location) & (inventory_df['SubLocation'].isin(room_config["sublocation"]))]
                 else:
-                    room_animals = inventory_df[(inventory_df['Location'] == location) & (inventory_df['SubLocation'] == room_config["sublocation"])]
+                    if isinstance(location, list):
+                        room_animals = inventory_df[(inventory_df['Location'].isin(location)) & (inventory_df['SubLocation'] == room_config["sublocation"])]
+                    else:
+                        room_animals = inventory_df[(inventory_df['Location'] == location) & (inventory_df['SubLocation'] == room_config["sublocation"])]
             else:
-                room_animals = inventory_df[inventory_df['Location'] == location]
+                if isinstance(location, list):
+                    room_animals = inventory_df[inventory_df['Location'].isin(location)]
+                else:
+                    room_animals = inventory_df[inventory_df['Location'] == location]
             
             if not room_animals.empty:
                 available_rooms.append(room_name)
