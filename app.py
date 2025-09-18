@@ -265,16 +265,14 @@ st.markdown("""
         font-weight: bold !important;
     }
     
-        /* Kennel buttons - scale to fill screen */
+        /* Kennel buttons - consistent sizing */
         .stButton {
             width: 100% !important;
-            height: 100% !important;
         }
         
         .stButton > button {
             width: 100% !important;
-            height: 100% !important;
-            min-height: 120px !important;
+            height: 140px !important;
             margin: 1px !important;
             padding: 8px !important;
             font-size: 0.8rem !important;
@@ -303,7 +301,7 @@ st.markdown("""
         /* Mobile responsive */
         @media (max-width: 768px) {
             .stButton > button {
-                min-height: 100px !important;
+                height: 120px !important;
                 font-size: 0.7rem !important;
             }
             .stColumn {
@@ -601,25 +599,21 @@ ROOM_DEFINITIONS = {
         ],
         "grid_cols": 3
     },
-    "Dog Adoptions A": {
-        "location": "Dog Adoptions A",
-        "grid_map": [["01", "02", "03", "04", "05"], ["06", "07", "08", "09", "10"]],
-        "grid_cols": 5
+    "Dog Adoptions A & B": {
+        "location": ["Dog Adoptions A", "Dog Adoptions B"],
+        "grid_map": [
+            ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10"],
+            ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B10"]
+        ],
+        "grid_cols": 10
     },
-    "Dog Adoptions B": {
-        "location": "Dog Adoptions B", 
-        "grid_map": [["01", "02", "03", "04", "05"], ["06", "07", "08", "09", "10"]],
-        "grid_cols": 5
-    },
-    "Dog Adoptions C": {
-        "location": "Dog Adoptions C",
-        "grid_map": [["01", "02", "03", "04", "05"], ["06", "07", "08", "09", "10"]],
-        "grid_cols": 5
-    },
-    "Dog Adoptions D": {
-        "location": "Dog Adoptions D",
-        "grid_map": [["01", "02", "03", "04", "05"], ["06", "07", "08", "09", "10"]],
-        "grid_cols": 5
+    "Dog Adoptions C & D": {
+        "location": ["Dog Adoptions C", "Dog Adoptions D"],
+        "grid_map": [
+            ["C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", "C10"],
+            ["D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10"]
+        ],
+        "grid_cols": 10
     },
     "Foster Care Room": {
         "location": "Foster Care Room",
@@ -961,6 +955,9 @@ def render_room_layout(room_name, animals_df, memo_df):
             room_animals = animals_df[(animals_df['Location'] == location) & (animals_df['SubLocation'].isin(room_config["sublocation"]))].copy()
         else:
             room_animals = animals_df[(animals_df['Location'] == location) & (animals_df['SubLocation'] == room_config["sublocation"])].copy()
+    elif isinstance(location, list):
+        # Handle combined rooms like Dog Adoptions A & B
+        room_animals = animals_df[animals_df['Location'].isin(location)].copy()
     else:
         room_animals = animals_df[animals_df['Location'] == location].copy()
     
@@ -972,10 +969,28 @@ def render_room_layout(room_name, animals_df, memo_df):
     sublocation_to_animals = {}
     for _, animal in room_animals.iterrows():
         subloc = animal.get('SubLocation', '')
+        location = animal.get('Location', '')
         if pd.notna(subloc) and subloc != '':
-            if subloc not in sublocation_to_animals:
-                sublocation_to_animals[subloc] = []
-            sublocation_to_animals[subloc].append(animal)
+            # For combined dog adoptions, create prefixed sublocation
+            if room_name in ["Dog Adoptions A & B", "Dog Adoptions C & D"]:
+                if "A" in location:
+                    prefixed_subloc = f"A{subloc}"
+                elif "B" in location:
+                    prefixed_subloc = f"B{subloc}"
+                elif "C" in location:
+                    prefixed_subloc = f"C{subloc}"
+                elif "D" in location:
+                    prefixed_subloc = f"D{subloc}"
+                else:
+                    prefixed_subloc = subloc
+                
+                if prefixed_subloc not in sublocation_to_animals:
+                    sublocation_to_animals[prefixed_subloc] = []
+                sublocation_to_animals[prefixed_subloc].append(animal)
+            else:
+                if subloc not in sublocation_to_animals:
+                    sublocation_to_animals[subloc] = []
+                sublocation_to_animals[subloc].append(animal)
     
     st.markdown(f"**{room_name}**")
     
@@ -989,9 +1004,13 @@ def render_room_layout(room_name, animals_df, memo_df):
             else:
                 with cols[col_idx]:
                     animals = sublocation_to_animals.get(subloc, [])
-                    display_label = subloc
-                    if subloc.isdigit():
-                        display_label = str(int(subloc))
+                    # For combined dog adoptions, show just the number part
+                    if room_name in ["Dog Adoptions A & B", "Dog Adoptions C & D"]:
+                        display_label = subloc[1:] if len(subloc) > 1 else subloc
+                    else:
+                        display_label = subloc
+                        if subloc.isdigit():
+                            display_label = str(int(subloc))
                     
                     if animals:
                         # Show all animal names on the button with scrolling
@@ -1177,7 +1196,7 @@ def main():
         "Cat Condo Rabbitats",
         "Cat Adoption Room G", "Cat Adoption Room H", "Cat Behavior Room I",
         "Foster Care Room",
-        "Dog Adoptions A", "Dog Adoptions B", "Dog Adoptions C", "Dog Adoptions D"
+        "Dog Adoptions A & B", "Dog Adoptions C & D"
     ]
     
     # Get available rooms in the specified order
