@@ -286,6 +286,24 @@ st.markdown("""
             box-sizing: border-box !important;
         }
         
+        /* Desktop mode - smaller buttons, more columns */
+        .desktop-mode .stButton > button {
+            height: 100px !important;
+            font-size: 0.7rem !important;
+        }
+        
+        /* Dog adoptions - 2 column layout */
+        .dog-adoptions .stColumns {
+            display: flex !important;
+            flex-direction: row !important;
+        }
+        
+        .dog-adoptions .stColumn {
+            flex: 1 !important;
+            min-width: 0 !important;
+            padding: 2px !important;
+        }
+        
         /* Make columns fill available space */
         .stColumn {
             flex: 1 !important;
@@ -602,18 +620,34 @@ ROOM_DEFINITIONS = {
     "Dog Adoptions A & B": {
         "location": ["Dog Adoptions A", "Dog Adoptions B"],
         "grid_map": [
-            ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10"],
-            ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B10"]
+            ["A01", "B01"],
+            ["A02", "B02"],
+            ["A03", "B03"],
+            ["A04", "B04"],
+            ["A05", "B05"],
+            ["A06", "B06"],
+            ["A07", "B07"],
+            ["A08", "B08"],
+            ["A09", "B09"],
+            ["A10", "B10"]
         ],
-        "grid_cols": 10
+        "grid_cols": 2
     },
     "Dog Adoptions C & D": {
         "location": ["Dog Adoptions C", "Dog Adoptions D"],
         "grid_map": [
-            ["C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", "C10"],
-            ["D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10"]
+            ["C01", "D01"],
+            ["C02", "D02"],
+            ["C03", "D03"],
+            ["C04", "D04"],
+            ["C05", "D05"],
+            ["C06", "D06"],
+            ["C07", "D07"],
+            ["C08", "D08"],
+            ["C09", "D09"],
+            ["C10", "D10"]
         ],
-        "grid_cols": 10
+        "grid_cols": 2
     },
     "Foster Care Room": {
         "location": "Foster Care Room",
@@ -931,7 +965,7 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
 
-def render_room_layout(room_name, animals_df, memo_df):
+def render_room_layout(room_name, animals_df, memo_df, view_mode="Mobile"):
     """Render a room layout with consistent button sizing"""
     
     if room_name not in ROOM_DEFINITIONS:
@@ -939,6 +973,14 @@ def render_room_layout(room_name, animals_df, memo_df):
         return
     
     room_config = ROOM_DEFINITIONS[room_name]
+    
+    # Apply view mode styling
+    if view_mode == "Desktop":
+        st.markdown('<div class="desktop-mode">', unsafe_allow_html=True)
+    
+    # Apply dog adoptions styling
+    if "Dog Adoptions" in room_name:
+        st.markdown('<div class="dog-adoptions">', unsafe_allow_html=True)
     
     # Special handling for Small Animals & Exotics
     if room_config.get("type") == "small_animals":
@@ -1065,10 +1107,17 @@ def render_room_layout(room_name, animals_df, memo_df):
                 if abbr:
                     display_text += f" {abbr}"
                 
-                if st.button(f"• {display_text}", key=f"unassigned_{room_name}_{animal['AnimalNumber']}"):
-                    st.session_state.selected_animal = animal
-                    st.session_state.show_modal = True
-                    st.rerun()
+                        if st.button(f"• {display_text}", key=f"unassigned_{room_name}_{animal['AnimalNumber']}"):
+                            st.session_state.selected_animal = animal
+                            st.session_state.show_modal = True
+                            st.rerun()
+    
+    # Close styling divs
+    if "Dog Adoptions" in room_name:
+        st.markdown('</div>', unsafe_allow_html=True)
+    
+    if view_mode == "Desktop":
+        st.markdown('</div>', unsafe_allow_html=True)
 
 def render_animal_modal(animal, memo_df):
     """Render animal details modal with navigation for multiple animals"""
@@ -1235,6 +1284,12 @@ def main():
         st.error("No data found for the target rooms.")
         return
     
+    # Add view mode toggle in sidebar
+    with st.sidebar:
+        st.markdown("### View Settings")
+        view_mode = st.radio("Display Mode", ["Mobile", "Desktop"], index=0)
+        st.markdown("---")
+    
     # Add tabs for different views
     tab1, tab2, tab3 = st.tabs(["🏠 Room View", "🏗️ Layout Builder", "📊 Analytics"])
     
@@ -1265,7 +1320,7 @@ def main():
                 st.rerun()
         
         # Render current room
-        render_room_layout(current_room, inventory_df, memo_df)
+        render_room_layout(current_room, inventory_df, memo_df, view_mode)
         
         # Show room statistics
         room_config = ROOM_DEFINITIONS[current_room]
