@@ -265,6 +265,36 @@ st.markdown("""
         font-weight: bold !important;
     }
     
+    /* Kennel container styling */
+    .kennel-container {
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        padding: 8px;
+        margin: 4px;
+        background: #f8f9fa;
+        min-height: 80px;
+    }
+    
+    .kennel-label {
+        font-weight: bold;
+        font-size: 0.9rem;
+        color: #333;
+        margin-bottom: 4px;
+    }
+    
+    .kennel-animal-button {
+        width: 100%;
+        margin: 2px 0;
+        font-size: 0.8rem;
+        padding: 4px 8px;
+        text-align: left;
+    }
+    
+    /* Red status text in buttons */
+    .stButton > button:contains("SX"), .stButton > button:contains("BEHA"), .stButton > button:contains("ADPT") {
+        color: #dc3545;
+    }
+    
     .stButton > button:hover {
         border-color: #007bff;
         background: #e3f2fd;
@@ -769,91 +799,52 @@ def render_room_layout(room_name, animals_df, memo_df):
     
     st.markdown(f"### {room_name}")
     
-    # Build HTML grid like RoundsMapp
-    kennel_blocks = []
+    # Create grid layout using Streamlit columns with HTML-like styling
     for row_idx, row in enumerate(grid_map):
+        cols = st.columns(grid_cols, gap="small")
         for col_idx, subloc in enumerate(row):
             if subloc is None:
-                continue
-                
-            animals = sublocation_to_animals.get(subloc, [])
-            display_label = subloc
-            if subloc.isdigit():
-                display_label = str(int(subloc))
-            
-            # Create animal list HTML
-            animal_html = ""
-            if animals:
-                for idx, animal in enumerate(animals):
-                    name = str(animal.get('AnimalName', 'Unknown'))
-                    if pd.isna(name) or name.lower() == 'nan':
-                        name = str(animal.get('AnimalNumber', 'Unknown'))
-                    
-                    # Get status abbreviation
-                    stage = str(animal.get('Stage', ''))
-                    abbr = map_status(stage)
-                    
-                    # Create display text with red status if present
-                    if abbr:
-                        display_text = f'{name} <span class="stage-abbr">{abbr}</span>'
-                    else:
-                        display_text = name
-                    
-                    animal_html += f'<div class="kennel-animal" onclick="selectAnimal(\'{room_name}\', \'{subloc}\', {idx})">{display_text}</div>'
+                with cols[col_idx]:
+                    st.write("")  # Empty space
             else:
-                animal_html = '<div class="kennel-animal">-</div>'
-            
-            # Create kennel block
-            block_html = f'''
-            <div class="kennel-block" style="grid-column: {col_idx + 1}; grid-row: {row_idx + 1};">
-                <div class="kennel-label-small">{display_label}</div>
-                <div class="kennel-animal-list">{animal_html}</div>
-            </div>
-            '''
-            kennel_blocks.append(block_html)
-    
-    # Create the grid container
-    grid_html = f'''
-    <div class="kennel-grid-container" style="grid-template-columns: repeat({grid_cols}, 1fr); grid-template-rows: repeat({len(grid_map)}, 1fr);">
-        {''.join(kennel_blocks)}
-    </div>
-    '''
-    
-    # Add JavaScript for animal selection
-    js_code = '''
-    <script>
-    function selectAnimal(roomName, subloc, idx) {
-        // Create a form to submit the selection back to Streamlit
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = window.location.href;
-        
-        const roomInput = document.createElement('input');
-        roomInput.type = 'hidden';
-        roomInput.name = 'selected_room';
-        roomInput.value = roomName;
-        
-        const sublocInput = document.createElement('input');
-        sublocInput.type = 'hidden';
-        sublocInput.name = 'selected_subloc';
-        sublocInput.value = subloc;
-        
-        const idxInput = document.createElement('input');
-        idxInput.type = 'hidden';
-        idxInput.name = 'selected_idx';
-        idxInput.value = idx;
-        
-        form.appendChild(roomInput);
-        form.appendChild(sublocInput);
-        form.appendChild(idxInput);
-        document.body.appendChild(form);
-        form.submit();
-    }
-    </script>
-    '''
-    
-    # Render the grid
-    st.components.v1.html(grid_html + js_code, height=400)
+                with cols[col_idx]:
+                    animals = sublocation_to_animals.get(subloc, [])
+                    
+                    # Convert subloc to display number for numeric sublocations
+                    display_label = subloc
+                    if subloc.isdigit():
+                        display_label = str(int(subloc))
+                    
+                    # Create a container that looks like a kennel box
+                    st.markdown(f'<div class="kennel-container">', unsafe_allow_html=True)
+                    st.markdown(f'<div class="kennel-label">{display_label}</div>', unsafe_allow_html=True)
+                    
+                    if animals:
+                        # Show all animals in this kennel as clickable buttons
+                        for idx, animal in enumerate(animals):
+                            name = str(animal.get('AnimalName', 'Unknown'))
+                            if pd.isna(name) or name.lower() == 'nan':
+                                name = str(animal.get('AnimalNumber', 'Unknown'))
+                            
+                            # Get status abbreviation
+                            stage = str(animal.get('Stage', ''))
+                            abbr = map_status(stage)
+                            
+                            # Create display text with red status if present
+                            if abbr:
+                                display_text = f'{name} <span style="color: #dc3545; font-weight: bold;">{abbr}</span>'
+                            else:
+                                display_text = name
+                            
+                            if st.button(display_text, key=f"kennel_{room_name}_{subloc}_{idx}"):
+                                st.session_state.selected_animal = animal
+                                st.session_state.show_modal = True
+                                st.rerun()
+                    else:
+                        # Empty kennel
+                        st.button("-", key=f"kennel_{room_name}_{subloc}_empty", disabled=True)
+                    
+                    st.markdown('</div>', unsafe_allow_html=True)
     
     # Show animals not assigned to kennels (for rooms with specific sublocations)
     if "sublocation" in room_config:
