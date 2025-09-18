@@ -265,35 +265,37 @@ st.markdown("""
         font-weight: bold !important;
     }
     
-    /* Kennel container styling */
-    .kennel-container {
-        border: 2px solid #ddd;
-        border-radius: 8px;
-        padding: 8px;
-        margin: 4px;
-        background: #f8f9fa;
-        min-height: 80px;
-    }
-    
-    .kennel-label {
-        font-weight: bold;
-        font-size: 0.9rem;
-        color: #333;
-        margin-bottom: 4px;
-    }
-    
-    .kennel-animal-button {
-        width: 100%;
-        margin: 2px 0;
-        font-size: 0.8rem;
-        padding: 4px 8px;
-        text-align: left;
-    }
-    
-    /* Red status text in buttons */
-    .stButton > button:contains("SX"), .stButton > button:contains("BEHA"), .stButton > button:contains("ADPT") {
-        color: #dc3545;
-    }
+        /* Consistent button sizing */
+        .stButton > button {
+            width: 100% !important;
+            height: 120px !important;
+            margin: 2px 0 !important;
+            padding: 8px !important;
+            font-size: 0.8rem !important;
+            text-align: left !important;
+            white-space: pre-wrap !important;
+            overflow-y: auto !important;
+            max-height: 120px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: flex-start !important;
+            align-items: flex-start !important;
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .stButton > button {
+                height: 100px !important;
+                max-height: 100px !important;
+                font-size: 0.7rem !important;
+            }
+        }
+        
+        /* Red status text styling */
+        .status-red {
+            color: #dc3545 !important;
+            font-weight: bold !important;
+        }
     
     .stButton > button:hover {
         border-color: #007bff;
@@ -547,23 +549,23 @@ ROOM_DEFINITIONS = {
     },
     "Dog Adoptions A": {
         "location": "Dog Adoptions A",
-        "grid_map": [["A"]],
-        "grid_cols": 1
+        "grid_map": [["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"]],
+        "grid_cols": 5
     },
     "Dog Adoptions B": {
         "location": "Dog Adoptions B", 
-        "grid_map": [["B"]],
-        "grid_cols": 1
+        "grid_map": [["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"]],
+        "grid_cols": 5
     },
     "Dog Adoptions C": {
         "location": "Dog Adoptions C",
-        "grid_map": [["C"]],
-        "grid_cols": 1
+        "grid_map": [["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"]],
+        "grid_cols": 5
     },
     "Dog Adoptions D": {
         "location": "Dog Adoptions D",
-        "grid_map": [["D"]],
-        "grid_cols": 1
+        "grid_map": [["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"]],
+        "grid_cols": 5
     },
     "Foster Care Room": {
         "location": "Foster Care Room",
@@ -784,7 +786,7 @@ def render_room_layout(room_name, animals_df, memo_df):
                         display_label = str(int(subloc))
                     
                     if animals:
-                        # Show all animal names on the button
+                        # Show all animal names on the button with scrolling
                         animal_names = []
                         for animal in animals:
                             name = str(animal.get('AnimalName', 'Unknown'))
@@ -799,7 +801,13 @@ def render_room_layout(room_name, animals_df, memo_df):
                             else:
                                 animal_names.append(name)
                         
-                        display_text = f'{display_label}\n' + '\n'.join(animal_names)
+                        # Truncate if too many animals to fit
+                        if len(animal_names) > 4:
+                            display_names = animal_names[:3] + [f'... +{len(animal_names)-3} more']
+                        else:
+                            display_names = animal_names
+                        
+                        display_text = f'{display_label}\n' + '\n'.join(display_names)
                         
                         if st.button(display_text, key=f"kennel_{room_name}_{subloc}"):
                             # Store all animals for this kennel and show modal for first one
