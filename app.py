@@ -599,23 +599,23 @@ ROOM_DEFINITIONS = {
     },
     "Dog Adoptions A": {
         "location": "Dog Adoptions A",
-        "grid_map": [["01", "02", "04", "05"], ["06", "08", "09"]],
-        "grid_cols": 4
+        "grid_map": [["01", "02", "03", "04", "05"], ["06", "07", "08", "09", "10"]],
+        "grid_cols": 5
     },
     "Dog Adoptions B": {
         "location": "Dog Adoptions B", 
-        "grid_map": [["02", "05", "06", "07"], ["08", "09"]],
-        "grid_cols": 4
+        "grid_map": [["01", "02", "03", "04", "05"], ["06", "07", "08", "09", "10"]],
+        "grid_cols": 5
     },
     "Dog Adoptions C": {
         "location": "Dog Adoptions C",
-        "grid_map": [["05", "06", "07", "08"], ["09"]],
-        "grid_cols": 4
+        "grid_map": [["01", "02", "03", "04", "05"], ["06", "07", "08", "09", "10"]],
+        "grid_cols": 5
     },
     "Dog Adoptions D": {
         "location": "Dog Adoptions D",
-        "grid_map": [["04", "06", "08", "09"], ["10"]],
-        "grid_cols": 4
+        "grid_map": [["01", "02", "03", "04", "05"], ["06", "07", "08", "09", "10"]],
+        "grid_cols": 5
     },
     "Foster Care Room": {
         "location": "Foster Care Room",
