@@ -799,7 +799,7 @@ def render_room_layout(room_name, animals_df, memo_df):
     
     st.markdown(f"### {room_name}")
     
-    # Create grid layout using Streamlit columns with HTML-like styling
+    # Create a simple approach - one button per kennel that cycles through animals
     for row_idx, row in enumerate(grid_map):
         cols = st.columns(grid_cols, gap="small")
         for col_idx, subloc in enumerate(row):
@@ -809,42 +809,44 @@ def render_room_layout(room_name, animals_df, memo_df):
             else:
                 with cols[col_idx]:
                     animals = sublocation_to_animals.get(subloc, [])
-                    
-                    # Convert subloc to display number for numeric sublocations
                     display_label = subloc
                     if subloc.isdigit():
                         display_label = str(int(subloc))
                     
-                    # Create a container that looks like a kennel box
-                    st.markdown(f'<div class="kennel-container">', unsafe_allow_html=True)
-                    st.markdown(f'<div class="kennel-label">{display_label}</div>', unsafe_allow_html=True)
-                    
                     if animals:
-                        # Show all animals in this kennel as clickable buttons
-                        for idx, animal in enumerate(animals):
-                            name = str(animal.get('AnimalName', 'Unknown'))
-                            if pd.isna(name) or name.lower() == 'nan':
-                                name = str(animal.get('AnimalNumber', 'Unknown'))
-                            
-                            # Get status abbreviation
-                            stage = str(animal.get('Stage', ''))
-                            abbr = map_status(stage)
-                            
-                            # Create display text with red status if present
-                            if abbr:
-                                display_text = f'{name} <span style="color: #dc3545; font-weight: bold;">{abbr}</span>'
-                            else:
-                                display_text = name
-                            
-                            if st.button(display_text, key=f"kennel_{room_name}_{subloc}_{idx}"):
-                                st.session_state.selected_animal = animal
-                                st.session_state.show_modal = True
+                        # Show first animal, cycle through on click
+                        current_idx = st.session_state.get(f"kennel_{room_name}_{subloc}_idx", 0)
+                        if current_idx >= len(animals):
+                            current_idx = 0
+                        
+                        animal = animals[current_idx]
+                        name = str(animal.get('AnimalName', 'Unknown'))
+                        if pd.isna(name) or name.lower() == 'nan':
+                            name = str(animal.get('AnimalNumber', 'Unknown'))
+                        
+                        stage = str(animal.get('Stage', ''))
+                        abbr = map_status(stage)
+                        
+                        if abbr:
+                            display_text = f'{display_label}\n{name} {abbr}'
+                        else:
+                            display_text = f'{display_label}\n{name}'
+                        
+                        if st.button(display_text, key=f"kennel_{room_name}_{subloc}"):
+                            # Always show modal for current animal
+                            st.session_state.selected_animal = animal
+                            st.session_state.show_modal = True
+                            st.rerun()
+                        
+                        # Add a small button to cycle through animals if multiple
+                        if len(animals) > 1:
+                            if st.button("Next", key=f"next_{room_name}_{subloc}"):
+                                next_idx = (current_idx + 1) % len(animals)
+                                st.session_state[f"kennel_{room_name}_{subloc}_idx"] = next_idx
                                 st.rerun()
                     else:
                         # Empty kennel
-                        st.button("-", key=f"kennel_{room_name}_{subloc}_empty", disabled=True)
-                    
-                    st.markdown('</div>', unsafe_allow_html=True)
+                        st.button(f'{display_label}\n-', key=f"kennel_{room_name}_{subloc}_empty", disabled=True)
     
     # Show animals not assigned to kennels (for rooms with specific sublocations)
     if "sublocation" in room_config:
