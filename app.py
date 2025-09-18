@@ -273,6 +273,7 @@ st.markdown("""
         /* Only apply large sizing to kennel buttons */
         .stButton > button[data-testid*="kennel"] {
             width: 100% !important;
+            min-width: 200px !important;
             height: 180px !important;
             margin: 1px !important;
             padding: 8px !important;
@@ -285,6 +286,19 @@ st.markdown("""
             justify-content: flex-start !important;
             align-items: flex-start !important;
             box-sizing: border-box !important;
+        }
+        
+        /* Force columns to be equal width */
+        .stColumn {
+            flex: 1 !important;
+            min-width: 200px !important;
+            max-width: none !important;
+        }
+        
+        /* Make sure columns container fills width */
+        .stColumns {
+            width: 100% !important;
+            display: flex !important;
         }
         
         /* Desktop mode - smaller buttons, more columns */
@@ -308,13 +322,16 @@ st.markdown("""
         /* Make columns fill available space */
         .stColumn {
             flex: 1 !important;
-            min-width: 0 !important;
+            min-width: 200px !important;
+            max-width: none !important;
             padding: 1px !important;
         }
         
         /* Reduce gap between columns */
         .stColumns {
             gap: 2px !important;
+            width: 100% !important;
+            display: flex !important;
         }
         
         
