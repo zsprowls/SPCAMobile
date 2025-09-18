@@ -318,11 +318,11 @@ st.markdown("""
         }
         
         /* Compact navigation buttons - only for room nav and modal nav */
-        .stButton > button:has-text("⬅️"), 
-        .stButton > button:has-text("➡️"),
-        .stButton > button:has-text("←"), 
-        .stButton > button:has-text("→"),
-        .stButton > button:has-text("✕") {
+        .stButton > button[data-testid*="prev_room"],
+        .stButton > button[data-testid*="next_room"],
+        .stButton > button[data-testid*="prev_animal"],
+        .stButton > button[data-testid*="next_animal"],
+        .stButton > button[data-testid*="close_modal"] {
             height: 30px !important;
             min-height: 30px !important;
             padding: 4px 8px !important;
@@ -599,23 +599,23 @@ ROOM_DEFINITIONS = {
     },
     "Dog Adoptions A": {
         "location": "Dog Adoptions A",
-        "grid_map": [["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"]],
-        "grid_cols": 5
+        "grid_map": [["01", "02", "04", "05"], ["06", "08", "09"]],
+        "grid_cols": 4
     },
     "Dog Adoptions B": {
         "location": "Dog Adoptions B", 
-        "grid_map": [["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"]],
-        "grid_cols": 5
+        "grid_map": [["02", "05", "06", "07"], ["08", "09"]],
+        "grid_cols": 4
     },
     "Dog Adoptions C": {
         "location": "Dog Adoptions C",
-        "grid_map": [["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"]],
-        "grid_cols": 5
+        "grid_map": [["05", "06", "07", "08"], ["09"]],
+        "grid_cols": 4
     },
     "Dog Adoptions D": {
         "location": "Dog Adoptions D",
-        "grid_map": [["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"]],
-        "grid_cols": 5
+        "grid_map": [["04", "06", "08", "09"], ["10"]],
+        "grid_cols": 4
     },
     "Foster Care Room": {
         "location": "Foster Care Room",
