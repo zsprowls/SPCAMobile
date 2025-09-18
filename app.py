@@ -753,16 +753,15 @@ def render_animal_modal(animal, memo_df):
     # Extract non-zero digits from animal_id for PetPoint link (same as RoundsMapp)
     petpoint_id = ''.join(filter(str.isdigit, animal_id))
     
-    # Create different links for name vs AID using correct PetPoint URLs
+    # Create PetPoint profile link for name only
     if petpoint_id:
         petpoint_profile_url = f"https://sms.petpoint.com/sms3/enhanced/animal/{petpoint_id}"  # Regular PetPoint profile
-        petpoint_medical_url = f"https://sms.petpoint.com/sms3/embeddedreports/animalviewreport.aspx?AnimalID={animal_id}"  # Medical view report
         
         col1, col2 = st.columns(2)
         with col1:
             st.markdown(f"**Name:** [{animal_name}]({petpoint_profile_url})")
         with col2:
-            st.markdown(f"**AID:** [{animal_id}]({petpoint_medical_url})")
+            st.markdown(f"**AID:** {animal_id}")
     else:
         col1, col2 = st.columns(2)
         with col1:
