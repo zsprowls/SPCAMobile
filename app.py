@@ -272,7 +272,7 @@ st.markdown("""
         
         .stButton > button {
             width: 100% !important;
-            height: 140px !important;
+            height: 180px !important;
             margin: 1px !important;
             padding: 8px !important;
             font-size: 0.8rem !important;
@@ -319,7 +319,7 @@ st.markdown("""
         /* Mobile responsive */
         @media (max-width: 768px) {
             .stButton > button {
-                height: 120px !important;
+                height: 160px !important;
                 font-size: 0.7rem !important;
             }
             .stColumn {
@@ -342,12 +342,12 @@ st.markdown("""
         .stButton > button[data-testid*="prev_animal"],
         .stButton > button[data-testid*="next_animal"],
         .stButton > button[data-testid*="close_modal"] {
-            height: 25px !important;
-            min-height: 25px !important;
-            padding: 2px 6px !important;
-            font-size: 0.7rem !important;
-            min-width: 30px !important;
-            max-width: 50px !important;
+            height: 20px !important;
+            min-height: 20px !important;
+            padding: 1px 4px !important;
+            font-size: 0.6rem !important;
+            min-width: 25px !important;
+            max-width: 40px !important;
         }
         
         /* Reduce spacing in modals */
@@ -1015,13 +1015,13 @@ def render_room_layout(room_name, animals_df, memo_df, view_mode="Mobile"):
         if pd.notna(subloc) and subloc != '':
             # For combined dog adoptions, create prefixed sublocation
             if room_name in ["Dog Adoptions A & B", "Dog Adoptions C & D"]:
-                if "A" in location:
+                if "Dog Adoptions A" in location:
                     prefixed_subloc = f"A{subloc}"
-                elif "B" in location:
+                elif "Dog Adoptions B" in location:
                     prefixed_subloc = f"B{subloc}"
-                elif "C" in location:
+                elif "Dog Adoptions C" in location:
                     prefixed_subloc = f"C{subloc}"
-                elif "D" in location:
+                elif "Dog Adoptions D" in location:
                     prefixed_subloc = f"D{subloc}"
                 else:
                     prefixed_subloc = subloc
@@ -1086,7 +1086,7 @@ def render_room_layout(room_name, animals_df, memo_df, view_mode="Mobile"):
                             st.session_state.show_modal = True
                             st.rerun()
                     else:
-                        # Empty kennel
+                        # Empty kennel - same size as occupied kennels
                         st.button(f'{display_label}\n-', key=f"kennel_{room_name}_{subloc}_empty", disabled=True)
     
     # Show animals not assigned to kennels (for rooms with specific sublocations)
