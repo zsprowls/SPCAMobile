@@ -265,14 +265,50 @@ st.markdown("""
         font-weight: bold !important;
     }
     
-        /* Force ALL buttons to be consistent size */
-        .stButton > button {
+        /* Kennel grid container - like RoundsMapp */
+        .kennel-grid-container {
             width: 100% !important;
-            height: 180px !important;
+            display: grid !important;
+            gap: 4px !important;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+            margin: 0 auto !important;
+        }
+        
+        .kennel-block {
+            background: #f9f9f9 !important;
+            border: 1.5px solid #333 !important;
+            border-radius: 6px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            justify-content: flex-start !important;
+            min-width: 0 !important;
+            min-height: 0 !important;
+            width: 100% !important;
+            height: 120px !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+            position: relative !important;
+        }
+        
+        .kennel-block .stButton {
+            width: 100% !important;
+            height: 100% !important;
             margin: 0 !important;
+        }
+        
+        .kennel-block .stButton > button {
+            width: 100% !important;
+            height: 100% !important;
+            background: transparent !important;
+            border: none !important;
+            border-radius: 6px !important;
             padding: 8px !important;
-            font-size: 0.8rem !important;
+            margin: 0 !important;
             text-align: left !important;
+            font-size: 0.8rem !important;
+            line-height: 1.2em !important;
             white-space: pre-wrap !important;
             overflow-y: auto !important;
             display: flex !important;
@@ -280,6 +316,30 @@ st.markdown("""
             justify-content: flex-start !important;
             align-items: flex-start !important;
             box-sizing: border-box !important;
+        }
+        
+        .kennel-label {
+            position: absolute !important;
+            top: 6px !important;
+            left: 10px !important;
+            font-size: 0.95em !important;
+            color: #333 !important;
+            font-weight: 600 !important;
+            opacity: 0.95 !important;
+            z-index: 2 !important;
+            pointer-events: none !important;
+        }
+        
+        .kennel-animal-list {
+            margin-top: 2.2em !important;
+            width: 100% !important;
+            max-height: 100% !important;
+            overflow-y: auto !important;
+            color: #222 !important;
+            font-size: 0.9em !important;
+            line-height: 1.2em !important;
+            word-break: break-word !important;
+            white-space: normal !important;
         }
         
         /* Make navigation buttons small */
@@ -1055,7 +1115,7 @@ def render_room_layout(room_name, animals_df, memo_df, view_mode="Mobile"):
     
     st.markdown(f"**{room_name}**")
     
-    # Create a simple approach - one button per kennel that cycles through animals
+    # Create kennel grid using Streamlit columns but with RoundsMapp styling
     for row_idx, row in enumerate(grid_map):
         cols = st.columns(grid_cols, gap="small")
         for col_idx, subloc in enumerate(row):
@@ -1073,8 +1133,8 @@ def render_room_layout(room_name, animals_df, memo_df, view_mode="Mobile"):
                         if subloc.isdigit():
                             display_label = str(int(subloc))
                     
+                    # Build animal list for button text
                     if animals:
-                        # Show all animal names on the button with scrolling
                         animal_names = []
                         for animal in animals:
                             name = str(animal.get('AnimalName', 'Unknown'))
@@ -1097,6 +1157,13 @@ def render_room_layout(room_name, animals_df, memo_df, view_mode="Mobile"):
                         
                         display_text = f'{display_label}\n' + '\n'.join(display_names)
                         
+                        # Create kennel block with button inside
+                        st.markdown(f'''
+                        <div class="kennel-block">
+                            <div class="kennel-label">{display_label}</div>
+                            <div class="kennel-animal-list">
+                        ''', unsafe_allow_html=True)
+                        
                         if st.button(display_text, key=f"kennel_{room_name}_{subloc}"):
                             # Store all animals for this kennel and show modal for first one
                             st.session_state.kennel_animals = animals
@@ -1104,9 +1171,16 @@ def render_room_layout(room_name, animals_df, memo_df, view_mode="Mobile"):
                             st.session_state.selected_animal = animals[0]
                             st.session_state.show_modal = True
                             st.rerun()
+                        
+                        st.markdown('</div></div>', unsafe_allow_html=True)
                     else:
-                        # Empty kennel - same size as occupied kennels
-                        st.button(f'{display_label}\n-', key=f"kennel_{room_name}_{subloc}_empty", disabled=True)
+                        # Empty kennel
+                        st.markdown(f'''
+                        <div class="kennel-block">
+                            <div class="kennel-label">{display_label}</div>
+                            <div class="kennel-animal-list">-</div>
+                        </div>
+                        ''', unsafe_allow_html=True)
     
     # Show animals not assigned to kennels (for rooms with specific sublocations)
     if "sublocation" in room_config:
