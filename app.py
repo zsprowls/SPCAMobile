@@ -265,23 +265,22 @@ st.markdown("""
         font-weight: bold !important;
     }
     
-        /* Consistent button sizing - force minimum width */
+        /* Kennel buttons - scale to fill screen */
         .stButton {
             width: 100% !important;
-            min-width: 150px !important;
+            height: 100% !important;
         }
         
         .stButton > button {
             width: 100% !important;
-            min-width: 150px !important;
-            height: 150px !important;
-            margin: 2px 0 !important;
-            padding: 12px !important;
-            font-size: 0.9rem !important;
+            height: 100% !important;
+            min-height: 120px !important;
+            margin: 1px !important;
+            padding: 8px !important;
+            font-size: 0.8rem !important;
             text-align: left !important;
             white-space: pre-wrap !important;
             overflow-y: auto !important;
-            max-height: 150px !important;
             display: flex !important;
             flex-direction: column !important;
             justify-content: flex-start !important;
@@ -289,25 +288,29 @@ st.markdown("""
             box-sizing: border-box !important;
         }
         
-        /* Ensure columns take equal space */
+        /* Make columns fill available space */
         .stColumn {
-            min-width: 120px !important;
             flex: 1 !important;
+            min-width: 0 !important;
+            padding: 2px !important;
+        }
+        
+        /* Reduce gap between columns */
+        .stColumns {
+            gap: 4px !important;
         }
         
         /* Mobile responsive */
         @media (max-width: 768px) {
             .stButton > button {
-                height: 130px !important;
-                max-height: 130px !important;
-                font-size: 0.8rem !important;
-                min-width: 130px !important;
-            }
-            .stButton {
-                min-width: 130px !important;
+                min-height: 100px !important;
+                font-size: 0.7rem !important;
             }
             .stColumn {
-                min-width: 130px !important;
+                padding: 1px !important;
+            }
+            .stColumns {
+                gap: 2px !important;
             }
         }
         
@@ -317,17 +320,18 @@ st.markdown("""
             font-weight: bold !important;
         }
         
-        /* Compact navigation buttons - only for room nav and modal nav */
+        /* Very small navigation buttons - only for room nav and modal nav */
         .stButton > button[data-testid*="prev_room"],
         .stButton > button[data-testid*="next_room"],
         .stButton > button[data-testid*="prev_animal"],
         .stButton > button[data-testid*="next_animal"],
         .stButton > button[data-testid*="close_modal"] {
-            height: 30px !important;
-            min-height: 30px !important;
-            padding: 4px 8px !important;
-            font-size: 0.8rem !important;
-            min-width: 40px !important;
+            height: 25px !important;
+            min-height: 25px !important;
+            padding: 2px 6px !important;
+            font-size: 0.7rem !important;
+            min-width: 30px !important;
+            max-width: 50px !important;
         }
         
         /* Reduce spacing in modals */
