@@ -280,9 +280,9 @@ st.markdown("""
         /* Only apply large sizing to kennel buttons */
         .stButton > button[data-testid*="kennel"] {
             width: 100% !important;
-            height: 120px !important;
+            height: 180px !important;
             margin: 0 !important;
-            padding: 6px !important;
+            padding: 8px !important;
             font-size: 0.8rem !important;
             text-align: left !important;
             white-space: pre-wrap !important;
