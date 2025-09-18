@@ -1199,6 +1199,9 @@ def main():
     tab1, tab2, tab3 = st.tabs(["🏠 Room View", "🏗️ Layout Builder", "📊 Analytics"])
     
     with tab1:
+        # Get current room first
+        current_room = available_rooms[st.session_state.current_room]
+        
         # Room selector at the top
         selected_room = st.selectbox("Select Room", available_rooms, index=st.session_state.current_room, key="room_selector")
         if selected_room != current_room:
@@ -1206,7 +1209,6 @@ def main():
             st.rerun()
         
         # Compact room navigation
-        current_room = available_rooms[st.session_state.current_room]
         
         col1, col2, col3 = st.columns([1, 2, 1])
         with col1:
