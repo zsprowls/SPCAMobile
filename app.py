@@ -746,60 +746,22 @@ ROOM_DEFINITIONS = {
 }
 
 def render_small_animals_layout(animals_df, memo_df):
-    """Render Small Animals & Exotics layout with all names on buttons"""
+    """Render Small Animals & Exotics layout with clean selectbox interface"""
     
     sa_df = animals_df[animals_df['Location'] == 'Small Animals & Exotics'].copy()
     
     # Birds section
     st.markdown("**Birds**")
-    bird_cages = ["Bird Cage 1", "Bird Cage 2", "Bird Cage 3", "Bird Cage 4"]
-    bird_extra = "Bird Cage EXTRA"
+    bird_cages = ["Bird Cage 1", "Bird Cage 2", "Bird Cage 3", "Bird Cage 4", "Bird Cage EXTRA"]
     
-    # Create bird kennels with proper grid layout
-    cols = st.columns(2)
+    # Create options for birds
+    bird_options = []
+    bird_data = {}
     
-    # Bird cages 1-4 (single width)
-    for i, cage in enumerate(bird_cages):
-        with cols[i % 2]:
-            cell_animals = sa_df[sa_df["SubLocation"] == cage]
-            if not cell_animals.empty:
-                # Show all animal names on the button
-                animal_names = []
-                for _, animal in cell_animals.iterrows():
-                    name = str(animal.get('AnimalName', 'Unknown'))
-                    if pd.isna(name) or name.lower() == 'nan':
-                        name = str(animal.get('AnimalNumber', 'Unknown'))
-                    
-                    stage = str(animal.get('Stage', ''))
-                    abbr = map_status(stage)
-                    
-                    if abbr:
-                        animal_names.append(f'{name} {abbr}')
-                    else:
-                        animal_names.append(name)
-                
-                # Truncate if too many animals
-                if len(animal_names) > 4:
-                    display_names = animal_names[:3] + [f'... +{len(animal_names)-3} more']
-                else:
-                    display_names = animal_names
-                
-                display_text = f'{str(i+1)}\n' + '\n'.join(display_names)
-                
-                if st.button(display_text, key=f"bird_{cage}"):
-                    st.session_state.kennel_animals = cell_animals.tolist()
-                    st.session_state.current_animal_idx = 0
-                    st.session_state.selected_animal = cell_animals.iloc[0]
-                    st.session_state.show_modal = True
-                    st.rerun()
-            else:
-                st.button(f'{str(i+1)}\n-', key=f"bird_{cage}_empty", disabled=True)
-    
-    # Bird Extra (spans both columns)
-    with cols[0]:
-        cell_animals = sa_df[sa_df["SubLocation"] == bird_extra]
+    for cage in bird_cages:
+        cell_animals = sa_df[sa_df["SubLocation"] == cage]
         if not cell_animals.empty:
-            # Show all animal names on the button
+            # Show all animal names
             animal_names = []
             for _, animal in cell_animals.iterrows():
                 name = str(animal.get('AnimalName', 'Unknown'))
@@ -814,240 +776,207 @@ def render_small_animals_layout(animals_df, memo_df):
                 else:
                     animal_names.append(name)
             
-            # Truncate if too many animals
-            if len(animal_names) > 4:
-                display_names = animal_names[:3] + [f'... +{len(animal_names)-3} more']
-            else:
-                display_names = animal_names
-            
-            display_text = f'EXTRA\n' + '\n'.join(display_names)
-            
-            if st.button(display_text, key=f"bird_{bird_extra}"):
-                st.session_state.kennel_animals = cell_animals.tolist()
+            display_text = f'{cage}: ' + ', '.join(animal_names)
+            bird_options.append(display_text)
+            bird_data[display_text] = cell_animals
+        else:
+            display_text = f'{cage}: -'
+            bird_options.append(display_text)
+            bird_data[display_text] = None
+    
+    # Bird selectbox
+    selected_bird = st.selectbox("Select bird cage:", bird_options, key="bird_select")
+    if selected_bird:
+        birds = bird_data[selected_bird]
+        if birds is not None and not birds.empty:
+            if st.button(f"View {selected_bird.split(':')[0]} Details", key="view_bird"):
+                st.session_state.kennel_animals = birds.to_dict('records')
                 st.session_state.current_animal_idx = 0
-                st.session_state.selected_animal = cell_animals.iloc[0]
+                st.session_state.selected_animal = birds.iloc[0].to_dict()
                 st.session_state.show_modal = True
                 st.rerun()
-        else:
-            st.button(f'EXTRA\n-', key=f"bird_{bird_extra}_empty", disabled=True)
     
     # Small Animals section
     st.markdown("**Small Animals**")
     sa_cages = [f"Small Animal {i}" for i in range(1,9)]
     
-    # 3x3 grid for small animals
-    for row in range(3):
-        cols = st.columns(3)
-        for col in range(3):
-            if row * 3 + col < len(sa_cages):
-                cage = sa_cages[row * 3 + col]
-                with cols[col]:
-                    cell_animals = sa_df[sa_df["SubLocation"] == cage]
-                    if not cell_animals.empty:
-                        # Show all animal names on the button
-                        animal_names = []
-                        for _, animal in cell_animals.iterrows():
-                            name = str(animal.get('AnimalName', 'Unknown'))
-                            if pd.isna(name) or name.lower() == 'nan':
-                                name = str(animal.get('AnimalNumber', 'Unknown'))
-                            
-                            stage = str(animal.get('Stage', ''))
-                            abbr = map_status(stage)
-                            
-                            if abbr:
-                                animal_names.append(f'{name} {abbr}')
-                            else:
-                                animal_names.append(name)
-                        
-                        # Truncate if too many animals
-                        if len(animal_names) > 4:
-                            display_names = animal_names[:3] + [f'... +{len(animal_names)-3} more']
-                        else:
-                            display_names = animal_names
-                        
-                        display_text = f'{str(row * 3 + col + 1)}\n' + '\n'.join(display_names)
-                        
-                        if st.button(display_text, key=f"sa_{cage}"):
-                            st.session_state.kennel_animals = cell_animals.tolist()
-                            st.session_state.current_animal_idx = 0
-                            st.session_state.selected_animal = cell_animals.iloc[0]
-                            st.session_state.show_modal = True
-                            st.rerun()
-                    else:
-                        st.button(f'{str(row * 3 + col + 1)}\n-', key=f"sa_{cage}_empty", disabled=True)
+    # Create options for small animals
+    sa_options = []
+    sa_data = {}
+    
+    for cage in sa_cages:
+        cell_animals = sa_df[sa_df["SubLocation"] == cage]
+        if not cell_animals.empty:
+            # Show all animal names
+            animal_names = []
+            for _, animal in cell_animals.iterrows():
+                name = str(animal.get('AnimalName', 'Unknown'))
+                if pd.isna(name) or name.lower() == 'nan':
+                    name = str(animal.get('AnimalNumber', 'Unknown'))
+                
+                stage = str(animal.get('Stage', ''))
+                abbr = map_status(stage)
+                
+                if abbr:
+                    animal_names.append(f'{name} {abbr}')
+                else:
+                    animal_names.append(name)
+            
+            display_text = f'{cage}: ' + ', '.join(animal_names)
+            sa_options.append(display_text)
+            sa_data[display_text] = cell_animals
+        else:
+            display_text = f'{cage}: -'
+            sa_options.append(display_text)
+            sa_data[display_text] = None
+    
+    # Small Animals selectbox
+    selected_sa = st.selectbox("Select small animal cage:", sa_options, key="sa_select")
+    if selected_sa:
+        sa_animals = sa_data[selected_sa]
+        if sa_animals is not None and not sa_animals.empty:
+            if st.button(f"View {selected_sa.split(':')[0]} Details", key="view_sa"):
+                st.session_state.kennel_animals = sa_animals.to_dict('records')
+                st.session_state.current_animal_idx = 0
+                st.session_state.selected_animal = sa_animals.iloc[0].to_dict()
+                st.session_state.show_modal = True
+                st.rerun()
     
     # Mammals section
     st.markdown("**Mammals**")
     mammal_cages = [f"Mammal {i}" for i in range(1,5)]
     
-    cols = st.columns(2)
-    for i, cage in enumerate(mammal_cages):
-        with cols[i % 2]:
-            cell_animals = sa_df[sa_df["SubLocation"] == cage]
-            if not cell_animals.empty:
-                # Show all animal names on the button
-                animal_names = []
-                for _, animal in cell_animals.iterrows():
-                    name = str(animal.get('AnimalName', 'Unknown'))
-                    if pd.isna(name) or name.lower() == 'nan':
-                        name = str(animal.get('AnimalNumber', 'Unknown'))
-                    
-                    stage = str(animal.get('Stage', ''))
-                    abbr = map_status(stage)
-                    
-                    if abbr:
-                        animal_names.append(f'{name} {abbr}')
-                    else:
-                        animal_names.append(name)
+    # Create options for mammals
+    mammal_options = []
+    mammal_data = {}
+    
+    for cage in mammal_cages:
+        cell_animals = sa_df[sa_df["SubLocation"] == cage]
+        if not cell_animals.empty:
+            # Show all animal names
+            animal_names = []
+            for _, animal in cell_animals.iterrows():
+                name = str(animal.get('AnimalName', 'Unknown'))
+                if pd.isna(name) or name.lower() == 'nan':
+                    name = str(animal.get('AnimalNumber', 'Unknown'))
                 
-                # Truncate if too many animals
-                if len(animal_names) > 4:
-                    display_names = animal_names[:3] + [f'... +{len(animal_names)-3} more']
+                stage = str(animal.get('Stage', ''))
+                abbr = map_status(stage)
+                
+                if abbr:
+                    animal_names.append(f'{name} {abbr}')
                 else:
-                    display_names = animal_names
-                
-                display_text = f'{str(i+1)}\n' + '\n'.join(display_names)
-                
-                if st.button(display_text, key=f"mammal_{cage}"):
-                    st.session_state.kennel_animals = cell_animals.tolist()
-                    st.session_state.current_animal_idx = 0
-                    st.session_state.selected_animal = cell_animals.iloc[0]
-                    st.session_state.show_modal = True
-                    st.rerun()
-            else:
-                st.button(f'{str(i+1)}\n-', key=f"mammal_{cage}_empty", disabled=True)
+                    animal_names.append(name)
+            
+            display_text = f'{cage}: ' + ', '.join(animal_names)
+            mammal_options.append(display_text)
+            mammal_data[display_text] = cell_animals
+        else:
+            display_text = f'{cage}: -'
+            mammal_options.append(display_text)
+            mammal_data[display_text] = None
+    
+    # Mammals selectbox
+    selected_mammal = st.selectbox("Select mammal cage:", mammal_options, key="mammal_select")
+    if selected_mammal:
+        mammals = mammal_data[selected_mammal]
+        if mammals is not None and not mammals.empty:
+            if st.button(f"View {selected_mammal.split(':')[0]} Details", key="view_mammal"):
+                st.session_state.kennel_animals = mammals.to_dict('records')
+                st.session_state.current_animal_idx = 0
+                st.session_state.selected_animal = mammals.iloc[0].to_dict()
+                st.session_state.show_modal = True
+                st.rerun()
     
     # Reptiles section
     st.markdown("**Reptiles**")
     reptile_cages = [f"Reptile {i}" for i in range(1,6)]
     
-    # 2x3 grid for reptiles
-    for row in range(2):
-        cols = st.columns(2)
-        for col in range(2):
-            if row * 2 + col < 4:  # First 4 reptiles
-                cage = reptile_cages[row * 2 + col]
-                with cols[col]:
-                    cell_animals = sa_df[sa_df["SubLocation"] == cage]
-                    if not cell_animals.empty:
-                        # Show all animal names on the button
-                        animal_names = []
-                        for _, animal in cell_animals.iterrows():
-                            name = str(animal.get('AnimalName', 'Unknown'))
-                            if pd.isna(name) or name.lower() == 'nan':
-                                name = str(animal.get('AnimalNumber', 'Unknown'))
-                            
-                            stage = str(animal.get('Stage', ''))
-                            abbr = map_status(stage)
-                            
-                            if abbr:
-                                animal_names.append(f'{name} {abbr}')
-                            else:
-                                animal_names.append(name)
-                        
-                        # Truncate if too many animals
-                        if len(animal_names) > 4:
-                            display_names = animal_names[:3] + [f'... +{len(animal_names)-3} more']
-                        else:
-                            display_names = animal_names
-                        
-                        display_text = f'{str(row * 2 + col + 1)}\n' + '\n'.join(display_names)
-                        
-                        if st.button(display_text, key=f"reptile_{cage}"):
-                            st.session_state.kennel_animals = cell_animals.tolist()
-                            st.session_state.current_animal_idx = 0
-                            st.session_state.selected_animal = cell_animals.iloc[0]
-                            st.session_state.show_modal = True
-                            st.rerun()
-                    else:
-                        st.button(f'{str(row * 2 + col + 1)}\n-', key=f"reptile_{cage}_empty", disabled=True)
+    # Create options for reptiles
+    reptile_options = []
+    reptile_data = {}
     
-    # Reptile 5 (spans both columns)
-    cage = reptile_cages[4]  # Reptile 5
-    cell_animals = sa_df[sa_df["SubLocation"] == cage]
-    if not cell_animals.empty:
-        # Show all animal names on the button
-        animal_names = []
-        for _, animal in cell_animals.iterrows():
-            name = str(animal.get('AnimalName', 'Unknown'))
-            if pd.isna(name) or name.lower() == 'nan':
-                name = str(animal.get('AnimalNumber', 'Unknown'))
+    for cage in reptile_cages:
+        cell_animals = sa_df[sa_df["SubLocation"] == cage]
+        if not cell_animals.empty:
+            # Show all animal names
+            animal_names = []
+            for _, animal in cell_animals.iterrows():
+                name = str(animal.get('AnimalName', 'Unknown'))
+                if pd.isna(name) or name.lower() == 'nan':
+                    name = str(animal.get('AnimalNumber', 'Unknown'))
+                
+                stage = str(animal.get('Stage', ''))
+                abbr = map_status(stage)
+                
+                if abbr:
+                    animal_names.append(f'{name} {abbr}')
+                else:
+                    animal_names.append(name)
             
-            stage = str(animal.get('Stage', ''))
-            abbr = map_status(stage)
-            
-            if abbr:
-                animal_names.append(f'{name} {abbr}')
-            else:
-                animal_names.append(name)
-        
-        # Truncate if too many animals
-        if len(animal_names) > 4:
-            display_names = animal_names[:3] + [f'... +{len(animal_names)-3} more']
+            display_text = f'{cage}: ' + ', '.join(animal_names)
+            reptile_options.append(display_text)
+            reptile_data[display_text] = cell_animals
         else:
-            display_names = animal_names
-        
-        display_text = f'5\n' + '\n'.join(display_names)
-        
-        if st.button(display_text, key=f"reptile_5"):
-            st.session_state.kennel_animals = cell_animals.tolist()
-            st.session_state.current_animal_idx = 0
-            st.session_state.selected_animal = cell_animals.iloc[0]
-            st.session_state.show_modal = True
-            st.rerun()
-    else:
-        st.button(f'5\n-', key="reptile_5_empty", disabled=True)
+            display_text = f'{cage}: -'
+            reptile_options.append(display_text)
+            reptile_data[display_text] = None
+    
+    # Reptiles selectbox
+    selected_reptile = st.selectbox("Select reptile cage:", reptile_options, key="reptile_select")
+    if selected_reptile:
+        reptiles = reptile_data[selected_reptile]
+        if reptiles is not None and not reptiles.empty:
+            if st.button(f"View {selected_reptile.split(':')[0]} Details", key="view_reptile"):
+                st.session_state.kennel_animals = reptiles.to_dict('records')
+                st.session_state.current_animal_idx = 0
+                st.session_state.selected_animal = reptiles.iloc[0].to_dict()
+                st.session_state.show_modal = True
+                st.rerun()
     
     # Countertop Cages section
     st.markdown("**Countertop Cages**")
     counter_cages = [f"Countertop Cage {i}" for i in range(1,3)]
     
-    cols = st.columns(2)
-    for i, cage in enumerate(counter_cages):
-        with cols[i]:
-            cell_animals = sa_df[sa_df["SubLocation"] == cage]
-            if not cell_animals.empty:
-                # Show all animal names on the button
-                animal_names = []
-                for _, animal in cell_animals.iterrows():
-                    name = str(animal.get('AnimalName', 'Unknown'))
-                    if pd.isna(name) or name.lower() == 'nan':
-                        name = str(animal.get('AnimalNumber', 'Unknown'))
-                    
-                    stage = str(animal.get('Stage', ''))
-                    abbr = map_status(stage)
-                    
-                    if abbr:
-                        animal_names.append(f'{name} {abbr}')
-                    else:
-                        animal_names.append(name)
-                
-                # Truncate if too many animals
-                if len(animal_names) > 4:
-                    display_names = animal_names[:3] + [f'... +{len(animal_names)-3} more']
-                else:
-                    display_names = animal_names
-                
-                display_text = f'{str(i+1)}\n' + '\n'.join(display_names)
-                
-                if st.button(display_text, key=f"counter_{cage}"):
-                    st.session_state.kennel_animals = cell_animals.tolist()
-                    st.session_state.current_animal_idx = 0
-                    st.session_state.selected_animal = cell_animals.iloc[0]
-                    st.session_state.show_modal = True
-                    st.rerun()
-            else:
-                st.button(f'{str(i+1)}\n-', key=f"counter_{cage}_empty", disabled=True)
+    # Create options for countertop cages
+    counter_options = []
+    counter_data = {}
     
-    # Show animals not assigned to kennels
-    all_sublocations = bird_cages + [bird_extra] + sa_cages + [f"Mammal {i}" for i in range(1,5)] + reptile_cages + [f"Countertop Cage {i}" for i in range(1,3)]
-    unassigned = sa_df[~sa_df['SubLocation'].isin(all_sublocations)]
-    if not unassigned.empty:
-        st.markdown("### Animals Not in Kennel Spaces")
-        for _, animal in unassigned.iterrows():
-            button_text = create_button_text("•", animal)
-            if st.button(button_text, key=f"unassigned_{animal['AnimalNumber']}"):
-                st.session_state.selected_animal = animal
+    for cage in counter_cages:
+        cell_animals = sa_df[sa_df["SubLocation"] == cage]
+        if not cell_animals.empty:
+            # Show all animal names
+            animal_names = []
+            for _, animal in cell_animals.iterrows():
+                name = str(animal.get('AnimalName', 'Unknown'))
+                if pd.isna(name) or name.lower() == 'nan':
+                    name = str(animal.get('AnimalNumber', 'Unknown'))
+                
+                stage = str(animal.get('Stage', ''))
+                abbr = map_status(stage)
+                
+                if abbr:
+                    animal_names.append(f'{name} {abbr}')
+                else:
+                    animal_names.append(name)
+            
+            display_text = f'{cage}: ' + ', '.join(animal_names)
+            counter_options.append(display_text)
+            counter_data[display_text] = cell_animals
+        else:
+            display_text = f'{cage}: -'
+            counter_options.append(display_text)
+            counter_data[display_text] = None
+    
+    # Countertop cages selectbox
+    selected_counter = st.selectbox("Select countertop cage:", counter_options, key="counter_select")
+    if selected_counter:
+        counters = counter_data[selected_counter]
+        if counters is not None and not counters.empty:
+            if st.button(f"View {selected_counter.split(':')[0]} Details", key="view_counter"):
+                st.session_state.kennel_animals = counters.to_dict('records')
+                st.session_state.current_animal_idx = 0
+                st.session_state.selected_animal = counters.iloc[0].to_dict()
                 st.session_state.show_modal = True
                 st.rerun()
 
@@ -1121,18 +1050,26 @@ def render_room_list(room_name, animals_df, memo_df):
                 options.append(display_text)
                 subloc_data[display_text] = None
         
-        # Use selectbox for clean selection
-        selected = st.selectbox("Select sublocation:", options, key=f"select_{room_name}")
+        # Use selectbox for clean selection with index to prevent auto-triggering
+        default_index = 0
+        if f"select_{room_name}_index" not in st.session_state:
+            st.session_state[f"select_{room_name}_index"] = default_index
         
-        if selected and selected != f'{sublocations[0]}: -':  # Don't auto-trigger on first empty
+        selected = st.selectbox("Select sublocation:", options, 
+                              index=st.session_state[f"select_{room_name}_index"], 
+                              key=f"select_{room_name}")
+        
+        # Only trigger if selection actually changed and has animals
+        if selected:
             animals = subloc_data[selected]
             if animals is not None and not animals.empty:
-                # Show modal for selected sublocation
-                st.session_state.kennel_animals = animals.to_dict('records')
-                st.session_state.current_animal_idx = 0
-                st.session_state.selected_animal = animals.iloc[0].to_dict()
-                st.session_state.show_modal = True
-                st.rerun()
+                # Add a "View Details" button to prevent auto-triggering
+                if st.button(f"View {selected.split(':')[0]} Details", key=f"view_{room_name}_{selected}"):
+                    st.session_state.kennel_animals = animals.to_dict('records')
+                    st.session_state.current_animal_idx = 0
+                    st.session_state.selected_animal = animals.iloc[0].to_dict()
+                    st.session_state.show_modal = True
+                    st.rerun()
 
 def render_room_layout(room_name, animals_df, memo_df, view_mode="Mobile"):
     """Render a room layout with consistent button sizing"""
