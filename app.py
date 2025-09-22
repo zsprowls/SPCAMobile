@@ -147,6 +147,36 @@ st.markdown("""
         margin-left: 0.25em;
     }
     
+    /* Link-style buttons for sublocations */
+    .stButton > button[data-testid*="list_"] {
+        background: transparent !important;
+        border: none !important;
+        color: #007bff !important;
+        text-decoration: underline !important;
+        padding: 4px 0 !important;
+        margin: 2px 0 !important;
+        text-align: left !important;
+        font-size: 1rem !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        width: auto !important;
+        height: auto !important;
+        min-height: auto !important;
+    }
+    
+    .stButton > button[data-testid*="list_"]:hover {
+        background: #f8f9fa !important;
+        color: #0056b3 !important;
+    }
+    
+    /* Empty sublocation styling */
+    .empty-sublocation {
+        color: #6c757d;
+        font-style: italic;
+        padding: 4px 0;
+        margin: 2px 0;
+    }
+    
     .photo-indicator {
         color: #ff6b35;
         font-weight: bold;
@@ -1008,6 +1038,15 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
 
+def handle_sublocation_click(room_name, subloc, animals):
+    """Handle click on a sublocation link"""
+    # Store all animals for this sublocation and show modal for first one
+    st.session_state.kennel_animals = animals.to_dict('records')
+    st.session_state.current_animal_idx = 0
+    st.session_state.selected_animal = animals.iloc[0].to_dict()
+    st.session_state.show_modal = True
+    st.rerun()
+
 def render_room_list(room_name, animals_df, memo_df):
     """Render a room as a simple list organized by sublocation"""
     
@@ -1057,9 +1096,10 @@ def render_room_list(room_name, animals_df, memo_df):
                     else:
                         animal_names.append(name)
                 
-                # Create button text
+                # Create link text
                 display_text = f'{subloc}: ' + ', '.join(animal_names)
                 
+                # Use a button that looks like a link
                 if st.button(display_text, key=f"list_{room_name}_{subloc}"):
                     # Store all animals for this sublocation and show modal for first one
                     st.session_state.kennel_animals = animals.to_dict('records')
@@ -1068,8 +1108,8 @@ def render_room_list(room_name, animals_df, memo_df):
                     st.session_state.show_modal = True
                     st.rerun()
             else:
-                # Empty sublocation
-                st.button(f'{subloc}: -', key=f"list_{room_name}_{subloc}_empty", disabled=True)
+                # Empty sublocation - still show it
+                st.markdown(f'<div class="empty-sublocation">{subloc}: -</div>', unsafe_allow_html=True)
 
 def render_room_layout(room_name, animals_df, memo_df, view_mode="Mobile"):
     """Render a room layout with consistent button sizing"""
