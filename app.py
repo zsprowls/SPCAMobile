@@ -190,6 +190,21 @@ st.markdown("""
         background: none !important;
     }
     
+    /* Clean clickable text styling */
+    .clickable-text {
+        color: #007bff;
+        cursor: pointer;
+        padding: 4px 0;
+        margin: 2px 0;
+        border-radius: 3px;
+        transition: background-color 0.2s;
+    }
+    
+    .clickable-text:hover {
+        background-color: #f8f9fa;
+        color: #0056b3;
+    }
+    
     .photo-indicator {
         color: #ff6b35;
         font-weight: bold;
@@ -801,12 +816,7 @@ def render_small_animals_layout(animals_df, memo_df):
             
             display_text = f'{cage}: ' + ', '.join(animal_names)
             
-            if st.button(display_text, key=f"bird_{cage}"):
-                st.session_state.kennel_animals = cell_animals.to_dict('records')
-                st.session_state.current_animal_idx = 0
-                st.session_state.selected_animal = cell_animals.iloc[0].to_dict()
-                st.session_state.show_modal = True
-                st.rerun()
+            st.markdown(f'<div class="clickable-text">{display_text}</div>', unsafe_allow_html=True)
         else:
             st.write(f'{cage}: -')
     
@@ -865,12 +875,7 @@ def render_small_animals_layout(animals_df, memo_df):
             
             display_text = f'{cage}: ' + ', '.join(animal_names)
             
-            if st.button(display_text, key=f"sa_{cage}"):
-                st.session_state.kennel_animals = cell_animals.to_dict('records')
-                st.session_state.current_animal_idx = 0
-                st.session_state.selected_animal = cell_animals.iloc[0].to_dict()
-                st.session_state.show_modal = True
-                st.rerun()
+            st.markdown(f'<div class="clickable-text">{display_text}</div>', unsafe_allow_html=True)
         else:
             st.write(f'{cage}: -')
     
@@ -929,12 +934,7 @@ def render_small_animals_layout(animals_df, memo_df):
             
             display_text = f'{cage}: ' + ', '.join(animal_names)
             
-            if st.button(display_text, key=f"mammal_{cage}"):
-                st.session_state.kennel_animals = cell_animals.to_dict('records')
-                st.session_state.current_animal_idx = 0
-                st.session_state.selected_animal = cell_animals.iloc[0].to_dict()
-                st.session_state.show_modal = True
-                st.rerun()
+            st.markdown(f'<div class="clickable-text">{display_text}</div>', unsafe_allow_html=True)
         else:
             st.write(f'{cage}: -')
     
@@ -993,12 +993,7 @@ def render_small_animals_layout(animals_df, memo_df):
             
             display_text = f'{cage}: ' + ', '.join(animal_names)
             
-            if st.button(display_text, key=f"reptile_{cage}"):
-                st.session_state.kennel_animals = cell_animals.to_dict('records')
-                st.session_state.current_animal_idx = 0
-                st.session_state.selected_animal = cell_animals.iloc[0].to_dict()
-                st.session_state.show_modal = True
-                st.rerun()
+            st.markdown(f'<div class="clickable-text">{display_text}</div>', unsafe_allow_html=True)
         else:
             st.write(f'{cage}: -')
     
@@ -1057,12 +1052,7 @@ def render_small_animals_layout(animals_df, memo_df):
             
             display_text = f'{cage}: ' + ', '.join(animal_names)
             
-            if st.button(display_text, key=f"counter_{cage}"):
-                st.session_state.kennel_animals = cell_animals.to_dict('records')
-                st.session_state.current_animal_idx = 0
-                st.session_state.selected_animal = cell_animals.iloc[0].to_dict()
-                st.session_state.show_modal = True
-                st.rerun()
+            st.markdown(f'<div class="clickable-text">{display_text}</div>', unsafe_allow_html=True)
         else:
             st.write(f'{cage}: -')
 
@@ -1126,13 +1116,8 @@ def render_room_list(room_name, animals_df, memo_df):
                 
                 display_text = f'{subloc}: ' + ', '.join(animal_names)
                 
-                # Show as clickable text
-                if st.button(display_text, key=f"list_{room_name}_{subloc}"):
-                    st.session_state.kennel_animals = animals.to_dict('records')
-                    st.session_state.current_animal_idx = 0
-                    st.session_state.selected_animal = animals.iloc[0].to_dict()
-                    st.session_state.show_modal = True
-                    st.rerun()
+                # Show as plain text with click handler
+                st.markdown(f'<div class="clickable-text" onclick="alert(\'Click functionality coming soon\')">{display_text}</div>', unsafe_allow_html=True)
             else:
                 # Empty sublocation
                 st.write(f'{subloc}: -')
