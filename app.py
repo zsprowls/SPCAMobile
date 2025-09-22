@@ -218,10 +218,39 @@ st.markdown("""
         display: block !important;
     }
     
-    /* Make button containers take full width */
-    .stButton {
-        width: 100% !important;
-        max-width: 100% !important;
+    /* Make small "View Details" buttons look clean */
+    .stButton > button {
+        width: auto !important;
+        min-width: auto !important;
+        max-width: auto !important;
+        height: 28px !important;
+        min-height: 28px !important;
+        padding: 4px 12px !important;
+        margin: 2px 0 !important;
+        border: 1px solid #ddd !important;
+        border-radius: 4px !important;
+        background: white !important;
+        color: #007bff !important;
+        font-size: 0.8rem !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        box-shadow: none !important;
+        cursor: pointer !important;
+        font-family: inherit !important;
+        font-weight: normal !important;
+        text-decoration: none !important;
+        outline: none !important;
+        transition: all 0.2s !important;
+        display: inline-block !important;
+    }
+    
+    .stButton > button:hover {
+        background: #f8f9fa !important;
+        border-color: #007bff !important;
+        color: #0056b3 !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+        transform: none !important;
+        text-decoration: none !important;
     }
     
     .stButton > button:hover {
@@ -858,7 +887,8 @@ def render_small_animals_layout(animals_df, memo_df):
             
             display_text = f'{cage}: ' + ', '.join(animal_names)
             
-            if st.button(display_text, key=f"bird_{cage}"):
+            st.write(display_text)
+            if st.button("View Details", key=f"view_bird_{cage}"):
                 st.session_state.kennel_animals = cell_animals.to_dict('records')
                 st.session_state.current_animal_idx = 0
                 st.session_state.selected_animal = cell_animals.iloc[0].to_dict()
@@ -1093,8 +1123,9 @@ def render_room_list(room_name, animals_df, memo_df):
                 
                 display_text = f'{subloc}: ' + ', '.join(animal_names)
                 
-                # Show as properly sized button
-                if st.button(display_text, key=f"list_{room_name}_{subloc}"):
+                # Show as plain text with a small button below
+                st.write(display_text)
+                if st.button("View Details", key=f"view_{room_name}_{subloc}"):
                     st.session_state.kennel_animals = animals.to_dict('records')
                     st.session_state.current_animal_idx = 0
                     st.session_state.selected_animal = animals.iloc[0].to_dict()
