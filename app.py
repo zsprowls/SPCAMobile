@@ -190,34 +190,54 @@ st.markdown("""
         background: none !important;
     }
     
-    /* Clean button styling - scale to content */
+    /* Make buttons look like plain text */
     .stButton > button {
         width: auto !important;
         min-width: auto !important;
         max-width: none !important;
         height: auto !important;
         min-height: auto !important;
-        padding: 8px 12px !important;
-        margin: 2px 0 !important;
-        border: 1px solid #ddd !important;
-        border-radius: 4px !important;
-        background: white !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        background: transparent !important;
         color: #333 !important;
-        font-size: 0.9rem !important;
+        font-size: 1rem !important;
         text-align: left !important;
         white-space: normal !important;
         word-wrap: break-word !important;
-        line-height: 1.3 !important;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
-        transition: all 0.2s !important;
+        line-height: 1.4 !important;
+        box-shadow: none !important;
+        cursor: pointer !important;
+        font-family: inherit !important;
+        font-weight: normal !important;
+        text-decoration: none !important;
+        outline: none !important;
+        transition: color 0.2s !important;
     }
     
     .stButton > button:hover {
-        background: #f8f9fa !important;
-        border-color: #007bff !important;
+        background: transparent !important;
+        border: none !important;
         color: #007bff !important;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
-        transform: translateY(-1px) !important;
+        box-shadow: none !important;
+        transform: none !important;
+        text-decoration: underline !important;
+    }
+    
+    .stButton > button:focus {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+    
+    .stButton > button:active {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        transform: none !important;
     }
     
     .photo-indicator {
