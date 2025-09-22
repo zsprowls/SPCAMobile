@@ -190,15 +190,15 @@ st.markdown("""
         background: none !important;
     }
     
-    /* Make buttons look like plain text */
+    /* Make buttons look like plain text and take full width */
     .stButton > button {
-        width: auto !important;
-        min-width: auto !important;
-        max-width: none !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
         height: auto !important;
         min-height: auto !important;
-        padding: 0 !important;
-        margin: 0 !important;
+        padding: 4px 0 !important;
+        margin: 2px 0 !important;
         border: none !important;
         border-radius: 0 !important;
         background: transparent !important;
@@ -215,6 +215,13 @@ st.markdown("""
         text-decoration: none !important;
         outline: none !important;
         transition: color 0.2s !important;
+        display: block !important;
+    }
+    
+    /* Make button containers take full width */
+    .stButton {
+        width: 100% !important;
+        max-width: 100% !important;
     }
     
     .stButton > button:hover {
