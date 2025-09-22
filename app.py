@@ -645,96 +645,60 @@ ROOM_DEFINITIONS = {
         "type": "small_animals"
     },
     "Adoptions Lobby": {
-        "location": "Adoptions Lobby", 
-        "grid_map": [
-            ["Feature Room 1", "Feature Room 2", "Rabbitat 1", "Rabbitat 2"]
-        ],
-        "grid_cols": 4
+        "location": "Adoptions Lobby",
+        "sublocation": ["Rabbitat 1", "Rabbitat 2", "Rabbitat 3", "Rabbitat 4", "Rabbitat 5"]
     },
-    "Cat Condos": {
-        "location": "Cat Adoption Condo Rooms",
-        "sublocation": ["Condo A", "Condo B", "Condo C", "Condo D", "Condo E", "Condo F"],
-        "grid_map": [["Condo A", "Condo B", "Condo C"], ["Condo D", "Condo E", "Condo F"]],
-        "grid_cols": 3
+    "Feature Room 1": {
+        "location": "Feature Room 1",
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
     },
-    "Meet & Greet 109B": {
+    "Cat Adoption Condo Rooms": {
         "location": "Cat Adoption Condo Rooms",
-        "sublocation": ["Room 109-B", "Meet & Greet 109B"],
-        "grid_map": [["Meet & Greet 109B"]],
-        "grid_cols": 1
-    },
-    "Cat Condo Rabbitats": {
-        "location": "Cat Adoption Condo Rooms",
-        "sublocation": ["Rabbitat 1", "Rabbitat 2"],
-        "grid_map": [["Rabbitat 1", "Rabbitat 2"]],
-        "grid_cols": 2
+        "sublocation": ["Condo A", "Condo B", "Condo C", "Condo D", "Condo E", "Condo F", "Rabbitat 1", "Rabbitat 2"]
     },
     "Cat Adoption Room G": {
         "location": "Cat Adoption Room G",
-        "grid_map": [
-            [None, "03", "06"],
-            ["01", "04", "07"],
-            ["02", "05", "08"]
-        ],
-        "grid_cols": 3
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
     },
     "Cat Adoption Room H": {
         "location": "Cat Adoption Room H",
-        "grid_map": [
-            ["01", "04", None],
-            ["02", "05", "07"],
-            ["03", "06", "08"]
-        ],
-        "grid_cols": 3
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
     },
     "Cat Behavior Room I": {
         "location": "Cat Behavior Room I",
-        "grid_map": [
-            [None, "03", "06"],
-            ["01", "04", "07"],
-            ["02", "05", "08"]
-        ],
-        "grid_cols": 3
-    },
-    "Dog Adoptions A & B": {
-        "location": ["Dog Adoptions A", "Dog Adoptions B"],
-        "grid_map": [
-            ["A01", "B01"],
-            ["A02", "B02"],
-            ["A03", "B03"],
-            ["A04", "B04"],
-            ["A05", "B05"],
-            ["A06", "B06"],
-            ["A07", "B07"],
-            ["A08", "B08"],
-            ["A09", "B09"],
-            ["A10", "B10"]
-        ],
-        "grid_cols": 2
-    },
-    "Dog Adoptions C & D": {
-        "location": ["Dog Adoptions C", "Dog Adoptions D"],
-        "grid_map": [
-            ["C01", "D01"],
-            ["C02", "D02"],
-            ["C03", "D03"],
-            ["C04", "D04"],
-            ["C05", "D05"],
-            ["C06", "D06"],
-            ["C07", "D07"],
-            ["C08", "D08"],
-            ["C09", "D09"],
-            ["C10", "D10"]
-        ],
-        "grid_cols": 2
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
     },
     "Foster Care Room": {
         "location": "Foster Care Room",
-        "grid_map": [
-            ["01", "02", "03", "04"],
-            ["05", "06", "07", "08"]
-        ],
-        "grid_cols": 4
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+    },
+    "ICU": {
+        "location": "ICU",
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+    },
+    "Cat Treatment": {
+        "location": "Cat Treatment",
+        "sublocation": ["01 - A", "02", "04", "05 - B", "06", "D"]
+    },
+    "Multi-Animal Holding, Room 229": {
+        "location": "Multi-Animal Holding, Room 229",
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+    },
+    "Cat Isolation 231": {
+        "location": "Cat Isolation 231",
+        "sublocation": ["Cage 1", "Cage 2", "Cage 3", "Cage 4", "Cage 5", "Cage 6", "Cage 7", "Cage 8", "Cage 9", "Cage 10", "Cage 11", "Cage 12"]
+    },
+    "Cat Isolation 234": {
+        "location": "Cat Isolation 234",
+        "sublocation": ["Cage 1", "Cage 2", "Cage 3", "Cage 4", "Cage 5", "Cage 6", "Cage 7", "Cage 8", "Cage 9", "Cage 10", "Cage 11", "Cage 12"]
+    },
+    "Canine Holding E & F": {
+        "location": ["Dog Holding E", "Dog Holding F"],
+        "sublocation": ["E01", "E02", "E03", "E04", "E05", "E06", "E07", "E08", "E09", "E10", "E11", "E12", "F01", "F02", "F03", "F04", "F05", "F06", "F07", "F08", "F09", "F10", "F11", "F12"]
+    },
+    "Canine Adoption A-D": {
+        "location": ["Dog Adoptions A", "Dog Adoptions B", "Dog Adoptions C", "Dog Adoptions D"],
+        "sublocation": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B10", "C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", "C10", "D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10"]
     }
 }
 
@@ -1044,6 +1008,69 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
 
+def render_room_list(room_name, animals_df, memo_df):
+    """Render a room as a simple list organized by sublocation"""
+    
+    if room_name not in ROOM_DEFINITIONS:
+        st.error(f"Room {room_name} not defined")
+        return
+    
+    room_config = ROOM_DEFINITIONS[room_name]
+    
+    # Special handling for Small Animals & Exotics
+    if room_config.get("type") == "small_animals":
+        render_small_animals_layout(animals_df, memo_df)
+        return
+    
+    # Handle combined locations
+    if isinstance(room_config["location"], list):
+        location = room_config["location"]
+        # Filter animals for combined locations
+        room_animals = animals_df[animals_df['Location'].isin(location)]
+    else:
+        location = room_config["location"]
+        room_animals = animals_df[animals_df['Location'] == location]
+    
+    st.markdown(f"**{room_name}**")
+    
+    # Get sublocations for this room
+    if "sublocation" in room_config:
+        sublocations = room_config["sublocation"]
+        
+        # Display each sublocation
+        for subloc in sublocations:
+            animals = room_animals[room_animals['SubLocation'] == subloc]
+            
+            if not animals.empty:
+                # Show all animal names
+                animal_names = []
+                for _, animal in animals.iterrows():
+                    name = str(animal.get('AnimalName', 'Unknown'))
+                    if pd.isna(name) or name.lower() == 'nan':
+                        name = str(animal.get('AnimalNumber', 'Unknown'))
+                    
+                    stage = str(animal.get('Stage', ''))
+                    abbr = map_status(stage)
+                    
+                    if abbr:
+                        animal_names.append(f'{name} {abbr}')
+                    else:
+                        animal_names.append(name)
+                
+                # Create button text
+                display_text = f'{subloc}: ' + ', '.join(animal_names)
+                
+                if st.button(display_text, key=f"list_{room_name}_{subloc}"):
+                    # Store all animals for this sublocation and show modal for first one
+                    st.session_state.kennel_animals = animals.to_dict('records')
+                    st.session_state.current_animal_idx = 0
+                    st.session_state.selected_animal = animals.iloc[0].to_dict()
+                    st.session_state.show_modal = True
+                    st.rerun()
+            else:
+                # Empty sublocation
+                st.button(f'{subloc}: -', key=f"list_{room_name}_{subloc}_empty", disabled=True)
+
 def render_room_layout(room_name, animals_df, memo_df, view_mode="Mobile"):
     """Render a room layout with consistent button sizing"""
     
@@ -1329,16 +1356,23 @@ def main():
     </div>
     """, unsafe_allow_html=True)
     
-    # Define room order
+    # Define room order based on user's requested order
     room_order = [
         "Small Animals & Exotics",
-        "Adoptions Lobby", 
-        "Cat Condos",
-        "Meet & Greet 109B",
-        "Cat Condo Rabbitats",
-        "Cat Adoption Room G", "Cat Adoption Room H", "Cat Behavior Room I",
+        "Adoptions Lobby",
+        "Feature Room 1",
+        "Cat Adoption Condo Rooms",
+        "Cat Adoption Room G",
+        "Cat Adoption Room H", 
+        "Cat Behavior Room I",
         "Foster Care Room",
-        "Dog Adoptions A & B", "Dog Adoptions C & D"
+        "ICU",
+        "Cat Treatment",
+        "Multi-Animal Holding, Room 229",
+        "Cat Isolation 231",
+        "Cat Isolation 234",
+        "Canine Holding E & F",
+        "Canine Adoption A-D"
     ]
     
     # Get available rooms in the specified order
@@ -1412,8 +1446,8 @@ def main():
                 st.session_state.current_room = (st.session_state.current_room + 1) % len(available_rooms)
                 st.rerun()
         
-        # Render current room
-        render_room_layout(current_room, inventory_df, memo_df, view_mode)
+        # Render current room as a simple list
+        render_room_list(current_room, inventory_df, memo_df)
         
         # Show room statistics
         room_config = ROOM_DEFINITIONS[current_room]
