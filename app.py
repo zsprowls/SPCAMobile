@@ -177,6 +177,19 @@ st.markdown("""
         margin: 2px 0;
     }
     
+    /* Make invisible buttons completely invisible */
+    .stButton > button[data-testid*="click_"] {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        background: none !important;
+    }
+    
     .photo-indicator {
         color: #ff6b35;
         font-weight: bold;
@@ -1076,7 +1089,10 @@ def render_room_list(room_name, animals_df, memo_df):
     if "sublocation" in room_config:
         sublocations = room_config["sublocation"]
         
-        # Display each sublocation
+        # Create options for selectbox
+        options = []
+        subloc_data = {}
+        
         for subloc in sublocations:
             animals = room_animals[room_animals['SubLocation'] == subloc]
             
@@ -1096,20 +1112,27 @@ def render_room_list(room_name, animals_df, memo_df):
                     else:
                         animal_names.append(name)
                 
-                # Create link text
                 display_text = f'{subloc}: ' + ', '.join(animal_names)
-                
-                # Use a button that looks like a link
-                if st.button(display_text, key=f"list_{room_name}_{subloc}"):
-                    # Store all animals for this sublocation and show modal for first one
-                    st.session_state.kennel_animals = animals.to_dict('records')
-                    st.session_state.current_animal_idx = 0
-                    st.session_state.selected_animal = animals.iloc[0].to_dict()
-                    st.session_state.show_modal = True
-                    st.rerun()
+                options.append(display_text)
+                subloc_data[display_text] = animals
             else:
-                # Empty sublocation - still show it
-                st.markdown(f'<div class="empty-sublocation">{subloc}: -</div>', unsafe_allow_html=True)
+                # Empty sublocation
+                display_text = f'{subloc}: -'
+                options.append(display_text)
+                subloc_data[display_text] = None
+        
+        # Use selectbox for clean selection
+        selected = st.selectbox("Select sublocation:", options, key=f"select_{room_name}")
+        
+        if selected and selected != f'{sublocations[0]}: -':  # Don't auto-trigger on first empty
+            animals = subloc_data[selected]
+            if animals is not None and not animals.empty:
+                # Show modal for selected sublocation
+                st.session_state.kennel_animals = animals.to_dict('records')
+                st.session_state.current_animal_idx = 0
+                st.session_state.selected_animal = animals.iloc[0].to_dict()
+                st.session_state.show_modal = True
+                st.rerun()
 
 def render_room_layout(room_name, animals_df, memo_df, view_mode="Mobile"):
     """Render a room layout with consistent button sizing"""
