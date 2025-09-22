@@ -190,19 +190,34 @@ st.markdown("""
         background: none !important;
     }
     
-    /* Clean clickable text styling */
-    .clickable-text {
-        color: #007bff;
-        cursor: pointer;
-        padding: 4px 0;
-        margin: 2px 0;
-        border-radius: 3px;
-        transition: background-color 0.2s;
+    /* Clean button styling - scale to content */
+    .stButton > button {
+        width: auto !important;
+        min-width: auto !important;
+        max-width: none !important;
+        height: auto !important;
+        min-height: auto !important;
+        padding: 8px 12px !important;
+        margin: 2px 0 !important;
+        border: 1px solid #ddd !important;
+        border-radius: 4px !important;
+        background: white !important;
+        color: #333 !important;
+        font-size: 0.9rem !important;
+        text-align: left !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        line-height: 1.3 !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+        transition: all 0.2s !important;
     }
     
-    .clickable-text:hover {
-        background-color: #f8f9fa;
-        color: #0056b3;
+    .stButton > button:hover {
+        background: #f8f9fa !important;
+        border-color: #007bff !important;
+        color: #007bff !important;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
+        transform: translateY(-1px) !important;
     }
     
     .photo-indicator {
@@ -816,43 +831,18 @@ def render_small_animals_layout(animals_df, memo_df):
             
             display_text = f'{cage}: ' + ', '.join(animal_names)
             
-            st.markdown(f'<div class="clickable-text">{display_text}</div>', unsafe_allow_html=True)
+            if st.button(display_text, key=f"bird_{cage}"):
+                st.session_state.kennel_animals = cell_animals.to_dict('records')
+                st.session_state.current_animal_idx = 0
+                st.session_state.selected_animal = cell_animals.iloc[0].to_dict()
+                st.session_state.show_modal = True
+                st.rerun()
         else:
             st.write(f'{cage}: -')
     
     # Small Animals section
     st.markdown("**Small Animals**")
     sa_cages = [f"Small Animal {i}" for i in range(1,9)]
-    
-    # Create options for small animals
-    sa_options = []
-    sa_data = {}
-    
-    for cage in sa_cages:
-        cell_animals = sa_df[sa_df["SubLocation"] == cage]
-        if not cell_animals.empty:
-            # Show all animal names
-            animal_names = []
-            for _, animal in cell_animals.iterrows():
-                name = str(animal.get('AnimalName', 'Unknown'))
-                if pd.isna(name) or name.lower() == 'nan':
-                    name = str(animal.get('AnimalNumber', 'Unknown'))
-                
-                stage = str(animal.get('Stage', ''))
-                abbr = map_status(stage)
-                
-                if abbr:
-                    animal_names.append(f'{name} {abbr}')
-                else:
-                    animal_names.append(name)
-            
-            display_text = f'{cage}: ' + ', '.join(animal_names)
-            sa_options.append(display_text)
-            sa_data[display_text] = cell_animals
-        else:
-            display_text = f'{cage}: -'
-            sa_options.append(display_text)
-            sa_data[display_text] = None
     
     # Display each small animal cage directly
     for cage in sa_cages:
@@ -875,7 +865,12 @@ def render_small_animals_layout(animals_df, memo_df):
             
             display_text = f'{cage}: ' + ', '.join(animal_names)
             
-            st.markdown(f'<div class="clickable-text">{display_text}</div>', unsafe_allow_html=True)
+            if st.button(display_text, key=f"sa_{cage}"):
+                st.session_state.kennel_animals = cell_animals.to_dict('records')
+                st.session_state.current_animal_idx = 0
+                st.session_state.selected_animal = cell_animals.iloc[0].to_dict()
+                st.session_state.show_modal = True
+                st.rerun()
         else:
             st.write(f'{cage}: -')
     
@@ -934,43 +929,18 @@ def render_small_animals_layout(animals_df, memo_df):
             
             display_text = f'{cage}: ' + ', '.join(animal_names)
             
-            st.markdown(f'<div class="clickable-text">{display_text}</div>', unsafe_allow_html=True)
+            if st.button(display_text, key=f"mammal_{cage}"):
+                st.session_state.kennel_animals = cell_animals.to_dict('records')
+                st.session_state.current_animal_idx = 0
+                st.session_state.selected_animal = cell_animals.iloc[0].to_dict()
+                st.session_state.show_modal = True
+                st.rerun()
         else:
             st.write(f'{cage}: -')
     
     # Reptiles section
     st.markdown("**Reptiles**")
     reptile_cages = [f"Reptile {i}" for i in range(1,6)]
-    
-    # Create options for reptiles
-    reptile_options = []
-    reptile_data = {}
-    
-    for cage in reptile_cages:
-        cell_animals = sa_df[sa_df["SubLocation"] == cage]
-        if not cell_animals.empty:
-            # Show all animal names
-            animal_names = []
-            for _, animal in cell_animals.iterrows():
-                name = str(animal.get('AnimalName', 'Unknown'))
-                if pd.isna(name) or name.lower() == 'nan':
-                    name = str(animal.get('AnimalNumber', 'Unknown'))
-                
-                stage = str(animal.get('Stage', ''))
-                abbr = map_status(stage)
-                
-                if abbr:
-                    animal_names.append(f'{name} {abbr}')
-                else:
-                    animal_names.append(name)
-            
-            display_text = f'{cage}: ' + ', '.join(animal_names)
-            reptile_options.append(display_text)
-            reptile_data[display_text] = cell_animals
-        else:
-            display_text = f'{cage}: -'
-            reptile_options.append(display_text)
-            reptile_data[display_text] = None
     
     # Display each reptile cage directly
     for cage in reptile_cages:
@@ -993,43 +963,18 @@ def render_small_animals_layout(animals_df, memo_df):
             
             display_text = f'{cage}: ' + ', '.join(animal_names)
             
-            st.markdown(f'<div class="clickable-text">{display_text}</div>', unsafe_allow_html=True)
+            if st.button(display_text, key=f"reptile_{cage}"):
+                st.session_state.kennel_animals = cell_animals.to_dict('records')
+                st.session_state.current_animal_idx = 0
+                st.session_state.selected_animal = cell_animals.iloc[0].to_dict()
+                st.session_state.show_modal = True
+                st.rerun()
         else:
             st.write(f'{cage}: -')
     
     # Countertop Cages section
     st.markdown("**Countertop Cages**")
     counter_cages = [f"Countertop Cage {i}" for i in range(1,3)]
-    
-    # Create options for countertop cages
-    counter_options = []
-    counter_data = {}
-    
-    for cage in counter_cages:
-        cell_animals = sa_df[sa_df["SubLocation"] == cage]
-        if not cell_animals.empty:
-            # Show all animal names
-            animal_names = []
-            for _, animal in cell_animals.iterrows():
-                name = str(animal.get('AnimalName', 'Unknown'))
-                if pd.isna(name) or name.lower() == 'nan':
-                    name = str(animal.get('AnimalNumber', 'Unknown'))
-                
-                stage = str(animal.get('Stage', ''))
-                abbr = map_status(stage)
-                
-                if abbr:
-                    animal_names.append(f'{name} {abbr}')
-                else:
-                    animal_names.append(name)
-            
-            display_text = f'{cage}: ' + ', '.join(animal_names)
-            counter_options.append(display_text)
-            counter_data[display_text] = cell_animals
-        else:
-            display_text = f'{cage}: -'
-            counter_options.append(display_text)
-            counter_data[display_text] = None
     
     # Display each countertop cage directly
     for cage in counter_cages:
@@ -1052,7 +997,12 @@ def render_small_animals_layout(animals_df, memo_df):
             
             display_text = f'{cage}: ' + ', '.join(animal_names)
             
-            st.markdown(f'<div class="clickable-text">{display_text}</div>', unsafe_allow_html=True)
+            if st.button(display_text, key=f"counter_{cage}"):
+                st.session_state.kennel_animals = cell_animals.to_dict('records')
+                st.session_state.current_animal_idx = 0
+                st.session_state.selected_animal = cell_animals.iloc[0].to_dict()
+                st.session_state.show_modal = True
+                st.rerun()
         else:
             st.write(f'{cage}: -')
 
@@ -1116,8 +1066,13 @@ def render_room_list(room_name, animals_df, memo_df):
                 
                 display_text = f'{subloc}: ' + ', '.join(animal_names)
                 
-                # Show as plain text with click handler
-                st.markdown(f'<div class="clickable-text" onclick="alert(\'Click functionality coming soon\')">{display_text}</div>', unsafe_allow_html=True)
+                # Show as properly sized button
+                if st.button(display_text, key=f"list_{room_name}_{subloc}"):
+                    st.session_state.kennel_animals = animals.to_dict('records')
+                    st.session_state.current_animal_idx = 0
+                    st.session_state.selected_animal = animals.iloc[0].to_dict()
+                    st.session_state.show_modal = True
+                    st.rerun()
             else:
                 # Empty sublocation
                 st.write(f'{subloc}: -')
