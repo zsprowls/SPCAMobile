@@ -909,6 +909,7 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
         else:
+            pass  # Empty cage, don't show anything
     
     # Small Animals section
     st.markdown("**Small Animals**")
@@ -942,6 +943,7 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
         else:
+            pass  # Empty cage, don't show anything
     
     # Mammals section
     st.markdown("**Mammals**")
@@ -1005,6 +1007,7 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
         else:
+            pass  # Empty cage, don't show anything
     
     # Reptiles section
     st.markdown("**Reptiles**")
@@ -1038,6 +1041,7 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
         else:
+            pass  # Empty cage, don't show anything
     
     # Countertop Cages section
     st.markdown("**Countertop Cages**")
@@ -1071,6 +1075,7 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
         else:
+            pass  # Empty cage, don't show anything
 
 def handle_sublocation_click(room_name, subloc, animals):
     """Handle click on a sublocation link"""
