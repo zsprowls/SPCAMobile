@@ -253,6 +253,12 @@ st.markdown("""
         text-decoration: none !important;
     }
     
+    /* Red text for stage names */
+    .stage-red {
+        color: #dc3545 !important;
+        font-weight: bold !important;
+    }
+    
     .stButton > button:hover {
         background: transparent !important;
         border: none !important;
@@ -714,14 +720,18 @@ STATUS_MAP = {
 }
 
 def map_status(stage):
-    """Map stage to abbreviation"""
-    for key in sorted(STATUS_MAP.keys(), key=len, reverse=True):
-        abbr = STATUS_MAP[key]
-        if stage.lower().startswith(key.lower()):
-            return abbr
-    if 'evaluate' in stage.lower():
-        return STATUS_MAP['Evaluate']
-    return ""
+    """Map stage to full name or None if Available"""
+    if pd.isna(stage) or stage == '':
+        return None
+    
+    stage = str(stage).strip()
+    
+    # Don't show Available status at all
+    if 'Available' in stage:
+        return None
+    
+    # Return the full stage name for everything else
+    return stage
 
 def create_button_text(display_label, animal, is_empty=False):
     """Create button text with red status abbreviations"""
@@ -1116,17 +1126,17 @@ def render_room_list(room_name, animals_df, memo_df):
                                 name = str(animal.get('AnimalNumber', 'Unknown'))
                             
                             stage = str(animal.get('Stage', ''))
-                            abbr = map_status(stage)
+                            stage_display = map_status(stage)
                             
-                            if abbr:
-                                animal_names.append(f'{name} {abbr}')
+                            if stage_display:
+                                animal_names.append(f'{name} <span class="stage-red">{stage_display}</span>')
                             else:
                                 animal_names.append(name)
                         
                         display_text = f'{subloc}: ' + ', '.join(animal_names)
                         
-                        # Show as plain text with a small button below
-                        st.write(display_text)
+                        # Show as HTML with red stage names
+                        st.markdown(display_text, unsafe_allow_html=True)
                         if st.button("View Details", key=f"view_{room_name}_{loc}_{subloc}"):
                             st.session_state.kennel_animals = animals.to_dict('records')
                             st.session_state.current_animal_idx = 0
@@ -1134,8 +1144,8 @@ def render_room_list(room_name, animals_df, memo_df):
                             st.session_state.show_modal = True
                             st.rerun()
                     else:
-                        # Empty sublocation
-                        st.write(f'{subloc}: -')
+                        # Empty sublocation - still show it
+                        st.markdown(f'{subloc}: -', unsafe_allow_html=True)
         else:
             # Single location - display each sublocation directly
             for subloc in sublocations:
@@ -1150,10 +1160,10 @@ def render_room_list(room_name, animals_df, memo_df):
                             name = str(animal.get('AnimalNumber', 'Unknown'))
                         
                         stage = str(animal.get('Stage', ''))
-                        abbr = map_status(stage)
+                        stage_display = map_status(stage)
                         
-                        if abbr:
-                            animal_names.append(f'{name} {abbr}')
+                        if stage_display:
+                            animal_names.append(f'{name} <span class="stage-red">{stage_display}</span>')
                         else:
                             animal_names.append(name)
                     
