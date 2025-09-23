@@ -784,8 +784,16 @@ ROOM_DEFINITIONS = {
         "sublocation": ["Countertop Cage 1", "Mammal 1", "Mammal 2", "Mammal 3", "Mammal 4", "Reptiles 4", "Small Animal 1", "Small Animal 2", "Small Animal 3", "Small Animal 4", "Small Animal 5", "Small Animal 6", "Small Animal 7"]
     },
     "Adoptions Lobby": {
-        "location": ["Adoptions Lobby", "Feature Room 1", "Feature Room 2"],
-        "sublocation": ["Rabbitat 1", "Rabbitat 2", "Feature Room 1", "Feature Room 2"]
+        "location": ["Adoptions Lobby"],
+        "sublocation": ["Rabbitat 1", "Rabbitat 2"]
+    },
+    "Feature Room 1": {
+        "location": ["Feature Room 1"],
+        "sublocation": ["Feature Room 1"]
+    },
+    "Feature Room 2": {
+        "location": ["Feature Room 2"],
+        "sublocation": ["Feature Room 2"]
     },
     "Cat Adoption Condo Rooms": {
         "location": "Cat Adoption Condo Rooms",
@@ -1096,10 +1104,7 @@ def render_room_list(room_name, animals_df, memo_df):
         location = room_config["location"]
         room_animals = animals_df[animals_df['Location'] == location]
     
-    # Also filter by sublocation if specified
-    if "sublocation" in room_config:
-        sublocations = room_config["sublocation"]
-        room_animals = room_animals[room_animals['SubLocation'].isin(sublocations)]
+    # Don't filter by sublocation here - we want to show all sublocations even if empty
     
     st.markdown(f"**{room_name}**")
     
@@ -1113,8 +1118,13 @@ def render_room_list(room_name, animals_df, memo_df):
                 st.markdown(f"**{loc}**")
                 loc_animals = room_animals[room_animals['Location'] == loc]
                 
+                # Get all sublocations that exist for this location (from data)
+                actual_sublocs = sorted(loc_animals['SubLocation'].unique()) if not loc_animals.empty else []
+                # Also include sublocations from config that might be empty
+                all_sublocs = sorted(list(set(actual_sublocs + sublocations)))
+                
                 # Display each sublocation for this location
-                for subloc in sublocations:
+                for subloc in all_sublocs:
                     animals = loc_animals[loc_animals['SubLocation'] == subloc]
                     
                     if not animals.empty:
@@ -1148,7 +1158,12 @@ def render_room_list(room_name, animals_df, memo_df):
                         st.markdown(f'{subloc}: -', unsafe_allow_html=True)
         else:
             # Single location - display each sublocation directly
-            for subloc in sublocations:
+            # Get all sublocations that exist for this location (from data)
+            actual_sublocs = sorted(room_animals['SubLocation'].unique()) if not room_animals.empty else []
+            # Also include sublocations from config that might be empty
+            all_sublocs = sorted(list(set(actual_sublocs + sublocations)))
+            
+            for subloc in all_sublocs:
                 animals = room_animals[room_animals['SubLocation'] == subloc]
                 
                 if not animals.empty:
@@ -1470,6 +1485,8 @@ def main():
     room_order = [
         "Small Animals & Exotics",
         "Adoptions Lobby",
+        "Feature Room 1",
+        "Feature Room 2",
         "Cat Adoption Condo Rooms",
         "Cat Adoption Room G",
         "Cat Adoption Room H", 
