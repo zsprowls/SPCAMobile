@@ -775,7 +775,7 @@ ROOM_DEFINITIONS = {
     },
     "Adoptions Lobby": {
         "location": ["Adoptions Lobby", "Feature Room 1", "Feature Room 2"],
-        "sublocation": ["Rabbitat 1", "Rabbitat 2", "Rabbitat 3", "Rabbitat 4", "Rabbitat 5"]
+        "sublocation": ["Rabbitat 1", "Rabbitat 2", "Rabbitat 3", "Rabbitat 4", "Rabbitat 5", "Rabbitat 6", "Rabbitat 7", "Rabbitat 8", "Rabbitat 9", "Rabbitat 10", "Rabbitat 11", "Rabbitat 12", "Rabbitat 13", "Rabbitat 14", "Rabbitat 15", "Rabbitat 16", "Rabbitat 17", "Rabbitat 18", "Rabbitat 19", "Rabbitat 20", "Rabbitat 21", "Rabbitat 22", "Rabbitat 23", "Rabbitat 24", "Rabbitat 25", "Rabbitat 26", "Rabbitat 27", "Rabbitat 28", "Rabbitat 29", "Rabbitat 30", "Rabbitat 31", "Rabbitat 32", "Rabbitat 33", "Rabbitat 34", "Rabbitat 35", "Rabbitat 36", "Rabbitat 37", "Rabbitat 38", "Rabbitat 39", "Rabbitat 40", "Rabbitat 41", "Rabbitat 42", "Rabbitat 43", "Rabbitat 44", "Rabbitat 45", "Rabbitat 46", "Rabbitat 47", "Rabbitat 48", "Rabbitat 49", "Rabbitat 50", "Feature Room 1", "Feature Room 2"]
     },
     "Cat Adoption Condo Rooms": {
         "location": "Cat Adoption Condo Rooms",
@@ -819,11 +819,11 @@ ROOM_DEFINITIONS = {
     },
     "Canine Holding E & F": {
         "location": ["Dog Holding E", "Dog Holding F"],
-        "sublocation": ["E01", "E02", "E03", "E04", "E05", "E06", "E07", "E08", "E09", "E10", "E11", "E12", "F01", "F02", "F03", "F04", "F05", "F06", "F07", "F08", "F09", "F10", "F11", "F12"]
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
     },
     "Canine Adoption A-D": {
         "location": ["Dog Adoptions A", "Dog Adoptions B", "Dog Adoptions C", "Dog Adoptions D"],
-        "sublocation": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B09", "B10", "C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", "C10", "D01", "D02", "D03", "D04", "D05", "D06", "D07", "D08", "D09", "D10"]
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
     }
 }
 
@@ -1094,6 +1094,11 @@ def render_room_list(room_name, animals_df, memo_df):
     else:
         location = room_config["location"]
         room_animals = animals_df[animals_df['Location'] == location]
+    
+    # Also filter by sublocation if specified
+    if "sublocation" in room_config:
+        sublocations = room_config["sublocation"]
+        room_animals = room_animals[room_animals['SubLocation'].isin(sublocations)]
     
     st.markdown(f"**{room_name}**")
     
