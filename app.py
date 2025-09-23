@@ -771,11 +771,11 @@ def format_display_line(row):
 ROOM_DEFINITIONS = {
     "Small Animals & Exotics": {
         "location": "Small Animals & Exotics",
-        "type": "small_animals"
+        "sublocation": ["Countertop Cage 1", "Mammal 1", "Mammal 2", "Mammal 3", "Mammal 4", "Reptiles 4", "Small Animal 1", "Small Animal 2", "Small Animal 3", "Small Animal 4", "Small Animal 5", "Small Animal 6", "Small Animal 7"]
     },
     "Adoptions Lobby": {
-        "location": ["Adoptions Lobby", "Feature Room 1", "Feature Room 2"],
-        "sublocation": ["Rabbitat 1", "Rabbitat 2", "Rabbitat 3", "Rabbitat 4", "Rabbitat 5", "Rabbitat 6", "Rabbitat 7", "Rabbitat 8", "Rabbitat 9", "Rabbitat 10", "Rabbitat 11", "Rabbitat 12", "Rabbitat 13", "Rabbitat 14", "Rabbitat 15", "Rabbitat 16", "Rabbitat 17", "Rabbitat 18", "Rabbitat 19", "Rabbitat 20", "Rabbitat 21", "Rabbitat 22", "Rabbitat 23", "Rabbitat 24", "Rabbitat 25", "Rabbitat 26", "Rabbitat 27", "Rabbitat 28", "Rabbitat 29", "Rabbitat 30", "Rabbitat 31", "Rabbitat 32", "Rabbitat 33", "Rabbitat 34", "Rabbitat 35", "Rabbitat 36", "Rabbitat 37", "Rabbitat 38", "Rabbitat 39", "Rabbitat 40", "Rabbitat 41", "Rabbitat 42", "Rabbitat 43", "Rabbitat 44", "Rabbitat 45", "Rabbitat 46", "Rabbitat 47", "Rabbitat 48", "Rabbitat 49", "Rabbitat 50", "Feature Room 1", "Feature Room 2"]
+        "location": ["Adoptions Lobby", "Feature Room 1"],
+        "sublocation": ["Rabbitat 1", "Feature Room 1"]
     },
     "Cat Adoption Condo Rooms": {
         "location": "Cat Adoption Condo Rooms",
@@ -817,12 +817,8 @@ ROOM_DEFINITIONS = {
         "location": "Cat Isolation 234",
         "sublocation": ["Cage 1", "Cage 2", "Cage 3", "Cage 4", "Cage 5", "Cage 6", "Cage 7", "Cage 8", "Cage 9", "Cage 10", "Cage 11", "Cage 12"]
     },
-    "Canine Holding E & F": {
-        "location": ["Dog Holding E", "Dog Holding F"],
-        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
-    },
-    "Canine Adoption A-D": {
-        "location": ["Dog Adoptions A", "Dog Adoptions B", "Dog Adoptions C", "Dog Adoptions D"],
+    "Canine Rooms A-F": {
+        "location": ["Dog Adoptions A", "Dog Adoptions B", "Dog Adoptions C", "Dog Adoptions D", "Dog Holding E", "Dog Holding F"],
         "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
     }
 }
@@ -1081,11 +1077,6 @@ def render_room_list(room_name, animals_df, memo_df):
     
     room_config = ROOM_DEFINITIONS[room_name]
     
-    # Special handling for Small Animals & Exotics
-    if room_config.get("type") == "small_animals":
-        render_small_animals_layout(animals_df, memo_df)
-        return
-    
     # Handle combined locations
     if isinstance(room_config["location"], list):
         location = room_config["location"]
@@ -1106,39 +1097,79 @@ def render_room_list(room_name, animals_df, memo_df):
     if "sublocation" in room_config:
         sublocations = room_config["sublocation"]
         
-        # Display each sublocation directly
-        for subloc in sublocations:
-            animals = room_animals[room_animals['SubLocation'] == subloc]
-            
-            if not animals.empty:
-                # Show all animal names
-                animal_names = []
-                for _, animal in animals.iterrows():
-                    name = str(animal.get('AnimalName', 'Unknown'))
-                    if pd.isna(name) or name.lower() == 'nan':
-                        name = str(animal.get('AnimalNumber', 'Unknown'))
+        # If we have multiple locations, organize by location first
+        if isinstance(location, list) and len(location) > 1:
+            for loc in location:
+                st.markdown(f"**{loc}**")
+                loc_animals = room_animals[room_animals['Location'] == loc]
+                
+                # Display each sublocation for this location
+                for subloc in sublocations:
+                    animals = loc_animals[loc_animals['SubLocation'] == subloc]
                     
-                    stage = str(animal.get('Stage', ''))
-                    abbr = map_status(stage)
-                    
-                    if abbr:
-                        animal_names.append(f'{name} {abbr}')
+                    if not animals.empty:
+                        # Show all animal names
+                        animal_names = []
+                        for _, animal in animals.iterrows():
+                            name = str(animal.get('AnimalName', 'Unknown'))
+                            if pd.isna(name) or name.lower() == 'nan':
+                                name = str(animal.get('AnimalNumber', 'Unknown'))
+                            
+                            stage = str(animal.get('Stage', ''))
+                            abbr = map_status(stage)
+                            
+                            if abbr:
+                                animal_names.append(f'{name} {abbr}')
+                            else:
+                                animal_names.append(name)
+                        
+                        display_text = f'{subloc}: ' + ', '.join(animal_names)
+                        
+                        # Show as plain text with a small button below
+                        st.write(display_text)
+                        if st.button("View Details", key=f"view_{room_name}_{loc}_{subloc}"):
+                            st.session_state.kennel_animals = animals.to_dict('records')
+                            st.session_state.current_animal_idx = 0
+                            st.session_state.selected_animal = animals.iloc[0].to_dict()
+                            st.session_state.show_modal = True
+                            st.rerun()
                     else:
-                        animal_names.append(name)
+                        # Empty sublocation
+                        st.write(f'{subloc}: -')
+        else:
+            # Single location - display each sublocation directly
+            for subloc in sublocations:
+                animals = room_animals[room_animals['SubLocation'] == subloc]
                 
-                display_text = f'{subloc}: ' + ', '.join(animal_names)
-                
-                # Show as plain text with a small button below
-                st.write(display_text)
-                if st.button("View Details", key=f"view_{room_name}_{subloc}"):
-                    st.session_state.kennel_animals = animals.to_dict('records')
-                    st.session_state.current_animal_idx = 0
-                    st.session_state.selected_animal = animals.iloc[0].to_dict()
-                    st.session_state.show_modal = True
-                    st.rerun()
-            else:
-                # Empty sublocation
-                st.write(f'{subloc}: -')
+                if not animals.empty:
+                    # Show all animal names
+                    animal_names = []
+                    for _, animal in animals.iterrows():
+                        name = str(animal.get('AnimalName', 'Unknown'))
+                        if pd.isna(name) or name.lower() == 'nan':
+                            name = str(animal.get('AnimalNumber', 'Unknown'))
+                        
+                        stage = str(animal.get('Stage', ''))
+                        abbr = map_status(stage)
+                        
+                        if abbr:
+                            animal_names.append(f'{name} {abbr}')
+                        else:
+                            animal_names.append(name)
+                    
+                    display_text = f'{subloc}: ' + ', '.join(animal_names)
+                    
+                    # Show as plain text with a small button below
+                    st.write(display_text)
+                    if st.button("View Details", key=f"view_{room_name}_{subloc}"):
+                        st.session_state.kennel_animals = animals.to_dict('records')
+                        st.session_state.current_animal_idx = 0
+                        st.session_state.selected_animal = animals.iloc[0].to_dict()
+                        st.session_state.show_modal = True
+                        st.rerun()
+                else:
+                    # Empty sublocation
+                    st.write(f'{subloc}: -')
 
 def render_room_layout(room_name, animals_df, memo_df, view_mode="Mobile"):
     """Render a room layout with consistent button sizing"""
@@ -1439,8 +1470,7 @@ def main():
         "Multi-Animal Holding, Room 229",
         "Cat Isolation 231",
         "Cat Isolation 234",
-        "Canine Holding E & F",
-        "Canine Adoption A-D"
+        "Canine Rooms A-F"
     ]
     
     # Get available rooms in the specified order
