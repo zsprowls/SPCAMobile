@@ -784,8 +784,8 @@ ROOM_DEFINITIONS = {
         "sublocation": ["Countertop Cage 1", "Mammal 1", "Mammal 2", "Mammal 3", "Mammal 4", "Reptiles 4", "Small Animal 1", "Small Animal 2", "Small Animal 3", "Small Animal 4", "Small Animal 5", "Small Animal 6", "Small Animal 7"]
     },
     "Adoptions Lobby": {
-        "location": ["Adoptions Lobby", "Feature Room 1"],
-        "sublocation": ["Rabbitat 1", "Feature Room 1"]
+        "location": ["Adoptions Lobby", "Feature Room 1", "Feature Room 2"],
+        "sublocation": ["Rabbitat 1", "Rabbitat 2", "Feature Room 1", "Feature Room 2"]
     },
     "Cat Adoption Condo Rooms": {
         "location": "Cat Adoption Condo Rooms",
@@ -893,7 +893,7 @@ def render_small_animals_layout(animals_df, memo_df):
             
             display_text = f'{cage}: ' + ', '.join(animal_names)
             
-            st.write(display_text)
+            st.markdown(display_text, unsafe_allow_html=True)
             if st.button("View Details", key=f"view_bird_{cage}"):
                 st.session_state.kennel_animals = cell_animals.to_dict('records')
                 st.session_state.current_animal_idx = 0
@@ -901,7 +901,7 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
         else:
-            st.write(f'{cage}: -')
+            st.markdown(f'{cage}: -', unsafe_allow_html=True)
     
     # Small Animals section
     st.markdown("**Small Animals**")
@@ -935,7 +935,7 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
         else:
-            st.write(f'{cage}: -')
+            st.markdown(f'{cage}: -', unsafe_allow_html=True)
     
     # Mammals section
     st.markdown("**Mammals**")
@@ -999,7 +999,7 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
         else:
-            st.write(f'{cage}: -')
+            st.markdown(f'{cage}: -', unsafe_allow_html=True)
     
     # Reptiles section
     st.markdown("**Reptiles**")
@@ -1033,7 +1033,7 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
         else:
-            st.write(f'{cage}: -')
+            st.markdown(f'{cage}: -', unsafe_allow_html=True)
     
     # Countertop Cages section
     st.markdown("**Countertop Cages**")
@@ -1067,7 +1067,7 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
         else:
-            st.write(f'{cage}: -')
+            st.markdown(f'{cage}: -', unsafe_allow_html=True)
 
 def handle_sublocation_click(room_name, subloc, animals):
     """Handle click on a sublocation link"""
@@ -1170,7 +1170,7 @@ def render_room_list(room_name, animals_df, memo_df):
                     display_text = f'{subloc}: ' + ', '.join(animal_names)
                     
                     # Show as plain text with a small button below
-                    st.write(display_text)
+                    st.markdown(display_text, unsafe_allow_html=True)
                     if st.button("View Details", key=f"view_{room_name}_{subloc}"):
                         st.session_state.kennel_animals = animals.to_dict('records')
                         st.session_state.current_animal_idx = 0
