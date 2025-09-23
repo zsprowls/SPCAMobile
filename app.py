@@ -909,7 +909,6 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
         else:
-            st.markdown(f'{cage}: -', unsafe_allow_html=True)
     
     # Small Animals section
     st.markdown("**Small Animals**")
@@ -943,7 +942,6 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
         else:
-            st.markdown(f'{cage}: -', unsafe_allow_html=True)
     
     # Mammals section
     st.markdown("**Mammals**")
@@ -1007,7 +1005,6 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
         else:
-            st.markdown(f'{cage}: -', unsafe_allow_html=True)
     
     # Reptiles section
     st.markdown("**Reptiles**")
@@ -1041,7 +1038,6 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
         else:
-            st.markdown(f'{cage}: -', unsafe_allow_html=True)
     
     # Countertop Cages section
     st.markdown("**Countertop Cages**")
@@ -1075,7 +1071,6 @@ def render_small_animals_layout(animals_df, memo_df):
                 st.session_state.show_modal = True
                 st.rerun()
         else:
-            st.markdown(f'{cage}: -', unsafe_allow_html=True)
 
 def handle_sublocation_click(room_name, subloc, animals):
     """Handle click on a sublocation link"""
@@ -1118,13 +1113,11 @@ def render_room_list(room_name, animals_df, memo_df):
                 st.markdown(f"**{loc}**")
                 loc_animals = room_animals[room_animals['Location'] == loc]
                 
-                # Get all sublocations that exist for this location (from data)
+                # Only show sublocations that have animals
                 actual_sublocs = sorted(loc_animals['SubLocation'].unique()) if not loc_animals.empty else []
-                # Also include sublocations from config that might be empty
-                all_sublocs = sorted(list(set(actual_sublocs + sublocations)))
                 
                 # Display each sublocation for this location
-                for subloc in all_sublocs:
+                for subloc in actual_sublocs:
                     animals = loc_animals[loc_animals['SubLocation'] == subloc]
                     
                     if not animals.empty:
@@ -1153,17 +1146,12 @@ def render_room_list(room_name, animals_df, memo_df):
                             st.session_state.selected_animal = animals.iloc[0].to_dict()
                             st.session_state.show_modal = True
                             st.rerun()
-                    else:
-                        # Empty sublocation - still show it
-                        st.markdown(f'{subloc}: -', unsafe_allow_html=True)
         else:
             # Single location - display each sublocation directly
-            # Get all sublocations that exist for this location (from data)
+            # Only show sublocations that have animals
             actual_sublocs = sorted(room_animals['SubLocation'].unique()) if not room_animals.empty else []
-            # Also include sublocations from config that might be empty
-            all_sublocs = sorted(list(set(actual_sublocs + sublocations)))
             
-            for subloc in all_sublocs:
+            for subloc in actual_sublocs:
                 animals = room_animals[room_animals['SubLocation'] == subloc]
                 
                 if not animals.empty:
