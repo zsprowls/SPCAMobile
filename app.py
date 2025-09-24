@@ -803,6 +803,10 @@ ROOM_DEFINITIONS = {
         "location": "Foster Care Room",
         "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "Foster Care Room"]
     },
+    "Cat Treatment": {
+        "location": "Cat Treatment"
+        # No sublocation defined - will pull from data
+    },
     "Cat Isolation 230": {
         "location": "Cat Isolation 230",
         "sublocation": ["Cage 1", "Cage 2", "Cage 3", "Cage 4", "Cage 5"]
@@ -1629,6 +1633,10 @@ def main():
         "Cat Adoption Room H",
         "Cat Behavior Room I",
         "Foster Care Room",
+        "Cat Treatment",
+        "ICU",
+        "Multi-Animal Holding, Room 227",
+        "Multi-Animal Holding, Room 229",
         "Cat Isolation 230",
         "Cat Isolation 231",
         "Cat Isolation 232",
@@ -1641,9 +1649,6 @@ def main():
         "Dog Adoptions D",
         "Dog Holding E",
         "Dog Holding F",
-        "ICU",
-        "Multi-Animal Holding, Room 227",
-        "Multi-Animal Holding, Room 229",
         "Small Animals & Exotics"
     ]
     
