@@ -779,65 +779,93 @@ def format_display_line(row):
 
 # Room definitions with correct layouts
 ROOM_DEFINITIONS = {
-    "Small Animals & Exotics": {
-        "location": "Small Animals & Exotics",
-        "sublocation": ["Countertop Cage 1", "Mammal 1", "Mammal 2", "Mammal 3", "Mammal 4", "Reptiles 4", "Small Animal 1", "Small Animal 2", "Small Animal 3", "Small Animal 4", "Small Animal 5", "Small Animal 6", "Small Animal 7"]
-    },
     "Adoptions Lobby": {
-        "location": ["Adoptions Lobby"],
-        "sublocation": ["Rabbitat 1", "Rabbitat 2"]
-    },
-    "Feature Room 1": {
-        "location": ["Feature Room 1"],
-        "sublocation": ["Feature Room 1"]
-    },
-    "Feature Room 2": {
-        "location": ["Feature Room 2"],
-        "sublocation": ["Feature Room 2"]
+        "location": ["Adoptions Lobby", "Feature Room 1", "Feature Room 2"],
+        "sublocation": ["Rabbitat 1", "Rabbitat 2", "Turtle Tank", "Adoptions Lobby", "Feature Room 1", "Feature Room 2"]
     },
     "Cat Adoption Condo Rooms": {
         "location": "Cat Adoption Condo Rooms",
-        "sublocation": ["Condo A", "Condo B", "Condo C", "Condo D", "Condo E", "Condo F", "Rabbitat 1", "Rabbitat 2"]
+        "sublocation": ["Catiat 1", "Catiat 2", "Catiat 3", "Catiat 4", "Catiat 5", "Condo A", "Condo B", "Condo C", "Condo D", "Condo E", "Condo F", "Counselling Room 110", "Ferret Cage", "Meet & Greet 109A", "Meet & Greet 109B", "Rabbitat 1", "Rabbitat 2", "Cat Behavior 174"]
     },
     "Cat Adoption Room G": {
         "location": "Cat Adoption Room G",
-        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08"]
     },
     "Cat Adoption Room H": {
         "location": "Cat Adoption Room H",
-        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08"]
     },
     "Cat Behavior Room I": {
         "location": "Cat Behavior Room I",
-        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08"]
     },
     "Foster Care Room": {
         "location": "Foster Care Room",
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "Foster Care Room"]
+    },
+    "Cat Isolation 230": {
+        "location": "Cat Isolation 230",
+        "sublocation": ["Cage 1", "Cage 2", "Cage 3", "Cage 4", "Cage 5"]
+    },
+    "Cat Isolation 231": {
+        "location": "Cat Isolation 231",
+        "sublocation": ["Cage 1", "Cage 2", "Cage 3", "Cage 4", "Cage 5", "Cage 6", "Cage 7", "Cage 8", "Cage 9"]
+    },
+    "Cat Isolation 232": {
+        "location": "Cat Isolation 232",
+        "sublocation": ["Cage 1", "Cage 2", "Cage 3", "Cage 4", "Cage 5", "Cage 6"]
+    },
+    "Cat Isolation 233": {
+        "location": "Cat Isolation 233",
+        "sublocation": ["Cage 1", "Cage 2", "Cage 3", "Cage 4", "Cage 5", "Cage 6"]
+    },
+    "Cat Isolation 234": {
+        "location": "Cat Isolation 234",
+        "sublocation": ["Cage 1", "Cage 2", "Cage 3", "Cage 4", "Cage 5", "Cage 6"]
+    },
+    "Cat Isolation 235": {
+        "location": "Cat Isolation 235",
+        "sublocation": ["Cage 1", "Cage 2", "Cage 3", "Cage 4", "Cage 5", "Cage 6", "Cage 7", "Cage 8", "Cage 9"]
+    },
+    "Dog Adoptions A": {
+        "location": "Dog Adoptions A",
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09"]
+    },
+    "Dog Adoptions B": {
+        "location": "Dog Adoptions B",
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09"]
+    },
+    "Dog Adoptions C": {
+        "location": "Dog Adoptions C",
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09"]
+    },
+    "Dog Adoptions D": {
+        "location": "Dog Adoptions D",
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"]
+    },
+    "Dog Holding E": {
+        "location": "Dog Holding E",
+        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+    },
+    "Dog Holding F": {
+        "location": "Dog Holding F",
         "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
     },
     "ICU": {
         "location": "ICU",
-        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+        "sublocation": ["01", "01 - A", "01 - B", "02", "02 - A", "02 - B", "03", "03 - A", "03 - B", "04", "04 - A", "04 - B", "05", "05 - A", "05 - B", "06", "06 - A", "06 - B", "07", "08", "Incubator"]
     },
-    "Cat Treatment": {
-        "location": "Cat Treatment",
-        "sublocation": ["01 - A", "02", "04", "05 - B", "06", "D"]
+    "Multi-Animal Holding, Room 227": {
+        "location": "Multi-Animal Holding, Room 227",
+        "sublocation": ["Bird Cage", "Boaphile 1", "Boaphile 2", "Mammal 1", "Mammal 2"]
     },
     "Multi-Animal Holding, Room 229": {
         "location": "Multi-Animal Holding, Room 229",
-        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+        "sublocation": ["Boaphile 1", "Boaphile 2", "Cat 1", "Cat 2", "Cat 3", "Cat 4", "Cat 5", "Cat 6", "Multi Animal Holding", "Rabbitat 1", "Rabbitat 2", "Room 1", "Room 2", "Turtle Tank 1", "Turtle Tank 2"]
     },
-    "Cat Isolation 231": {
-        "location": "Cat Isolation 231",
-        "sublocation": ["Cage 1", "Cage 2", "Cage 3", "Cage 4", "Cage 5", "Cage 6", "Cage 7", "Cage 8", "Cage 9", "Cage 10", "Cage 11", "Cage 12"]
-    },
-    "Cat Isolation 234": {
-        "location": "Cat Isolation 234",
-        "sublocation": ["Cage 1", "Cage 2", "Cage 3", "Cage 4", "Cage 5", "Cage 6", "Cage 7", "Cage 8", "Cage 9", "Cage 10", "Cage 11", "Cage 12"]
-    },
-    "Canine Rooms A-F": {
-        "location": ["Dog Adoptions A", "Dog Adoptions B", "Dog Adoptions C", "Dog Adoptions D", "Dog Holding E", "Dog Holding F"],
-        "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+    "Small Animals & Exotics": {
+        "location": "Small Animals & Exotics",
+        "sublocation": ["Bird Cage 1", "Bird Cage 2", "Bird Cage 3", "Bird Cage 4", "Bird Cage, Extra", "Coutnertop Cage 1", "Coutnertop Cage 2", "Mammal 1", "Mammal 2", "Mammal 3", "Mammal 4", "Reptiles 1", "Reptiles 2", "Reptiles 3", "Reptiles 4", "Reptiles 5", "Small Animal 1", "Small Animal 2", "Small Animal 3", "Small Animal 4", "Small Animal 5", "Small Animal 6", "Small Animal 7", "Small Animal 8", "Small Animals & Exotics", "Turtle Tank 2"]
     }
 }
 
@@ -1090,7 +1118,47 @@ def render_room_list(room_name, animals_df, memo_df):
     """Render a room as a simple list organized by sublocation"""
     
     if room_name not in ROOM_DEFINITIONS:
-        st.error(f"Room {room_name} not defined")
+        # Handle dynamically added rooms (locations not in ROOM_DEFINITIONS)
+        st.markdown(f"**{room_name}**")
+        
+        # Get all animals for this location
+        room_animals = animals_df[animals_df['Location'] == room_name]
+        
+        if room_animals.empty:
+            st.write("No animals in this location.")
+            return
+        
+        # Group by sublocation
+        sublocations = sorted(room_animals['SubLocation'].unique())
+        for subloc in sublocations:
+            animals = room_animals[room_animals['SubLocation'] == subloc]
+            
+            if not animals.empty:
+                # Show all animal names
+                animal_names = []
+                for _, animal in animals.iterrows():
+                    name = str(animal.get('AnimalName', 'Unknown'))
+                    if pd.isna(name) or name.lower() == 'nan':
+                        name = str(animal.get('AnimalNumber', 'Unknown'))
+                    
+                    stage = str(animal.get('Stage', ''))
+                    stage_display = map_status(stage)
+                    
+                    if stage_display:
+                        animal_names.append(f'{name} <span class="stage-red">{stage_display}</span>')
+                    else:
+                        animal_names.append(name)
+                
+                display_text = f'{subloc}: ' + ', '.join(animal_names)
+                
+                # Show as HTML with red stage names
+                st.markdown(f"""
+                <div style="margin: 8px 0; padding: 8px; background: #f8f9fa; border-radius: 4px;">
+                    {display_text}
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.write(f'{subloc}: -')
         return
     
     room_config = ROOM_DEFINITIONS[room_name]
@@ -1476,54 +1544,75 @@ def main():
     
     # Define room order based on user's requested order
     room_order = [
-        "Small Animals & Exotics",
         "Adoptions Lobby",
-        "Feature Room 1",
-        "Feature Room 2",
         "Cat Adoption Condo Rooms",
         "Cat Adoption Room G",
-        "Cat Adoption Room H", 
+        "Cat Adoption Room H",
         "Cat Behavior Room I",
         "Foster Care Room",
-        "ICU",
-        "Cat Treatment",
-        "Multi-Animal Holding, Room 229",
+        "Cat Isolation 230",
         "Cat Isolation 231",
+        "Cat Isolation 232",
+        "Cat Isolation 233",
         "Cat Isolation 234",
-        "Canine Rooms A-F"
+        "Cat Isolation 235",
+        "Dog Adoptions A",
+        "Dog Adoptions B",
+        "Dog Adoptions C",
+        "Dog Adoptions D",
+        "Dog Holding E",
+        "Dog Holding F",
+        "ICU",
+        "Multi-Animal Holding, Room 227",
+        "Multi-Animal Holding, Room 229",
+        "Small Animals & Exotics"
     ]
+    
+    # Rooms that should always be shown (even if empty)
+    always_show_rooms = set(room_order)
+    
+    # Locations to exclude when empty
+    exclude_when_empty = {
+        "At the Emergency Clinic",
+        "At the Veterinarian", 
+        "Boarding Facility",
+        "Cooler",
+        "Farm",
+        "Foster Home",
+        "Humane Education Offices",
+        "If The Fur Fits",
+        "Receiving"
+    }
     
     # Get available rooms in the specified order
     available_rooms = []
+    
+    # First, add all requested rooms (always show them)
     for room_name in room_order:
         if room_name in ROOM_DEFINITIONS:
-            room_config = ROOM_DEFINITIONS[room_name]
-            location = room_config["location"]
+            available_rooms.append(room_name)
+    
+    # Then, add any other rooms that have animals (except excluded ones)
+    all_locations = inventory_df['Location'].unique()
+    for location in all_locations:
+        if location not in exclude_when_empty:
+            # Check if this location is already covered by our room definitions
+            already_covered = False
+            for room_name, room_config in ROOM_DEFINITIONS.items():
+                if isinstance(room_config["location"], list):
+                    if location in room_config["location"]:
+                        already_covered = True
+                        break
+                else:
+                    if location == room_config["location"]:
+                        already_covered = True
+                        break
             
-            if room_config.get("type") == "small_animals":
-                if isinstance(location, list):
-                    room_animals = inventory_df[inventory_df['Location'].isin(location)]
-                else:
-                    room_animals = inventory_df[inventory_df['Location'] == location]
-            elif "sublocation" in room_config:
-                if isinstance(room_config["sublocation"], list):
-                    if isinstance(location, list):
-                        room_animals = inventory_df[(inventory_df['Location'].isin(location)) & (inventory_df['SubLocation'].isin(room_config["sublocation"]))]
-                    else:
-                        room_animals = inventory_df[(inventory_df['Location'] == location) & (inventory_df['SubLocation'].isin(room_config["sublocation"]))]
-                else:
-                    if isinstance(location, list):
-                        room_animals = inventory_df[(inventory_df['Location'].isin(location)) & (inventory_df['SubLocation'] == room_config["sublocation"])]
-                    else:
-                        room_animals = inventory_df[(inventory_df['Location'] == location) & (inventory_df['SubLocation'] == room_config["sublocation"])]
-            else:
-                if isinstance(location, list):
-                    room_animals = inventory_df[inventory_df['Location'].isin(location)]
-                else:
-                    room_animals = inventory_df[inventory_df['Location'] == location]
-            
-            if not room_animals.empty:
-                available_rooms.append(room_name)
+            if not already_covered:
+                # Create a room name from the location
+                room_name = location
+                if room_name not in available_rooms:
+                    available_rooms.append(room_name)
     
     if not available_rooms:
         st.error("No data found for the target rooms.")
@@ -1568,30 +1657,34 @@ def main():
         render_room_list(current_room, inventory_df, memo_df)
         
         # Show room statistics
-        room_config = ROOM_DEFINITIONS[current_room]
-        location = room_config["location"]
-        
-        if room_config.get("type") == "small_animals":
-            if isinstance(location, list):
-                room_animals = inventory_df[inventory_df['Location'].isin(location)]
-            else:
-                room_animals = inventory_df[inventory_df['Location'] == location]
-        elif "sublocation" in room_config:
-            if isinstance(room_config["sublocation"], list):
+        if current_room in ROOM_DEFINITIONS:
+            room_config = ROOM_DEFINITIONS[current_room]
+            location = room_config["location"]
+            
+            if room_config.get("type") == "small_animals":
                 if isinstance(location, list):
-                    room_animals = inventory_df[(inventory_df['Location'].isin(location)) & (inventory_df['SubLocation'].isin(room_config["sublocation"]))]
+                    room_animals = inventory_df[inventory_df['Location'].isin(location)]
                 else:
-                    room_animals = inventory_df[(inventory_df['Location'] == location) & (inventory_df['SubLocation'].isin(room_config["sublocation"]))]
+                    room_animals = inventory_df[inventory_df['Location'] == location]
+            elif "sublocation" in room_config:
+                if isinstance(room_config["sublocation"], list):
+                    if isinstance(location, list):
+                        room_animals = inventory_df[(inventory_df['Location'].isin(location)) & (inventory_df['SubLocation'].isin(room_config["sublocation"]))]
+                    else:
+                        room_animals = inventory_df[(inventory_df['Location'] == location) & (inventory_df['SubLocation'].isin(room_config["sublocation"]))]
+                else:
+                    if isinstance(location, list):
+                        room_animals = inventory_df[(inventory_df['Location'].isin(location)) & (inventory_df['SubLocation'] == room_config["sublocation"])]
+                    else:
+                        room_animals = inventory_df[(inventory_df['Location'] == location) & (inventory_df['SubLocation'] == room_config["sublocation"])]
             else:
                 if isinstance(location, list):
-                    room_animals = inventory_df[(inventory_df['Location'].isin(location)) & (inventory_df['SubLocation'] == room_config["sublocation"])]
+                    room_animals = inventory_df[inventory_df['Location'].isin(location)]
                 else:
-                    room_animals = inventory_df[(inventory_df['Location'] == location) & (inventory_df['SubLocation'] == room_config["sublocation"])]
+                    room_animals = inventory_df[inventory_df['Location'] == location]
         else:
-            if isinstance(location, list):
-                room_animals = inventory_df[inventory_df['Location'].isin(location)]
-            else:
-                room_animals = inventory_df[inventory_df['Location'] == location]
+            # Handle dynamically added rooms
+            room_animals = inventory_df[inventory_df['Location'] == current_room]
         
         col1, col2, col3, col4 = st.columns(4)
         with col1:
