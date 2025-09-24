@@ -1172,6 +1172,7 @@ def render_room_list(room_name, animals_df, memo_df):
         location = room_config["location"]
         room_animals = animals_df[animals_df['Location'] == location]
     
+    
     # Don't filter by sublocation here - we want to show all sublocations even if empty
     
     st.markdown(f"**{room_name}**")
@@ -1688,16 +1689,25 @@ def main():
         
         col1, col2, col3, col4 = st.columns(4)
         with col1:
-            ready_count = len(room_animals[room_animals['Stage'].str.contains('Available', na=False)])
+            if not room_animals.empty and 'Stage' in room_animals.columns:
+                ready_count = len(room_animals[room_animals['Stage'].str.contains('Available', na=False)])
+            else:
+                ready_count = 0
             st.metric("Ready", ready_count)
         with col2:
-            hold_count = len(room_animals[room_animals['Stage'].str.contains('Hold', na=False)])
+            if not room_animals.empty and 'Stage' in room_animals.columns:
+                hold_count = len(room_animals[room_animals['Stage'].str.contains('Hold', na=False)])
+            else:
+                hold_count = 0
             st.metric("On Hold", hold_count)
         with col3:
             total_count = len(room_animals)
             st.metric("Total", total_count)
         with col4:
-            avg_los = room_animals['LOSInDays'].mean() if 'LOSInDays' in room_animals.columns else 0
+            if not room_animals.empty and 'LOSInDays' in room_animals.columns:
+                avg_los = room_animals['LOSInDays'].mean()
+            else:
+                avg_los = 0
             st.metric("Avg LOS", f"{avg_los:.1f}d")
     
     with tab2:
