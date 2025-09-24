@@ -664,6 +664,10 @@ def load_animal_inventory():
             if col in df.columns:
                 df[col] = df[col].astype(str).str.strip()
         
+        # Exclude animals with "Hold - Adopted!" stage and "Offsite Adoptions" location
+        if 'Stage' in df.columns and 'Location' in df.columns:
+            df = df[~((df['Stage'] == 'Hold - Adopted!') & (df['Location'] == 'Offsite Adoptions'))]
+        
         return df
     except Exception as e:
         st.error(f"Error loading AnimalInventory.csv: {str(e)}")
@@ -1161,6 +1165,14 @@ def render_room_list(room_name, animals_df, memo_df):
                     {display_text}
                 </div>
                 """, unsafe_allow_html=True)
+                
+                # Add View Details button
+                if st.button("View Details", key=f"view_{room_name}_{subloc}_{len(animal_names)}"):
+                    st.session_state.kennel_animals = animals.to_dict('records')
+                    st.session_state.current_animal_idx = 0
+                    st.session_state.selected_animal = animals.iloc[0].to_dict()
+                    st.session_state.show_modal = True
+                    st.rerun()
             else:
                 st.write(f'{subloc}: -')
         return
@@ -1306,6 +1318,14 @@ def render_room_list(room_name, animals_df, memo_df):
                             {display_text}
                         </div>
                         """, unsafe_allow_html=True)
+                        
+                        # Add View Details button
+                        if st.button("View Details", key=f"view_{room_name}_{subloc}_{len(animal_names)}"):
+                            st.session_state.kennel_animals = animals.to_dict('records')
+                            st.session_state.current_animal_idx = 0
+                            st.session_state.selected_animal = animals.iloc[0].to_dict()
+                            st.session_state.show_modal = True
+                            st.rerun()
                     else:
                         st.write(f'{subloc}: -')
         else:
@@ -1337,6 +1357,14 @@ def render_room_list(room_name, animals_df, memo_df):
                         {display_text}
                     </div>
                     """, unsafe_allow_html=True)
+                    
+                    # Add View Details button
+                    if st.button("View Details", key=f"view_{room_name}_{subloc}_{len(animal_names)}"):
+                        st.session_state.kennel_animals = animals.to_dict('records')
+                        st.session_state.current_animal_idx = 0
+                        st.session_state.selected_animal = animals.iloc[0].to_dict()
+                        st.session_state.show_modal = True
+                        st.rerun()
                 else:
                     st.write(f'{subloc}: -')
 
@@ -1665,7 +1693,9 @@ def main():
         "Foster Home",
         "Humane Education Offices",
         "If The Fur Fits",
-        "Receiving"
+        "Receiving",
+        "Released",
+        "Wildlife"
     }
     
     # Get available rooms in the specified order
