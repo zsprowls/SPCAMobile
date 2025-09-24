@@ -777,11 +777,11 @@ def format_display_line(row):
     
     return display_line
 
-# Room definitions with correct layouts
+# Room definitions - only define sublocations for specific rooms
 ROOM_DEFINITIONS = {
     "Adoptions Lobby": {
-        "location": ["Adoptions Lobby", "Feature Room 1", "Feature Room 2"],
-        "sublocation": ["Rabbitat 1", "Rabbitat 2", "Turtle Tank", "Adoptions Lobby", "Feature Room 1", "Feature Room 2"]
+        "location": ["Adoptions Lobby", "Feature Room 1", "Feature Room 2"]
+        # No sublocation defined - will pull from data
     },
     "Cat Adoption Condo Rooms": {
         "location": "Cat Adoption Condo Rooms",
@@ -852,20 +852,20 @@ ROOM_DEFINITIONS = {
         "sublocation": ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
     },
     "ICU": {
-        "location": "ICU",
-        "sublocation": ["01", "01 - A", "01 - B", "02", "02 - A", "02 - B", "03", "03 - A", "03 - B", "04", "04 - A", "04 - B", "05", "05 - A", "05 - B", "06", "06 - A", "06 - B", "07", "08", "Incubator"]
+        "location": "ICU"
+        # No sublocation defined - will pull from data
     },
     "Multi-Animal Holding, Room 227": {
-        "location": "Multi-Animal Holding, Room 227",
-        "sublocation": ["Bird Cage", "Boaphile 1", "Boaphile 2", "Mammal 1", "Mammal 2"]
+        "location": "Multi-Animal Holding, Room 227"
+        # No sublocation defined - will pull from data
     },
     "Multi-Animal Holding, Room 229": {
-        "location": "Multi-Animal Holding, Room 229",
-        "sublocation": ["Boaphile 1", "Boaphile 2", "Cat 1", "Cat 2", "Cat 3", "Cat 4", "Cat 5", "Cat 6", "Multi Animal Holding", "Rabbitat 1", "Rabbitat 2", "Room 1", "Room 2", "Turtle Tank 1", "Turtle Tank 2"]
+        "location": "Multi-Animal Holding, Room 229"
+        # No sublocation defined - will pull from data
     },
     "Small Animals & Exotics": {
-        "location": "Small Animals & Exotics",
-        "sublocation": ["Bird Cage 1", "Bird Cage 2", "Bird Cage 3", "Bird Cage 4", "Bird Cage, Extra", "Coutnertop Cage 1", "Coutnertop Cage 2", "Mammal 1", "Mammal 2", "Mammal 3", "Mammal 4", "Reptiles 1", "Reptiles 2", "Reptiles 3", "Reptiles 4", "Reptiles 5", "Small Animal 1", "Small Animal 2", "Small Animal 3", "Small Animal 4", "Small Animal 5", "Small Animal 6", "Small Animal 7", "Small Animal 8", "Small Animals & Exotics", "Turtle Tank 2"]
+        "location": "Small Animals & Exotics"
+        # No sublocation defined - will pull from data
     }
 }
 
@@ -1179,6 +1179,7 @@ def render_room_list(room_name, animals_df, memo_df):
     
     # Get sublocations for this room
     if "sublocation" in room_config:
+        # Use predefined sublocations
         sublocations = room_config["sublocation"]
         
         # If we have multiple locations, organize by location first
@@ -1256,6 +1257,83 @@ def render_room_list(room_name, animals_df, memo_df):
                         st.rerun()
                 else:
                     # Empty sublocation
+                    st.write(f'{subloc}: -')
+    else:
+        # No predefined sublocations - pull from data
+        if not room_animals.empty:
+            sublocations = sorted(room_animals['SubLocation'].unique())
+        else:
+            sublocations = []
+        
+        # If we have multiple locations, organize by location first
+        if isinstance(location, list) and len(location) > 1:
+            for loc in location:
+                st.markdown(f"**{loc}**")
+                loc_animals = room_animals[room_animals['Location'] == loc]
+                
+                # Show all sublocations that exist in data for this location
+                actual_sublocs = sorted(loc_animals['SubLocation'].unique()) if not loc_animals.empty else []
+                
+                # Display each sublocation for this location
+                for subloc in actual_sublocs:
+                    animals = loc_animals[loc_animals['SubLocation'] == subloc]
+                    
+                    if not animals.empty:
+                        # Show all animal names
+                        animal_names = []
+                        for _, animal in animals.iterrows():
+                            name = str(animal.get('AnimalName', 'Unknown'))
+                            if pd.isna(name) or name.lower() == 'nan':
+                                name = str(animal.get('AnimalNumber', 'Unknown'))
+                            
+                            stage = str(animal.get('Stage', ''))
+                            stage_display = map_status(stage)
+                            
+                            if stage_display:
+                                animal_names.append(f'{name} <span class="stage-red">{stage_display}</span>')
+                            else:
+                                animal_names.append(name)
+                        
+                        display_text = f'{subloc}: ' + ', '.join(animal_names)
+                        
+                        # Show as HTML with red stage names
+                        st.markdown(f"""
+                        <div style="margin: 8px 0; padding: 8px; background: #f8f9fa; border-radius: 4px;">
+                            {display_text}
+                        </div>
+                        """, unsafe_allow_html=True)
+                    else:
+                        st.write(f'{subloc}: -')
+        else:
+            # Single location - display each sublocation directly
+            for subloc in sublocations:
+                animals = room_animals[room_animals['SubLocation'] == subloc]
+                
+                if not animals.empty:
+                    # Show all animal names
+                    animal_names = []
+                    for _, animal in animals.iterrows():
+                        name = str(animal.get('AnimalName', 'Unknown'))
+                        if pd.isna(name) or name.lower() == 'nan':
+                            name = str(animal.get('AnimalNumber', 'Unknown'))
+                        
+                        stage = str(animal.get('Stage', ''))
+                        stage_display = map_status(stage)
+                        
+                        if stage_display:
+                            animal_names.append(f'{name} <span class="stage-red">{stage_display}</span>')
+                        else:
+                            animal_names.append(name)
+                    
+                    display_text = f'{subloc}: ' + ', '.join(animal_names)
+                    
+                    # Show as HTML with red stage names
+                    st.markdown(f"""
+                    <div style="margin: 8px 0; padding: 8px; background: #f8f9fa; border-radius: 4px;">
+                        {display_text}
+                    </div>
+                    """, unsafe_allow_html=True)
+                else:
                     st.write(f'{subloc}: -')
 
 def render_room_layout(room_name, animals_df, memo_df, view_mode="Mobile"):
