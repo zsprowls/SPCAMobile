@@ -1653,6 +1653,10 @@ def main():
         render_animal_modal(st.session_state.selected_animal, memo_df)
         return  # Don't show main content when modal is open
     
+    # Debug: Show modal state
+    if st.session_state.get('show_modal', False):
+        st.write(f"DEBUG: Modal should be showing but selected_animal is: {'selected_animal' in st.session_state}")
+    
     # Mobile navigation header
     st.markdown("""
     <div class="mobile-nav">
