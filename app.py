@@ -1756,11 +1756,15 @@ def main():
     tab1, tab2, tab3 = st.tabs(["🏠 Room View", "🏗️ Layout Builder", "📊 Analytics"])
     
     with tab1:
+        # Ensure current_room index is within bounds
+        if st.session_state.current_room >= len(available_rooms):
+            st.session_state.current_room = 0
+        
         # Get current room first
         current_room = available_rooms[st.session_state.current_room]
         
         # Room selector at the top
-        selected_room = st.selectbox("Select Room", available_rooms, index=st.session_state.current_room, key="room_selector")
+        selected_room = st.selectbox("Select Room", available_rooms, index=st.session_state.current_room)
         if selected_room != current_room:
             st.session_state.current_room = available_rooms.index(selected_room)
             st.rerun()
@@ -1771,7 +1775,6 @@ def main():
         with col1:
             if st.button("⬅️", key="prev_room"):
                 st.session_state.current_room = (st.session_state.current_room - 1) % len(available_rooms)
-                st.rerun()
         
         with col2:
             st.markdown(f"### {current_room}")
@@ -1779,7 +1782,6 @@ def main():
         with col3:
             if st.button("➡️", key="next_room"):
                 st.session_state.current_room = (st.session_state.current_room + 1) % len(available_rooms)
-                st.rerun()
         
         # Render current room as a simple list
         render_room_list(current_room, inventory_df, memo_df)
