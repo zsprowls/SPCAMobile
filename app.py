@@ -4,7 +4,6 @@ import numpy as np
 from datetime import datetime, timedelta
 import json
 import os
-import time
 
 # Page configuration for mobile-first design
 st.set_page_config(
@@ -656,9 +655,6 @@ st.markdown("""
 def load_animal_inventory():
     """Load animal inventory data"""
     try:
-        # Get file modification time for cache invalidation
-        file_mtime = os.path.getmtime('AnimalInventory.csv')
-        
         df = pd.read_csv('AnimalInventory.csv', skiprows=3, on_bad_lines='skip', encoding='utf-8', low_memory=False)
         df.columns = df.columns.str.strip()
         df = df.dropna(how='all')
@@ -681,9 +677,6 @@ def load_animal_inventory():
 def load_behavior_memos():
     """Load behavior memo data"""
     try:
-        # Get file modification time for cache invalidation
-        file_mtime = os.path.getmtime('AnimalInventoryMemo.csv')
-        
         df = pd.read_csv('AnimalInventoryMemo.csv', skiprows=3, on_bad_lines='skip', encoding='utf-8', low_memory=False)
         df.columns = df.columns.str.strip()
         df = df.dropna(how='all')
@@ -1634,6 +1627,11 @@ def render_animal_modal(animal, memo_df):
 
 # Main app
 def main():
+    # Clear cache once when app first loads (for new data deployments)
+    if 'cache_cleared' not in st.session_state:
+        st.cache_data.clear()
+        st.session_state.cache_cleared = True
+    
     # Load data
     inventory_df = load_animal_inventory()
     memo_df = load_behavior_memos()
@@ -1652,10 +1650,6 @@ def main():
     if st.session_state.get('show_modal', False) and 'selected_animal' in st.session_state:
         render_animal_modal(st.session_state.selected_animal, memo_df)
         return  # Don't show main content when modal is open
-    
-    # Debug: Show modal state
-    if st.session_state.get('show_modal', False):
-        st.write(f"DEBUG: Modal should be showing but selected_animal is: {'selected_animal' in st.session_state}")
     
     # Mobile navigation header
     st.markdown("""
@@ -1748,13 +1742,6 @@ def main():
         st.markdown("### View Settings")
         view_mode = st.radio("Display Mode", ["Mobile", "Desktop"], index=0)
         st.markdown("---")
-        
-        # Cache clearing button
-        st.markdown("### Cache Management")
-        if st.button("🔄 Clear Cache & Reload Data"):
-            st.cache_data.clear()
-            st.success("Cache cleared! Data will reload.")
-            st.rerun()
     
     # Add tabs for different views
     tab1, tab2, tab3 = st.tabs(["🏠 Room View", "🏗️ Layout Builder", "📊 Analytics"])
