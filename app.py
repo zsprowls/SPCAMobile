@@ -4,6 +4,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import json
 import os
+import time
 
 # Page configuration for mobile-first design
 st.set_page_config(
@@ -655,6 +656,9 @@ st.markdown("""
 def load_animal_inventory():
     """Load animal inventory data"""
     try:
+        # Get file modification time for cache invalidation
+        file_mtime = os.path.getmtime('AnimalInventory.csv')
+        
         df = pd.read_csv('AnimalInventory.csv', skiprows=3, on_bad_lines='skip', encoding='utf-8', low_memory=False)
         df.columns = df.columns.str.strip()
         df = df.dropna(how='all')
@@ -677,6 +681,9 @@ def load_animal_inventory():
 def load_behavior_memos():
     """Load behavior memo data"""
     try:
+        # Get file modification time for cache invalidation
+        file_mtime = os.path.getmtime('AnimalInventoryMemo.csv')
+        
         df = pd.read_csv('AnimalInventoryMemo.csv', skiprows=3, on_bad_lines='skip', encoding='utf-8', low_memory=False)
         df.columns = df.columns.str.strip()
         df = df.dropna(how='all')
@@ -1737,6 +1744,13 @@ def main():
         st.markdown("### View Settings")
         view_mode = st.radio("Display Mode", ["Mobile", "Desktop"], index=0)
         st.markdown("---")
+        
+        # Cache clearing button
+        st.markdown("### Cache Management")
+        if st.button("🔄 Clear Cache & Reload Data"):
+            st.cache_data.clear()
+            st.success("Cache cleared! Data will reload.")
+            st.rerun()
     
     # Add tabs for different views
     tab1, tab2, tab3 = st.tabs(["🏠 Room View", "🏗️ Layout Builder", "📊 Analytics"])
