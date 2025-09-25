@@ -1172,8 +1172,6 @@ def render_room_list(room_name, animals_df, memo_df):
                     st.session_state.current_animal_idx = 0
                     st.session_state.selected_animal = animals.iloc[0].to_dict()
                     st.session_state.show_modal = True
-                    # Debug: Show what we're setting
-                    st.write(f"DEBUG: Setting modal for {animals.iloc[0].get('AnimalName', 'Unknown')}")
                     st.rerun()
             else:
                 st.write(f'{subloc}: -')
@@ -1653,10 +1651,6 @@ def main():
         render_animal_modal(st.session_state.selected_animal, memo_df)
         return  # Don't show main content when modal is open
     
-    # Debug: Show modal state
-    if st.session_state.get('show_modal', False):
-        st.write(f"DEBUG: Modal should show but selected_animal missing: {'selected_animal' in st.session_state}")
-    
     # Mobile navigation header
     st.markdown("""
     <div class="mobile-nav">
@@ -1764,6 +1758,7 @@ def main():
         selected_room = st.selectbox("Select Room", available_rooms, index=st.session_state.current_room)
         if selected_room != current_room:
             st.session_state.current_room = available_rooms.index(selected_room)
+            st.rerun()
         
         # Compact room navigation
         
@@ -1771,6 +1766,7 @@ def main():
         with col1:
             if st.button("⬅️", key="prev_room"):
                 st.session_state.current_room = (st.session_state.current_room - 1) % len(available_rooms)
+                st.rerun()
         
         with col2:
             st.markdown(f"### {current_room}")
@@ -1778,6 +1774,7 @@ def main():
         with col3:
             if st.button("➡️", key="next_room"):
                 st.session_state.current_room = (st.session_state.current_room + 1) % len(available_rooms)
+                st.rerun()
         
         # Render current room as a simple list
         render_room_list(current_room, inventory_df, memo_df)
